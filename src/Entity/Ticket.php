@@ -27,7 +27,7 @@ class Ticket
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $status;
+    private $state;
 
     /**
      * @ORM\Column(type="string", length=150)
@@ -97,14 +97,14 @@ class Ticket
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getState(): ?string
     {
-        return $this->status;
+        return $this->state;
     }
 
-    public function setStatus(string $status): self
+    public function setState(string $state): self
     {
-        $this->status = $status;
+        $this->state = $state;
 
         return $this;
     }
@@ -138,7 +138,7 @@ class Ticket
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface$created_at): self
     {
         $this->created_at = $created_at;
 
@@ -150,7 +150,7 @@ class Ticket
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(?\DateTimeInterface$updated_at): self
     {
         $this->updated_at = $updated_at;
 

@@ -28,9 +28,9 @@ class Skill
     private $level;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="skills")
+     * @ORM\ManyToOne(targetEntity=GroupSkill::class, inversedBy="skills")
      */
-    private $user;
+    private $groups;
 
     public function getId(): ?int
     {
@@ -61,14 +61,14 @@ class Skill
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getGroups(): ?GroupSkill
     {
-        return $this->user;
+        return $this->groups;
     }
 
-    public function setUser(?User $user): self
+    public function setGroups(?GroupSkill $groups): self
     {
-        $this->user = $user;
+        $this->groups = $groups;
 
         return $this;
     }

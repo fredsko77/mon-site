@@ -38,11 +38,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Content::class, mappedBy="user")
-     */
-    private $contents;
-
-    /**
      * @ORM\OneToMany(targetEntity=Project::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $projects;
@@ -98,11 +93,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $resumes;
 
     /**
-     * @ORM\OneToMany(targetEntity=Skill::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $skills;
-
-    /**
      * @ORM\OneToMany(targetEntity=UserSocial::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $socials;
@@ -112,15 +102,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $tickets;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GroupSkill::class, mappedBy="user")
+     */
+    private $groupSkills;
+
     public function __construct()
     {
-        $this->contents = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->resumes = new ArrayCollection();
-        $this->skills = new ArrayCollection();
         $this->socials = new ArrayCollection();
         $this->tickets = new ArrayCollection();
+        $this->groupSkills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,36 +196,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection|Content[]
-     */
-    public function getContents(): Collection
-    {
-        return $this->contents;
-    }
-
-    public function addContent(Content $content): self
-    {
-        if (!$this->contents->contains($content)) {
-            $this->contents[] = $content;
-            $content->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContent(Content $content): self
-    {
-        if ($this->contents->removeElement($content)) {
-            // set the owning side to null (unless already changed)
-            if ($content->getUser() === $this) {
-                $content->setUser(null);
-            }
-        }
-
-        return $this;
     }
 
     /**
@@ -317,7 +281,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTimeInterface $created_at): self
+    public function setCreatedAt(?\DateTimeInterface$created_at): self
     {
         $this->created_at = $created_at;
 
@@ -329,7 +293,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(?\DateTimeInterface$updated_at): self
     {
         $this->updated_at = $updated_at;
 
@@ -429,36 +393,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|Skill[]
-     */
-    public function getSkills(): Collection
-    {
-        return $this->skills;
-    }
-
-    public function addSkill(Skill $skill): self
-    {
-        if (!$this->skills->contains($skill)) {
-            $this->skills[] = $skill;
-            $skill->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSkill(Skill $skill): self
-    {
-        if ($this->skills->removeElement($skill)) {
-            // set the owning side to null (unless already changed)
-            if ($skill->getUser() === $this) {
-                $skill->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|UserSocial[]
      */
     public function getSocials(): Collection
@@ -512,6 +446,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($ticket->getUser() === $this) {
                 $ticket->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GroupSkill[]
+     */
+    public function getGroupSkills(): Collection
+    {
+        return $this->groupSkills;
+    }
+
+    public function addGroupSkill(GroupSkill $groupSkill): self
+    {
+        if (!$this->groupSkills->contains($groupSkill)) {
+            $this->groupSkills[] = $groupSkill;
+            $groupSkill->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupSkill(GroupSkill $groupSkill): self
+    {
+        if ($this->groupSkills->removeElement($groupSkill)) {
+            // set the owning side to null (unless already changed)
+            if ($groupSkill->getUser() === $this) {
+                $groupSkill->setUser(null);
             }
         }
 

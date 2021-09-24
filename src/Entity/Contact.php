@@ -45,7 +45,7 @@ class Contact
     /**
      * @ORM\Column(type="string", length=10)
      */
-    private $status;
+    private $state;
 
     public function getId(): ?int
     {
@@ -105,21 +105,21 @@ class Contact
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface$created_at): self
     {
         $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getState(): ?string
     {
-        return $this->status;
+        return $this->state;
     }
 
-    public function setStatus(string $status): self
+    public function setState(string $state): self
     {
-        $this->status = $status;
+        $this->state = $state;
 
         return $this;
     }
