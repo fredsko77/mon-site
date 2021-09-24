@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div id="app" class="wrapper">
+        {% include "template-parts/navbar.html.twig" %}
+        <main>
+            {% block main %}{% endblock %}
+        </main>
+        {% include "template-parts/footer.html.twig" %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/default/styles.css') }}">
+    {% block css %}{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/default/main.js') }}"></script>
+    {% block js %}{% endblock %}
+{% endblock %}

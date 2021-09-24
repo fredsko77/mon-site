@@ -1,0 +1,33 @@
+/* Card template CSS */
+
+.card-container .card {
+    margin-bottom: 2rem;
+}
+
+.card-container .link .card {
+    transition: 500ms all ease-in-out;
+}
+
+.card-container .link:hover .card {
+    background-color: var(--crm-active);
+    color: var(--bs-white);
+}
+
+.card-dash .card-body {
+    align-items: center;
+    text-align: center;
+    padding: .33rem 1rem;
+}
+
+.card-dash .card-body .card-icon-title {
+    font-size: 55px;
+}
+
+.card-dash .card-footer {
+    border-top: none;
+}
+
+.card-dash .card-footer .card-title {
+    text-align: center;
+    margin-bottom: 0;
+}
