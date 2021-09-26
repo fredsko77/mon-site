@@ -23,33 +23,18 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $user1 = new User;
-        $user1->setFirstname('toto')
-            ->setLastname('toto')
-            ->setUsername('toto')
-            ->setEmail('toto1@mail.fr')
-            ->setPassword($this->hasher->hashPassword($user1, 'toto1'))
-            ->setRoles(['ROLE_USER'])
+        $user = new User;
+        $user->setFirstname('Frédérick')
+            ->setLastname('AGATHE')
+            ->setUsername('fagathe')
+            ->setEmail('fagathe77@gmail.com')
+            ->setPassword($this->hasher->hashPassword($user, '1995Posse'))
+            ->setRoles(['ROLE_ADMIN'])
             ->setConfirm(true)
-            ->setToken('token_user_1')
             ->setCreatedAt(new DateTime('now'))
         ;
 
-        $manager->persist($user1);
-
-        $user2 = new User;
-        $user2->setFirstname('toto')
-            ->setLastname('toto')
-            ->setUsername('toto')
-            ->setEmail('toto2@mail.fr')
-            ->setPassword($this->hasher->hashPassword($user2, 'toto2'))
-            ->setRoles(['ROLE_USER'])
-            ->setConfirm(false)
-            ->setToken('token_user_2')
-            ->setCreatedAt(new DateTime('now'))
-        ;
-
-        $manager->persist($user2);
+        $manager->persist($user);
 
         $manager->flush();
     }

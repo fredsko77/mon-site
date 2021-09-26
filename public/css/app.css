@@ -423,8 +423,12 @@ li {
     border-bottom-color: var(--crm-error);
 }
 
+.form-label {
+    margin-bottom: .35rem;
+}
+
 .form-group {
-    margin-bottom: .7rem;
+    margin-bottom: .85rem;
 }
 
 .btn-check:checked+.btn-outline-crm {

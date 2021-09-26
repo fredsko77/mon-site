@@ -24,7 +24,7 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
+    public const LOGIN_ROUTE = 'app_signin';
     public const SUCCESS_ROUTE = 'admin_dashboard';
 
     /**
@@ -54,22 +54,24 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): PassportInterface
     {
-        $email = $request->request->get('username', '');
-        $password = $request->request->get('password', '');
+        $credentials = [
+            'username' => $request->request->get('username', ''),
+            'password' => $request->request->get('password', ''),
+        ];
 
-        $request->getSession()->set(Security::LAST_USERNAME, $email);
+        $request->getSession()->set(Security::LAST_USERNAME, $credentials['username']);
 
-        $user = $this->getUser($request);
+        $user = $this->getUser($credentials);
 
-        if ($user instanceof User && $this->passwordEncoder->isPasswordValid($user, $password)) {
+        if ($user instanceof User && $this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
             if (!$user->getConfirm()) {
 
                 throw new CustomUserMessageAuthenticationException('Votre compte n\'a pas encore été activé.');
             }
 
             return new Passport(
-                new UserBadge($email),
-                new PasswordCredentials($password),
+                new UserBadge($credentials['username']),
+                new PasswordCredentials($credentials['password']),
                 [
                     new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
                 ]
@@ -79,9 +81,9 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
         throw new CustomUserMessageAuthenticationException('Bad credentials.');
     }
 
-    protected function getUser(Request $request): ?User
+    protected function getUser(array $credentials): ?User
     {
-        return $this->userRepository->findOneBy(['email' => $request->request->get('email', '')]);
+        return $this->userRepository->findOneBy(['username' => $credentials['username']]);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

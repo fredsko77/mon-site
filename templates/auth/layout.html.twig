@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="wrapper" id="app" style="background-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, 0.15)), url({{ asset('images/background.jpg') }});">
+        {% include "auth/template-parts/navbar.html.twig" %}
+        <main class="container">
+            {% block main %}{% endblock %}
+        </main>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/auth/styles.css') }}">
+{% endblock %}
