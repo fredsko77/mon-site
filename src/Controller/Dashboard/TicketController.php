@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/ticket")
+ * @Route("/dashboard/ticket", name="dashboard_ticket")
  */
 class TicketController extends AbstractController
 {
@@ -16,7 +16,7 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("", name="admin_ticket_list", methods={"GET"})
+     * @Route("", name="_list", methods={"GET"})
      */
     public function index(): Response
     {
@@ -24,7 +24,7 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="admin_ticket_new", methods={"GET"})
+     * @Route("/new", name="_new", methods={"GET"})
      */
     public function create(): Response
     {

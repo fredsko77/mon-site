@@ -1,23 +1,23 @@
 <?php
-namespace App\Controller\Admin;
+namespace App\Controller\Dashboard;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin")
+ * @Route("/dashboard")
  */
 class DashboardController extends AbstractController
 {
 
     /**
-     * @Route("", name="admin_default", methods={"GET"})
-     * @Route("/dashboard", name="admin_dashboard", methods={"GET"})
+     * @Route("", name="admin_dashboard", methods={"GET"})
+     * @Route("", name="dashboard", methods={"GET"})
      */
     public function index(): Response
     {
-        return $this->render("/admin/index.html.twig");
+        return $this->render("/dashboard/index.html.twig");
     }
 
 }

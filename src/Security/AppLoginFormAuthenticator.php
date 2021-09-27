@@ -25,7 +25,7 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_signin';
-    public const SUCCESS_ROUTE = 'admin_dashboard';
+    public const SUCCESS_ROUTE = 'dashboard';
 
     /**
      * @var UrlGeneratorInterface $urlGenerator
@@ -83,7 +83,7 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getUser(array $credentials): ?User
     {
-        return $this->userRepository->findOneBy(['username' => $credentials['username']]);
+        return $this->userRepository->findOneBy(['email' => $credentials['username']]);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

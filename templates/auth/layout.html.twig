@@ -11,4 +11,9 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/auth/styles.css') }}">
+    {% block css %}{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {% block js %}{% endblock %}
 {% endblock %}

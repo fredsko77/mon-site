@@ -6,11 +6,19 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     errorPath="email",
+ *     message="Cette adresse email est déjà utilisée !."
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -23,17 +31,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(message="Cette adresse email n'est pas valide !")
+     * @Assert\NotBlank(message="L'adresse email est obligatoire !")
+     * @Groups({"user:read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"user:read"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Regex(
+     *  pattern="#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])#",
+     *  match="true",
+     *  message="Le mot de passe doit contenir au moins une masjuscule, une minuscule et un chiffre."
+     * )
+     * @Assert\Length(min=8, minMessage="Le mot de passe doit contenir au moins 8 caractères!")
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire !")
      */
     private $password;
 
@@ -44,21 +63,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(message="Le nom d'utilisateur est obligatoire!", allowNull=true)
+     * @Groups({"user:read"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Le prénom est obligatoire !")
+     * @Groups({"user:read"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Le nom de famille est obligatoire !")
+     * @Groups({"user:read"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user:read"})
      */
     private $token;
 
@@ -79,6 +105,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
+     * @Assert\NotBlank(message="Le numéro de téléphone est obligatoire !", allowNull=true)
+     * @Groups({"user:read"})
      */
     private $telephone;
 
@@ -106,6 +134,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=GroupSkill::class, mappedBy="user")
      */
     private $groupSkills;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\NotBlank(message="Ce champ est obligatoire !", allowNull=true)
+     * @Groups({"user:read"})
+     */
+    private $gender;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     * @Groups({"user:read"})
+     */
+    private $uid;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user:read"})
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -252,18 +299,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
-
-    public function setToken(?string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
     public function getConfirm(): ?bool
     {
         return $this->confirm;
@@ -281,7 +316,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTimeInterface$created_at): self
+    public function setCreatedAt(?\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
 
@@ -293,7 +328,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface$updated_at): self
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
 
@@ -478,6 +513,62 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $groupSkill->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getUid(): ?string
+    {
+        return $this->uid;
+    }
+
+    public function setUid(string $uid): self
+    {
+        $this->uid = $uid;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of token
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    /**
+     * Set the value of token
+     *
+     * @return  self
+     */
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }

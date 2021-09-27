@@ -6,10 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/dashboard/skill", name="dashboard_skill")
+ */
 class SkillController extends AbstractController
 {
     /**
-     * @Route("/admin/skill", name="admin_skill")
+     * @Route("", name="_list", methods={"GET"})
      */
     public function index(): Response
     {

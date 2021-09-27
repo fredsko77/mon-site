@@ -1,0 +1,16 @@
+{% extends 'auth/layout.html.twig' %}
+
+{% block title %}Page d'inscription{% endblock %}
+
+{% block main %}
+    <section class="auth-container">
+        <div class="d-flex flex-column confirm my-3">
+            <h1 class="h2 mb-5">Bravo 🎊,</h1>
+            <p>Ton compte vient d'être activé, clique <a href="{{ path('app_signin') }}" class="link">ici</a> pour te connecter.</p>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/auth/signup.js') }}"></script>
+{% endblock %}

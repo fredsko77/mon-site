@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Dashboard;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/dashboard/content", name="dashboard_content")
+ */
 class ContentController extends AbstractController
 {
     /**
-     * @Route("/content", name="content")
+     * @Route("", name="list", methods={"GET"})
      */
     public function index(): Response
     {

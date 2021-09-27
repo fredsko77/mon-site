@@ -1,0 +1,5 @@
+<h1>Activation de votre compte</h1>
+
+<p>Bonjour {{ user.firstname|capitalize }},</p>
+
+<p>Vous venez de vous inscrire sur <em>agathefrederick.fr</em>, pour activer votre compte cliquer <a href="{{ absolute_url(path('auth_confirmation', {'token': user.token})) }}">ici</a></p>
