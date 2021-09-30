@@ -71,4 +71,56 @@ const getValues = (form = null) => {
     return object;
 }
 
-const errorHTTPRequest = () => flash('Une érreur est survenue lors du traitement de la requête !', 'danger');
+const errorHTTPRequest = () => console.log('toto') //flash('Une érreur est survenue lors du traitement de la requête !', 'danger');
+
+const getCookie = cname => {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+const previewImage = (container, image) => {
+    container.classList.remove('hidden');
+    container.src = URL.createObjectURL(image);
+    container.srcset = URL.createObjectURL(image);
+    return container.onload = () => URL.revokeObjectURL(container.src); // Free memory 
+}
+
+const checkFileValid = (file, type = 'image') => {
+
+    const listFiles = {
+        image: ["gif", "jpg", "jpeg", "png", "svg"],
+        resume: ['doc', 'docx', '.odt', 'pdf']
+    };
+
+    let acceptedFile = null;
+
+    const fileExtension = (file.name.split('.')[1]).toLowerCase();
+
+    if (type === 'image') {
+        acceptedFile = listFiles[type];
+    }
+
+    return acceptedFile.includes(fileExtension);
+}
+
+const fillErrorMessage = (container, content = null) => {
+
+    if (content !== '' && content !== null) {
+        container.classList.remove('hidden')
+        return container.innerHTML = content;
+    }
+
+    container.classList.add('hidden');
+    return container.innerHTML = '';
+}

@@ -64,10 +64,6 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $user = $this->getUser($credentials);
 
         if ($user instanceof User && $this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
-            if (!$user->getConfirm()) {
-
-                throw new CustomUserMessageAuthenticationException('Votre compte n\'a pas encore été activé.');
-            }
 
             return new Passport(
                 new UserBadge($credentials['username']),

@@ -129,6 +129,10 @@ body {
     display: block;
 }
 
+.error {
+    color: var(--crm-error);
+}
+
 
 /* Alert layout */
 

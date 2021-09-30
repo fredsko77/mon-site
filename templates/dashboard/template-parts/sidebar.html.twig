@@ -1,13 +1,13 @@
 <aside class="sidebar">
     <div class="sidebar-top">
-        <a href="{{ path('admin_dashboard') }}" class="sidebar-brand">
+        <a href="{{ path('dashboard') }}" class="sidebar-brand">
             <i class="bi bi-house"></i>
             Tableau de bord
         </a>
         <div class="sidebar-menu">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ path('dashboard_content_form') }}" class="nav-link">
                         <i class="bi bi-view-list"></i>
                         Mon contenu
                     </a>
@@ -22,12 +22,6 @@
                     <a href="#" class="nav-link">
                         <i class="bi bi-mailbox"></i>
                         Mes contacts
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-receipt"></i>
-                        Mes demandes
                     </a>
                 </li>
                 <li class="nav-item">

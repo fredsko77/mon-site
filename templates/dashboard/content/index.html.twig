@@ -1,20 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends "dashboard/layout.html.twig" %}
 
-{% block title %}Hello ContentController!{% endblock %}
+{% block main %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container-fluid">
+    
+        <h1 class="mt-2 mb-3">Mon contenu</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <form action="" method="post">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/workspace/mon-site/src/Controller/ContentController.php'|file_link(0) }}">src/Controller/ContentController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/workspace/mon-site/templates/content/index.html.twig'|file_link(0) }}">templates/content/index.html.twig</a></code></li>
-    </ul>
-</div>
+            <div class="row mt-1 mb-3">
+
+                <div class="col-8"></div>
+                <div class="col-4"></div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
 {% endblock %}

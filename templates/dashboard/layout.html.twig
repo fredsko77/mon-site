@@ -16,10 +16,11 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/admin/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard/styles.css') }}">
     {% block css %}{% endblock %}
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/admin/main.js') }}"></script>
+    <script src="{{ asset('js/dashboard/main.js') }}"></script>
+    {% block js %}{% endblock %}
 {% endblock %} 

@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ContentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -63,14 +62,8 @@ class Content
      */
     private $updated_at;
 
-    /**
-     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
-     */
-    private $user;
-
     public function __construct()
     {
-        $this->blocs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,7 +160,7 @@ class Content
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface$created_at): self
+    public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
 
@@ -179,22 +172,11 @@ class Content
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface$updated_at): self
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
 
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 }

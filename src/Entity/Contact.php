@@ -47,6 +47,11 @@ class Contact
      */
     private $state;
 
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    private $telephone;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +125,26 @@ class Contact
     public function setState(string $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of telephone
+     */
+    public function getTelephone():string
+    {
+        return $this->telephone;
+    }
+
+    /**
+     * Set the value of telephone
+     *
+     * @return  self
+     */
+    public function setTelephone(?string $telephone):self
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }

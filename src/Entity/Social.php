@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\UserSocialRepository;
+use App\Repository\SocialRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=UserSocialRepository::class)
+ * @ORM\Entity(repositoryClass=SocialRepository::class)
  */
-class UserSocial
+class Social
 {
     /**
      * @ORM\Id
@@ -18,7 +18,7 @@ class UserSocial
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=30)
      */
     private $name;
 
@@ -28,9 +28,9 @@ class UserSocial
     private $link;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="socials")
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $user;
+    private $icon;
 
     public function getId(): ?int
     {
@@ -61,14 +61,14 @@ class UserSocial
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getIcon(): ?string
     {
-        return $this->user;
+        return $this->icon;
     }
 
-    public function setUser(?User $user): self
+    public function setIcon(?string $icon): self
     {
-        $this->user = $user;
+        $this->icon = $icon;
 
         return $this;
     }

@@ -30,11 +30,6 @@ class GroupSkill
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="groupSkills")
-     */
-    private $user;
-
-    /**
      * @ORM\Column(type="string", length=40, nullable=true)
      */
     private $icon;
@@ -74,18 +69,6 @@ class GroupSkill
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

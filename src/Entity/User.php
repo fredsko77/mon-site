@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -57,11 +55,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $projects;
-
-    /**
      * @ORM\Column(type="string", length=100, nullable=true)
      * @Assert\NotBlank(message="Le nom d'utilisateur est obligatoire!", allowNull=true)
      * @Groups({"user:read"})
@@ -89,11 +82,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $token;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $confirm;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $created_at;
@@ -111,38 +99,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $telephone;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserImage::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $images;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Resume::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $resumes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=UserSocial::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $socials;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Ticket::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $tickets;
-
-    /**
-     * @ORM\OneToMany(targetEntity=GroupSkill::class, mappedBy="user")
-     */
-    private $groupSkills;
-
-    /**
-     * @ORM\Column(type="string", length=10, nullable=true)
-     * @Assert\NotBlank(message="Ce champ est obligatoire !", allowNull=true)
-     * @Groups({"user:read"})
-     */
-    private $gender;
-
-    /**
      * @ORM\Column(type="string", length=20, nullable=true)
      * @Groups({"user:read"})
      */
@@ -150,18 +106,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"user:read"})
      */
-    private $slug;
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resume;
 
     public function __construct()
     {
-        $this->projects = new ArrayCollection();
-        $this->images = new ArrayCollection();
-        $this->resumes = new ArrayCollection();
-        $this->socials = new ArrayCollection();
-        $this->tickets = new ArrayCollection();
-        $this->groupSkills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -245,36 +199,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection|Project[]
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
-
-    public function addProject(Project $project): self
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects[] = $project;
-            $project->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Project $project): self
-    {
-        if ($this->projects->removeElement($project)) {
-            // set the owning side to null (unless already changed)
-            if ($project->getUser() === $this) {
-                $project->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -295,18 +219,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getConfirm(): ?bool
-    {
-        return $this->confirm;
-    }
-
-    public function setConfirm(?bool $confirm): self
-    {
-        $this->confirm = $confirm;
 
         return $this;
     }
@@ -367,168 +279,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|UserImage[]
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(UserImage $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(UserImage $image): self
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getUser() === $this) {
-                $image->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Resume[]
-     */
-    public function getResumes(): Collection
-    {
-        return $this->resumes;
-    }
-
-    public function addResume(Resume $resume): self
-    {
-        if (!$this->resumes->contains($resume)) {
-            $this->resumes[] = $resume;
-            $resume->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeResume(Resume $resume): self
-    {
-        if ($this->resumes->removeElement($resume)) {
-            // set the owning side to null (unless already changed)
-            if ($resume->getUser() === $this) {
-                $resume->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|UserSocial[]
-     */
-    public function getSocials(): Collection
-    {
-        return $this->socials;
-    }
-
-    public function addSocial(UserSocial $social): self
-    {
-        if (!$this->socials->contains($social)) {
-            $this->socials[] = $social;
-            $social->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSocial(UserSocial $social): self
-    {
-        if ($this->socials->removeElement($social)) {
-            // set the owning side to null (unless already changed)
-            if ($social->getUser() === $this) {
-                $social->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Ticket[]
-     */
-    public function getTickets(): Collection
-    {
-        return $this->tickets;
-    }
-
-    public function addTicket(Ticket $ticket): self
-    {
-        if (!$this->tickets->contains($ticket)) {
-            $this->tickets[] = $ticket;
-            $ticket->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTicket(Ticket $ticket): self
-    {
-        if ($this->tickets->removeElement($ticket)) {
-            // set the owning side to null (unless already changed)
-            if ($ticket->getUser() === $this) {
-                $ticket->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|GroupSkill[]
-     */
-    public function getGroupSkills(): Collection
-    {
-        return $this->groupSkills;
-    }
-
-    public function addGroupSkill(GroupSkill $groupSkill): self
-    {
-        if (!$this->groupSkills->contains($groupSkill)) {
-            $this->groupSkills[] = $groupSkill;
-            $groupSkill->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGroupSkill(GroupSkill $groupSkill): self
-    {
-        if ($this->groupSkills->removeElement($groupSkill)) {
-            // set the owning side to null (unless already changed)
-            if ($groupSkill->getUser() === $this) {
-                $groupSkill->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getGender(): ?string
-    {
-        return $this->gender;
-    }
-
-    public function setGender(?string $gender): self
-    {
-        $this->gender = $gender;
-
-        return $this;
-    }
-
     public function getUid(): ?string
     {
         return $this->uid;
@@ -537,18 +287,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUid(string $uid): self
     {
         $this->uid = $uid;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }
@@ -572,4 +310,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getResume(): ?string
+    {
+        return $this->resume;
+    }
+
+    public function setResume(?string $resume): self
+    {
+        $this->resume = $resume;
+
+        return $this;
+    }
+
 }

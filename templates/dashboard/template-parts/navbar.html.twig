@@ -1,29 +1,11 @@
 <nav class="navbar navbar-light navbar-expand-lg">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ path('admin_dashboard') }}">Administration</a>
+        <a class="navbar-brand" href="{{ path('dashboard') }}">Administration</a>
         <ul class="navbar-nav mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-pencil-square"></i>
-                    Formuler une demande
+            <li class="nav-item ">
+                <a class="nav-link" href="{{ path('app_logout') }}">
+                    Me déconnecter
                 </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ app.user.username }}
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li>
-                        <a class="dropdown-item" href="#">Action</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">Mon profil</a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
-                    </li>
-                </ul>
             </li>
         </ul>
     </div>
