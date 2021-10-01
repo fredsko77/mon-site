@@ -114,6 +114,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $resume;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Content::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $content;
+
     public function __construct()
     {
     }
@@ -294,7 +299,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Get the value of token
      */
-    public function getToken(): string
+    public function getToken(): ?string
     {
         return $this->token;
     }
@@ -331,6 +336,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResume(?string $resume): self
     {
         $this->resume = $resume;
+
+        return $this;
+    }
+
+    public function getContent(): ?Content
+    {
+        return $this->content;
+    }
+
+    public function setContent(?Content $content): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($content === null && $this->content !== null) {
+            $this->content->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($content !== null && $content->getUser() !== $this) {
+            $content->setUser($this);
+        }
+
+        $this->content = $content;
 
         return $this;
     }

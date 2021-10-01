@@ -48,7 +48,6 @@ class ConfirmationController extends AbstractController
 
             $user
                 ->setToken(null)
-                ->setConfirm(true)
             ;
 
             $this->manager->persist($user);

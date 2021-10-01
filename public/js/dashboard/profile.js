@@ -24,6 +24,30 @@ infoForm.addEventListener('submit', (event) => {
     const form = event.target;
     const data = getValues(form);
     const url = form.action;
+
+    // return console.log({ data, form, url });
+
+    axios
+        .put(url, data)
+        .then(({ status }) => {
+            if (status === 200) {
+                validateAll(form);
+                flash('Votre compte a bien été modifié !');
+                // setTimeout(() => {
+                //     window.location = window.location.href;
+                // }, 4000);
+            }
+        })
+        .catch(({ response }) => {
+            if (response.status === 400) {
+                if (response.data.hasOwnProperty('violations')) {
+                    validate(response.data.violations, form);
+                }
+            } else {
+                errorHTTPRequest();
+            }
+        })
+
 });
 
 passwordForm.addEventListener('submit', (event) => {

@@ -12,6 +12,7 @@ class DashboardController extends AbstractController
 {
 
     /**
+     * @Route("/profile", name="dashboard_profile", methods={"GET"})
      * @Route("", name="dashboard", methods={"GET"})
      */
     public function index(): Response

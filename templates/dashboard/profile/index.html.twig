@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-9 col-xxl-6 informations-form">
                     <h2 class="h4 mb-2">Informations</h2>
-                    <form action="" method="post" id="info-form">
+                    <form action="{{ path('dashboard_profile_edit', {'uid': app.user.uid}) }}" method="post" id="info-form">
                         <div class="form-group">
                             <label for="telephone" class="form-label">Téléphone</label>
                             <div class="input-group mb-3">

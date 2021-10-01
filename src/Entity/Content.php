@@ -62,6 +62,11 @@ class Content
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="content", cascade={"persist", "remove"})
+     */
+    private $user;
+
     public function __construct()
     {
     }
@@ -175,6 +180,18 @@ class Content
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
