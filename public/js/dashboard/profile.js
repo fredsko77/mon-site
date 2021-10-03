@@ -5,7 +5,7 @@ const deleteImage = document.getElementById('deleteImage');
 const editImageButton = document.getElementById('edit-image-button');
 const deleteImageButton = document.getElementById('delete-image-button');
 const profileImage = document.getElementById('profile-image');
-const Image = document.getElementById('image');
+const image = document.getElementById('image');
 
 profileImage.addEventListener('click', () => {
     editImageButton.click();
@@ -33,9 +33,9 @@ infoForm.addEventListener('submit', (event) => {
             if (status === 200) {
                 validateAll(form);
                 flash('Votre compte a bien été modifié !');
-                // setTimeout(() => {
-                //     window.location = window.location.href;
-                // }, 4000);
+                setTimeout(() => {
+                    window.location = window.location.href;
+                }, 4000);
             }
         })
         .catch(({ response }) => {

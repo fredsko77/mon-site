@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ContentRepository::class)
@@ -19,46 +20,49 @@ class Content
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"content:read"})
      */
     private $heading_primary;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"content:read"})
      */
     private $heading_secondary;
 
     /**
      * @ORM\Column(type="json", nullable=true)
+     * @Groups({"content:read"})
      */
     private $biography_blocs = [];
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"content:read"})
      */
     private $footing_primary;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"content:read"})
      */
     private $footing_secondary;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"content:read"})
      */
     private $image;
 
     /**
-     * @ORM\Column(type="string", length=20, nullable=true)
-     */
-    private $state;
-
-    /**
      * @ORM\Column(type="datetime")
+     * @Groups({"content:read"})
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"content:read"})
      */
     private $updated_at;
 
@@ -144,18 +148,6 @@ class Content
     public function setImage(?string $image): self
     {
         $this->image = $image;
-
-        return $this;
-    }
-
-    public function getState(): ?string
-    {
-        return $this->state;
-    }
-
-    public function setState(?string $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }

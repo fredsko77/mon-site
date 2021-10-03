@@ -3,6 +3,7 @@
 namespace App\Controller\Dashboard;
 
 use App\Entity\Content;
+use App\Services\Dashboard\ContentServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ContentController extends AbstractController
 {
+
+    /**
+     * @var ContentServicesInterface $service
+     */
+    private $service;
+
+    public function __construct(ContentServicesInterface $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * @Route("", name="_form", methods={"GET"})
      */
@@ -25,18 +37,16 @@ class ContentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="_edit", methods={"PUT"})
-     */
-    public function edit(Request $request): JsonResponse
-    {
-        return $this->json([]);
-    }
-
-    /**
      * @Route("", name="_store", methods={"POST"})
      */
     public function store(Request $request): JsonResponse
     {
-        return $this->json([]);
+        $response = $this->service->store($request);
+        return $this->json(
+            $response->data,
+            $response->status,
+            $response->headers,
+            ['groups' => 'content:read']
+        );
     }
 }
