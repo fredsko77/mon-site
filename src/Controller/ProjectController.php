@@ -2,22 +2,55 @@
 
 namespace App\Controller;
 
+use App\Repository\ProjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/project")
+ * @Route("/project", name="project")
  */
 class ProjectController extends AbstractController
 {
+
     /**
-     * @Route("", name="default_project", methods={"GET"})
+     * @var ProjectRepository $repository
      */
-    public function index(): Response
+    private $repository;
+
+    public function __construct(ProjectRepository $repository)
     {
-        return $this->render('project/index.html.twig', [
-            'controller_name' => 'ProjectController',
-        ]);
+        $this->repository = $repository;
+    }
+
+    /**
+     * @Route(
+     *  "/{slug}-{id}",
+     *  name="_show",
+     *  methods={"GET"},
+     *  requirements={
+     *      "slug": "[a-z0-9\-]*",
+     *      "id": "\d+"
+     *  }
+     * )
+     */
+    public function index(Request $request): Response
+    {
+        $project = $this->repository->find($request->attributes->get('id'));
+
+        if ($project->getSlug() !== $request->attributes->get('slug')) {
+
+            return $this->redirectToRoute(
+                'project_show',
+                [
+                    'id' => $project->getId(),
+                    'slug' => $project->getSlug(),
+                ],
+                Response::HTTP_FOUND
+            );
+        }
+
+        return $this->render('default/project/show.html.twig', compact('project'));
     }
 }

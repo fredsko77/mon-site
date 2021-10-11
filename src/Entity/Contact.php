@@ -43,7 +43,7 @@ class Contact
     private $created_at;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=20)
      */
     private $state;
 
@@ -110,7 +110,7 @@ class Contact
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface$created_at): self
+    public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
 
@@ -132,7 +132,7 @@ class Contact
     /**
      * Get the value of telephone
      */
-    public function getTelephone():string
+    public function getTelephone(): string
     {
         return $this->telephone;
     }
@@ -142,7 +142,7 @@ class Contact
      *
      * @return  self
      */
-    public function setTelephone(?string $telephone):self
+    public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
 

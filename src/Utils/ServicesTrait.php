@@ -88,9 +88,9 @@ trait ServicesTrait
     /**
      * @return string
      */
-    public function generateIdentifier(string $type = "ID"): string
+    public function generateIdentifier(string $type = "id"): string
     {
-        return $type . '_' . $this->generateShuffleChars(10) . '_' . (new DateTime)->format('YmdHisu');
+        return $type . '_' . uniqid($this->generateShuffleChars(10));
     }
 
     /**

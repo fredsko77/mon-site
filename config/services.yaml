@@ -35,9 +35,10 @@ services:
       arguments:
         $targetDirectory: '%content_directory%'
         $rootDirectory: '%root_directory%'
-    # App\Services\Uploader\ProjectUploader:
-    #   arguments:
-    #     $targetDirectory: '%project_directory%'
+    App\Services\Uploader\ProjectUploader:
+      arguments:
+        $targetDirectory: '%project_directory%'
+        $rootDirectory: '%root_directory%'
     # App\Services\Uploader\UserUploader:
     #   arguments:
     #     $targetDirectory: '%user_directory%'

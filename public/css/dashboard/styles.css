@@ -122,3 +122,19 @@ a.sidebar-brand {
     margin-top: 1rem;
     width: 100%;
 }
+
+
+/* Typo titles */
+
+.heading-title {
+    margin: .5rem 0 .8rem;
+}
+
+
+/* Tabs and tab panes */
+
+.tab-content .tab-pane {
+    min-height: 50vh;
+    height: auto;
+    padding: .4rem 1rem;
+}

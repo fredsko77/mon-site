@@ -1,0 +1,38 @@
+<div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+    <article>
+        <div class="col-12 col-lg-9 col-xxl-6">
+            <h2 class="h3">Les tâches</h2>
+            <div class="d-flex justify-content-end">
+                <button 
+                    class="btn btn-crm" 
+                    type="button"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#modal-task"
+                >Ajouter une tâche</button>
+            </div>
+            <div class="project-task-list" id="project-task-list">
+                {% for key, task in project.tasks %}
+                    <div class="task-item" data-task-index="{{ task.id }}">
+                        <h3 class="h5" class="task-name" data-col-task="name">{{ task.name }}</h3>
+                        <span class="task-icons">
+                            <a 
+                                href="{{ path('dashboard_project_task_edit', {id: task.id}) }}" 
+                                class="link mx-1 task-edit"
+                                title="Modification de la tâche"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modal-task"
+                            ><i class="bi bi-pencil-square"></i></a>
+                            <a 
+                                href="{{ path('dashboard_project_task_delete', {id: task.id}) }}" 
+                                class="link task-delete"
+                                title="Suppression de la tâche"
+                            ><i class="bi bi-trash mx-1 text-danger"></i></a>
+                        </span>
+                    </div>
+                {% else %}
+                    <small class="text-info">Pas de tâches pour ce projet.</small>
+                {% endfor %}
+            </div>
+        </div>        
+    </article>
+</div>

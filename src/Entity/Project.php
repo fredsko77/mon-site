@@ -6,6 +6,8 @@ use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProjectRepository::class)
@@ -21,48 +23,75 @@ class Project
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Assert\NotBlank(message="Le nom ne peut pas être nul !")
+     * @Groups({"project:read"})
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message="Cette url n'est pas valide !")
+     * @Groups({"project:read"})
      */
     private $link;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank(message="Ce champs est obligatoire !", allowNull=true)
+     * @Groups({"project:read"})
      */
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=15)
+     * @ORM\Column(type="string", length=20, nullable=true)
+     * @Assert\NotBlank(message="Ce champs est obligatoire !", allowNull=true)
+     * @Groups({"project:read"})
      */
     private $state;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champs est obligatoire !", allowNull=true)
+     * @Groups({"project:read"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"project:read"})
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"project:read"})
      */
     private $updated_at;
 
     /**
      * @ORM\OneToMany(targetEntity=ProjectTask::class, mappedBy="project", cascade={"persist", "remove"})
+     * @Groups({"project:read"})
      */
     private $tasks;
 
     /**
      * @ORM\OneToMany(targetEntity=ProjectImage::class, mappedBy="project", cascade={"persist", "remove"})
+     * @Groups({"project:read"})
      */
     private $images;
+
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     * @Groups({"project:read"})
+     */
+    private $visibility;
+
+    public const STATE_DEVELOPMENT = "en-developpement";
+    public const STATE_STABLE = "stable";
+    public const STATE_ACHIEVED = "termine";
+
+    public const VISIBILITY_PUBLIC = 'publique';
+    public const VISIBILITY_PRIVATE = 'privee';
 
     public function __construct()
     {
@@ -80,7 +109,7 @@ class Project
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -92,7 +121,7 @@ class Project
         return $this->link;
     }
 
-    public function setLink(string $link): self
+    public function setLink(?string $link): self
     {
         $this->link = $link;
 
@@ -116,7 +145,7 @@ class Project
         return $this->state;
     }
 
-    public function setState(string $state): self
+    public function setState(?string $state): self
     {
         $this->state = $state;
 
@@ -128,7 +157,7 @@ class Project
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
 
@@ -190,6 +219,24 @@ class Project
     }
 
     /**
+     * @return ProjectImage[]
+     */
+    public function getProjectImages()
+    {
+        $images = $this->images->toArray();
+        foreach ($this->images as $key => $image) {
+            if ($image->getIsMain() && $key !== 0) {
+                $replacements = [
+                    0 => $images[$key],
+                    $key => $images[0],
+                ];
+                $images = array_replace($images, $replacements);
+            }
+        }
+        return $images;
+    }
+
+    /**
      * @return Collection|ProjectImage[]
      */
     public function getImages(): Collection
@@ -217,5 +264,40 @@ class Project
         }
 
         return $this;
+    }
+
+    public function getVisibility(): ?string
+    {
+        return $this->visibility;
+    }
+
+    public function setVisibility(?string $visibility): self
+    {
+        $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public static function states(): array
+    {
+        return [
+            self::STATE_DEVELOPMENT => 'En développement',
+            self::STATE_STABLE => 'Stable',
+            self::STATE_ACHIEVED => 'Achevé',
+        ];
+    }
+
+    /**
+     *@return array
+     */
+    public static function visibilities(): array
+    {
+        return [
+            self::VISIBILITY_PRIVATE => 'Privée',
+            self::VISIBILITY_PUBLIC => 'Publique',
+        ];
     }
 }

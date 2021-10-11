@@ -1,0 +1,55 @@
+<div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+    <div class="container-fluid">
+        <article>
+            <h2 class="h3">Les images</h2>
+            <!-- Form ajout image --> 
+            <div class="row mt-2 mb-4">
+                <div class="col-12 col-lg-6 col-xxl-4">
+                    <form action="{{ path('dashboard_project_image_new', {id: project.id}) }}">
+                        <div class="form-group">
+                            <label for="image-new" class="form-label">Ajouter une image</label>
+                            <input type="file" name="image" id="image-new" class="form-control">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Images projet -->
+            <div class="project-images">
+                {% for image in project.projectImages %}
+                    <div class="card card-project-image" data-image-index="{{ image.id }}">
+                        <img 
+                            src="{{ asset(image.path) }}" 
+                            alt="Image du project {{ image.id }}" 
+                            srcset="{{ asset(image.path) }}" 
+                            id="project_image_{{ image.id }}" 
+                            class="card-img-top project-image"
+                        >
+                        <div class="card-footer">
+                            <a 
+                                href="{{ path('dashboard_project_image_edit', {id: image.id}) }}" 
+                                class="link project-image-main" 
+                                data-col-image="is_main"
+                                title="Définir comme image principale"
+                                data-image-main="{{ image.isMain }}"
+                            ><i class="bi bi-star{% if image.isMain %}-fill text-warning{% endif %}"></i></a>
+                            <label 
+                                for="image_{{ image.id }}" 
+                                data-col-image="path" 
+                                data-action-url="{{ path('dashboard_project_image_edit', {id: image.id}) }}"
+                                title="Modifier l'image"
+                            >
+                                <i class="bi bi-pencil-fill"></i>
+                                <input type="file" class="project-image-edit hidden" name="image" id="image_{{ image.id }}">
+                            </label>
+                            <a 
+                                href="{{ path('dashboard_project_image_delete', {id: image.id}) }}" 
+                                class="link project-image-delete"
+                                title="Supprimer cette image"
+                            ><i class="bi bi-trash text-danger"></i></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>                
+        </article>
+    </div>
+</div>

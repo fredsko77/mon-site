@@ -1,0 +1,83 @@
+/* List project-tasks CSS */
+
+.project-task-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: .8rem 0 1.5rem;
+}
+
+.task-item {
+    padding: .5rem 1rem;
+    width: 100%;
+    height: auto;
+    margin-bottom: .2rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    transition: .5s all;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+
+.task-item:hover {
+    box-shadow: var(--crm-shadow);
+    background-color: var(--bs-white);
+    cursor: pointer;
+}
+
+.task-item:last-child:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+
+.task-item:last-child {
+    border-bottom: none;
+}
+
+.task-icons {
+    font-size: 1.1rem;
+    display: flex;
+}
+
+.project-images {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: .5rem;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+@media screen and (max-width: 900px) {
+    .project-images {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .project-images {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    .project-images {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.project-image {
+    height: 175px;
+}
+
+.card-project-image .card-footer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.card-project-image .card-footer>* {
+    margin: 0 .4rem;
+}
+
+.card-project-image .card-footer label:hover {
+    cursor: pointer;
+}

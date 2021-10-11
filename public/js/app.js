@@ -9,6 +9,11 @@ const validate = (violations, form = null) => {
     }
     inputs.forEach((input) => {
         const feedback = input.nextElementSibling;
+        if (feedback === null || feedback === undefined) {
+            const elt = document.createElement('small');
+            const container = input.closest('.form-group');
+            container.appendChild(elt);
+        }
         if (!violations.hasOwnProperty(input.name)) {
             if (feedback && feedback.classList.contains('invalid-feedback')) {
                 feedback.innerText = "";
@@ -51,27 +56,41 @@ const validateAll = (form = null) => {
         inputs = form.querySelectorAll('.form-control[name]')
     }
 
-    inputs.forEach(input => validInput(input))
+    return inputs.forEach(input => validInput(input))
+}
+
+const resetValidation = (form = null) => {
+    let inputs = document.querySelectorAll('.form-control[name]');
+    if (form !== null) {
+        inputs = form.querySelectorAll('.form-control[name]')
+    }
+
+    inputs.forEach((input) => {
+        input.classList.remove('is-valid');
+        input.classList.remove('is-invalid');
+    });
+
+    return;
 }
 
 const getValues = (form = null) => {
     let object = {};
     let inputs = form !== null ? form.querySelectorAll('.form-select, .btn-check, .form-control, .form-check-input') : document.querySelectorAll('.form-select, .form-control');
 
-    inputs.forEach(input => {
+    inputs.forEach((input) => {
         if (input.type === 'checkbox') {
             object[input.name] = (input.checked) ? input.value : null;
         } else if (input.type === 'radio') {
             object[input.name] = document.querySelector(`[name="${input.name}"]:checked`).value;
         } else {
-            object[input.name] = input.value;
+            object[input.name] = input.value === "" ? null : input.value;
         }
     });
 
     return object;
 }
 
-const errorHTTPRequest = () => console.log('toto') //flash('Une érreur est survenue lors du traitement de la requête !', 'danger');
+const errorHTTPRequest = () => flash('Une érreur est survenue lors du traitement de la requête !', 'danger');
 
 const getCookie = cname => {
     var name = cname + "=";

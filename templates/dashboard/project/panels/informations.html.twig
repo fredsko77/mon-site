@@ -1,0 +1,85 @@
+<div class="tab-pane fade show active" id="informations" role="tabpanel" aria-labelledby="informations-tab">
+    <form action="{{ path('dashboard_project_store', {id: project.id }) }}" method="post" id="project-informations-store">
+        <article class="row">
+            <div class="col-8 py-3">
+                <h2 class="h3">Modifier l'article</h2>
+                <div class="form-group">
+                    <label for="name" class="form-label">Nom du projet</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ project.name }}">
+                </div>
+                <div class="form-group">
+                    <label for="link" class="form-label">Lien vers le porjet</label>
+                    <input type="text" class="form-control" id="link" name="link" value="{{ project.link }}">
+                </div>
+                <div class="form-group">
+                    <label for="slug" class="form-label">Permalien</label>
+                    <input type="text" class="form-control" id="slug" name="slug" value="{{ project.slug }}">
+                </div>
+                <div class="form-group">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea 
+                        class="form-control" 
+                        id="description" 
+                        name="description" 
+                        value="{{ project.description }}"
+                        cols="10"
+                        rows="5"
+                    >{{ project.description }}</textarea>
+                </div>
+            </div>
+            <div class="col-4 py-3">
+                <button type="submit" class="btn btn-crm mb-3">Enregistrer</button>
+
+                <div class="accordion" id="accordion-metas" aria-label="Accordion métadonnées du projet">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <span 
+                                class="accordion-button" 
+                                type="button"  
+                                aria-expanded="true"
+                            >Publier</span>
+                        </h2>
+                        <div id="metas" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion-metas">
+                            <div class="accordion-body">
+                                <div class="form-group">
+                                    <label for="state" class="form-label">&Eacute;tat du projet</label>
+                                    <select name="state" id="state" class="form-select">
+                                        {% for key, state in project.states() %}
+                                            <option value="{{ key }}" {% if key == project.state %}selected{% endif %}>
+                                                {{ state }}
+                                            </option>                                        
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="visibility" class="form-label">Visibilité</label>
+                                    <select name="visibility" id="visibility" class="form-select">
+                                        {% for key, visibility in project.visibilities() %}
+                                            <option value="{{ key }}" {% if key == project.visibility %}selected{% endif %}>
+                                                {{ visibility }}
+                                            </option>                                        
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <a 
+                                    href="{{ path('project_show', {"slug": project.slug, "id": project.id}) }}" 
+                                    class="link"
+                                    target="_blank"
+                                    id="project-link"
+                                > 
+                                    <i class="bi bi-globe me-2"></i> 
+                                    Voir le projet en direct
+                                </a>
+                                {% if project.updatedAt %}
+                                    <div class="mt-1" id="last-modified">
+                                        Dernier modification : {{ project.updatedAt|format_datetime(locale='fr') }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </form>
+</div>

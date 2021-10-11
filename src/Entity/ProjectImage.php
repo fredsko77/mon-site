@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProjectImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProjectImageRepository::class)
@@ -19,21 +20,26 @@ class ProjectImage
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"project:read"})
+     * @Groups({"image:read", "project:read"})
      */
     private $path;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"project:read", "image:read"})
      */
     private $original_name;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"project:read", "image:read"})
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"image:read"})
      */
     private $updated_at;
 
@@ -44,11 +50,13 @@ class ProjectImage
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"project:read", "image:read"})
      */
     private $is_main;
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Groups({"project:read", "image:read"})
      */
     private $ref;
 

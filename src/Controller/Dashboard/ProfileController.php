@@ -25,7 +25,11 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route("/{uid}/change-password", name="change_password", methods={"PUT"})
+     * @Route(
+     *  "/{uid}/change-password",
+     *  name="change_password",
+     *  methods={"PUT"}
+     * )
      */
     public function changePassword(Request $request, User $user): JsonResponse
     {
@@ -33,7 +37,11 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route("/{uid}/delete-image", name="delete_image", methods={"DELETE"})
+     * @Route(
+     *  "/{uid}/delete-image",
+     *  name="delete_image",
+     *  methods={"DELETE"}
+     * )
      */
     public function deleteImage(Request $request, User $user): JsonResponse
     {
@@ -41,7 +49,11 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route("/{uid}/edit", name="edit", methods={"PUT"})
+     * @Route(
+     *  "/{uid}/edit",
+     *  name="edit",
+     *  methods={"PUT"}
+     * )
      */
     public function edit(Request $request, User $user): JsonResponse
     {
@@ -56,7 +68,10 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route("/{uid}/upload-image", name="upload_image", methods={"POST"})
+     * @Route(
+     *  "/{uid}/upload-image",
+     *  name="upload_image",
+     *  methods={"POST"})
      */
     public function uploadImage(Request $request): JsonResponse
     {
