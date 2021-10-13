@@ -1,0 +1,113 @@
+{% extends "dashboard/layout.html.twig" %}
+
+{% block main %}
+
+    <section class="skill-edit">
+
+        <a href="{{ path('dashboard_skill_list') }}">Revenir aux skills</a>
+
+        <h1 class="h3">Modification skill #{{ skill.id }}</h1>
+
+        <form action="{{ path('dashboard_skill_store', {id: skill.id}) }}" id="skill-edit-form" method="post">
+
+            <div class="row">
+
+                <!-- Partie gauche -->
+                <div class="col-8">
+
+                    <div class="form-group">
+                        <label for="name" class="form-label">Nom du groupe</label>
+                        <input type="text" class="form-control" name="name" id="name" value="{{ skill.name }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="icon" class="form-label">Icône</label>
+                        <input type="text" class="form-control" name="icon" id="icon" value="{{ skill.icon }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="color" class="form-label">Couleur</label>
+                        <select name="color" id="color" class="form-select">
+                            <option value="">Sélectionner une couleur</option>
+                            {% for color in colors %}                                
+                                <option {% if color == skill.color %}selected{% endif %} value="{{ color }}" class="bg-{{ color }}">
+                                    {{ color }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <fieldset aria-label="Skills" id="skills-container">
+                        <legend>Skills</legend> 
+                        {% for index, sk in skill.skills %}
+                            {% set i = (index + 1) %}
+                            <div class="form-group skill">
+                                <label for="skill_{{ i }}" class="form-label label-add">    
+                                    <span>Skill <span data-skill="{{ i }}">{{ i }}</span></span>                             
+                                    {% if index == 0 %}
+                                        <button type="button" class="btn btn-sm btn-crm" id="add-skill">Ajouter une skill</button>
+                                    {% endif %}                                    
+                                </label>                                
+                                <input class="form-control" name="skills[]" id="skill_{{ i }}" value="{{ sk }}">
+                            </div>
+                        {% else %}
+                            <div class="form-group skill">
+                                <label for="skill_1" class="form-label label-add">    
+                                    <span>Skill <span data-skill="1">1</span></span>                             
+                                    <button type="button" class="btn btn-sm btn-crm" id="add-skill">Ajouter une skill</button>
+                                </label>
+                                <input class="form-control" name="skills[]" id="skill_1">
+                            </div>                                                        
+                        {% endfor %}
+                    </fieldset>
+
+                </div>
+
+                <!-- Partie droite -->
+                <div class="col-4">
+                    <button type="submit" class="btn btn-crm">Enregistrer</button>
+                    <div class="accordion mt-2" id="accordion-metas" aria-label="Accordion métadonnées du projet">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <span 
+                                    class="accordion-button" 
+                                    type="button"  
+                                    aria-expanded="true"
+                                >Publier</span>
+                            </h2>
+                            <div id="metas" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion-metas">
+                                <div class="accordion-body">
+                                    <a href="{{ path('app_default')}}" class="link" target="_blank" id="skill-link"> 
+                                        <i class="bi bi-globe me-2"></i> 
+                                        Voir le projet en direct
+                                    </a>
+                                    {% if skill.updatedAt %}
+                                        <div class="mt-1" id="last-modified">
+                                            Dernier modification : {{ skill.updatedAt|format_datetime(locale='fr') }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>        
+
+        </form>
+    
+    </section>
+
+    <template id="skills-template">
+        <div class="form-group skill">
+            <label for="" class="form-label">    
+                <span>Skill <span data-skill=""></span></span>                             
+            </label>
+            <input class="form-control" name="skills[]" id="">
+        </div>
+    </template>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/dashboard/skill.js') }}"></script>
+{% endblock %}
+
+{% block css %}{% endblock %}

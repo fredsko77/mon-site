@@ -1,20 +1,61 @@
-{% extends 'base.html.twig' %}
+{% extends "dashboard/layout.html.twig" %}
 
-{% block title %}Hello SkillController!{% endblock %}
+{% block main %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container-fluid" id="skills-list">
+        <h1 class="mt-2 mb-3">
+            Mes groupes de compétences
+        </h1>
+        <div class="d-flex justify-content-end">
+            <button 
+                type="button" 
+                class="btn btn-crm btn-sm" 
+                data-bs-toggle="modal" 
+                data-bs-target="#skill-modal"
+            >Ajouter un groupe</button>
+        </div>
+        <div class="mt-2" id="skill-table">
+            <table class="table table-hover table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="row">#</th>
+                        <th scope="row">Nom</th>
+                        <th scope="row">Couleur</th>
+                        <th scope="row">Icone</th>
+                        <th scope="row">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for skill in skills %}
+                        <tr data-project-index="{{ skill.id }}">
+                            <th scope="col">{{ skill.id }}</th>
+                            <td>{{ skill.name }}</td>
+                            <td> <span class="badge badge-{{ skill.color }}">{{ skill.color }}</span></td>
+                            <td><i class="bi bi-{{ skill.icon }}"></i></td>
+                            <td>
+                                <a 
+                                    href="{{ path('dashboard_skill_edit', {id: skill.id}) }}" 
+                                    class="btn btn-warning btn-sm"
+                                >Modifier</a>
+                                <a 
+                                    href="{{ path('dashboard_skill_delete', {id: skill.id}) }}" 
+                                    class="btn btn-danger btn-sm skill-delete"
+                                >Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% include "dashboard/skill/modals/create-skill.html.twig" %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/workspace/mon-site/src/Controller/Admin/SkillController.php'|file_link(0) }}">src/Controller/Admin/SkillController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/workspace/mon-site/templates/admin/skill/index.html.twig'|file_link(0) }}">templates/admin/skill/index.html.twig</a></code></li>
-    </ul>
-</div>
 {% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/dashboard/skill.js') }}"></script>
+{% endblock %}
+
+{% block css %}{% endblock %}

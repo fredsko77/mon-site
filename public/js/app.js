@@ -3,31 +3,32 @@ const getSearchParams = () => (new URL(window.location.href)).searchParams;
 
 const validate = (violations, form = null) => {
 
-    let inputs = document.querySelectorAll('.form-control[name]');
+    let fields = document.querySelectorAll('.form-control[name], .form-select[name], .form-check-input[name]');
     if (form !== null) {
-        inputs = form.querySelectorAll('.form-control[name]')
+        fields = form.querySelectorAll('.form-control[name], .form-select[name], .form-check-input[name]')
     }
-    inputs.forEach((input) => {
-        const feedback = input.nextElementSibling;
+    fields.forEach((field) => {
+        const feedback = field.nextElementSibling;
         if (feedback === null || feedback === undefined) {
             const elt = document.createElement('small');
-            const container = input.closest('.form-group');
+            const container = field.closest('.form-group');
+            elt.innerText = violations[field.name];
+            elt.classList.add('invalid-feedback');
             container.appendChild(elt);
         }
-        if (!violations.hasOwnProperty(input.name)) {
+        if (!violations.hasOwnProperty(field.name)) {
             if (feedback && feedback.classList.contains('invalid-feedback')) {
                 feedback.innerText = "";
                 feedback.style.display = "none";
             }
-
-            validInput(input);
+            validInput(field);
         } else {
             if (feedback && feedback.classList.contains('invalid-feedback')) {
-                feedback.innerText = violations[input.name];
+                feedback.innerText = violations[field.name];
                 feedback.style.display = "unset";
             }
 
-            invalidInput(input);
+            invalidInput(field);
         }
     });
 

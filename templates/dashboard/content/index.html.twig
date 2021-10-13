@@ -28,7 +28,7 @@
                         {% for index, bloc in content.biographyBlocs %}
                             {% set i = (index + 1) %}
                             <div class="form-group">
-                                <label for="bloc_{{ i }}" class="form-label d-flex justify-content-between align-items-baseline">    
+                                <label for="bloc_{{ i }}" class="form-label label-add">    
                                     <span>Bloc <span data-bloc="{{ i }}">{{ i }}</span></span>                             
                                     {% if index == 0 %}
                                         <button type="button" class="btn btn-sm btn-crm" id="add-bloc">Ajouter un bloc</button>
@@ -39,7 +39,7 @@
                             </div>
                         {% else %}
                             <div class="form-group">
-                                <label for="bloc_1" class="form-label d-flex justify-content-between align-items-baseline">    
+                                <label for="bloc_1" class="form-label label-add">    
                                     <span>Bloc <span data-bloc="1">1</span></span>                             
                                     <button type="button" class="btn btn-sm btn-crm" id="add-bloc">Ajouter un bloc</button>
                                 </label>

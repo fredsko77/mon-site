@@ -428,11 +428,17 @@ li {
 }
 
 .form-label {
-    margin-bottom: .35rem;
+    margin-bottom: .25rem;
+}
+
+.form-label.label-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 }
 
 .form-group {
-    margin-bottom: .85rem;
+    margin-bottom: .95rem;
 }
 
 .btn-check:checked+.btn-outline-crm {
@@ -445,7 +451,7 @@ fieldset {
     padding: 1.75rem 1.5rem 1rem;
     box-shadow: var(--crm-shadow-light);
     border-radius: var(--crm-border-radius);
-    margin: 1rem 0 1.5rem;
+    margin: 1.5rem 0;
     position: relative;
 }
 

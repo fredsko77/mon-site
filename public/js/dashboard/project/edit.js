@@ -1,10 +1,10 @@
-const form = document.getElementById('project-informations-store');
-const projectLink = document.getElementById('project-link');
-const taskForm = document.getElementById('task-form');
+const form = document.querySelector('#project-informations-store');
+const projectLink = document.querySelector('#project-link');
+const taskForm = document.querySelector('#task-form');
 const editTaskButtons = document.querySelectorAll('.task-edit');
 const deleteTaskButtons = document.querySelectorAll('.task-delete');
 const closeModalButtons = document.querySelectorAll('[data-bs-form]');
-const imageNew = document.getElementById('image-new');
+const imageNew = document.querySelector('#image-new');
 const imageEdit = document.querySelectorAll('.project-image-edit');
 const imageDelete = document.querySelectorAll('.project-image-delete');
 const isMain = document.querySelectorAll('.project-image-main');
@@ -161,6 +161,7 @@ deleteTaskButtons.forEach((button) => {
                     }
                 })
                 .catch(({ response }) => {
+                    console.error(response);
                     errorHTTPRequest();
                 })
         }
@@ -174,7 +175,7 @@ closeModalButtons.forEach((button) => {
 });
 
 const resetTaskForm = () => {
-    const taskForm = document.getElementById('task-form');
+    const taskForm = document.querySelector('#task-form');
     taskForm.reset();
     taskForm.action = formUrls.base;
     taskForm.querySelector('#modal-task-title').innerText = "Nouvelle tâche";
@@ -182,7 +183,7 @@ const resetTaskForm = () => {
 }
 
 const hydrateTaskForm = (data) => {
-    const form = document.getElementById('task-form');
+    const form = document.querySelector('#task-form');
     form.setAttribute('action', data.url);
     form.setAttribute('data-form-action', 'edit');
     form.querySelector(`[name]`).value = data.name;
@@ -191,8 +192,8 @@ const hydrateTaskForm = (data) => {
 
 const addTask = (data = {}) => {
 
-    const template = document.getElementById('task-template');
-    const container = document.getElementById('project-task-list');
+    const template = document.querySelector('#task-template');
+    const container = document.querySelector('#project-task-list');
 
     const task = template.content.cloneNode(true);
     task.querySelector('[data-task-index]').setAttribute('data-task-index', data.id);
@@ -277,6 +278,7 @@ imageDelete.forEach((button) => {
                     }
                 })
                 .catch(({ response }) => {
+                    console.error(response);
                     errorHTTPRequest();
                 })
             console.log(event);

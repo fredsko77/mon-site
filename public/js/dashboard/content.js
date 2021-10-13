@@ -1,5 +1,5 @@
-const image = document.getElementById('image');
-const addBlocButton = document.getElementById('add-bloc');
+const image = document.querySelector('#image');
+const addBlocButton = document.querySelector('#add-bloc');
 const form = document.querySelector('form');
 
 form.addEventListener('submit', (event) => {
@@ -11,8 +11,7 @@ form.addEventListener('submit', (event) => {
     axios
         .post(url, data)
         .then(({ data, status }) => {
-            // form.querySelector('#image').value = '';
-            console.log({ data, status });
+            form.querySelector('#image').value = '';
         })
         .catch(({ response }) => {
             console.log({ response });
@@ -22,8 +21,8 @@ form.addEventListener('submit', (event) => {
 
 addBlocButton.addEventListener('click', (e) => {
     e.preventDefault();
-    const template = document.getElementById('biography-blocs-template');
-    const container = document.getElementById('bloc-container');
+    const template = document.querySelector('#biography-blocs-template');
+    const container = document.querySelector('#bloc-container');
     const count = (container.querySelectorAll('.form-group').length) + 1;
     if (count <= 5) {
 
@@ -45,8 +44,8 @@ image.addEventListener('change', (event) => {
     console.log(event);
 
     const file = event.target.files[0];
-    const imageContainer = document.getElementById('uploaded-image');
-    const uploadError = document.getElementById('error-upload');
+    const imageContainer = document.querySelector('#uploaded-image');
+    const uploadError = document.querySelector('#error-upload');
 
     if (file) {
         let extension = (file.name.split('.')[1]).toLowerCase();

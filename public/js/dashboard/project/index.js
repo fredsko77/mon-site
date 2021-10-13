@@ -1,4 +1,4 @@
-const form = document.getElementById('project-create-form');
+const form = document.querySelector('#project-create-form');
 const deleteProject = document.querySelectorAll('.project-delete')
 
 form.addEventListener('submit', (event) => {
@@ -49,6 +49,7 @@ deleteProject.forEach((button) => {
                 }
             })
             .catch(({ response }) => {
+                console.error(response);
                 errorHTTPRequest();
             })
     });

@@ -1,11 +1,11 @@
-const uploadForm = document.getElementById('upload-form');
-const infoForm = document.getElementById('info-form');
-const passwordForm = document.getElementById('password-form');
-const deleteImage = document.getElementById('deleteImage');
-const editImageButton = document.getElementById('edit-image-button');
-const deleteImageButton = document.getElementById('delete-image-button');
-const profileImage = document.getElementById('profile-image');
-const image = document.getElementById('image');
+const uploadForm = document.querySelector('#upload-form');
+const infoForm = document.querySelector('#info-form');
+const passwordForm = document.querySelector('#password-form');
+const deleteImage = document.querySelector('#deleteImage');
+const editImageButton = document.querySelector('#edit-image-button');
+const deleteImageButton = document.querySelector('#delete-image-button');
+const profileImage = document.querySelector('#profile-image');
+const image = document.querySelector('#image');
 
 profileImage.addEventListener('click', () => {
     editImageButton.click();
@@ -62,8 +62,8 @@ image.addEventListener('change', (event) => {
     console.log(event);
 
     const file = event.target.files[0];
-    const imageContainer = document.getElementById('uploaded-image');
-    const uploadError = document.getElementById('error-upload');
+    const imageContainer = document.querySelector('#uploaded-image');
+    const uploadError = document.querySelector('#error-upload');
 
     // return console.warn({ file, imageContainer, uploadError });
 

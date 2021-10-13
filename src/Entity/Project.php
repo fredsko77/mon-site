@@ -86,6 +86,11 @@ class Project
      */
     private $visibility;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $stack = [];
+
     public const STATE_DEVELOPMENT = "en-developpement";
     public const STATE_STABLE = "stable";
     public const STATE_ACHIEVED = "termine";
@@ -299,5 +304,17 @@ class Project
             self::VISIBILITY_PRIVATE => 'Privée',
             self::VISIBILITY_PUBLIC => 'Publique',
         ];
+    }
+
+    public function getStack(): ?array
+    {
+        return $this->stack;
+    }
+
+    public function setStack(?array $stack): self
+    {
+        $this->stack = $stack;
+
+        return $this;
     }
 }
