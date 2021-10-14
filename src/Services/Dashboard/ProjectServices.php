@@ -180,8 +180,8 @@ class ProjectServices implements ProjectServicesInterface
         $this->uploader->removeProject($project);
 
         // Supprimer le projet ainsi ques ses images et ses tâches
-        // $this->manager->remove($project);
-        // $this->manager->flush();
+        $this->manager->remove($project);
+        $this->manager->flush();
 
         return $this->sendNoContent();
     }

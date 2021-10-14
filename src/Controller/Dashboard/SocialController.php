@@ -56,7 +56,9 @@ class SocialController extends AbstractController
      */
     public function create(Request $request): Response
     {
-        $form = $this->createForm(SocialType::class, (new Social), [
+        $social = new Social();
+
+        $form = $this->createForm(SocialType::class, $social, [
             'method' => 'POST',
         ]);
 
@@ -136,7 +138,7 @@ class SocialController extends AbstractController
             [],
             Response::HTTP_NO_CONTENT,
             [
-                'Location' => $this->generateUrl('dashboad_social_list'),
+                'Location' => $this->generateUrl('dashboard_social_list'),
             ]
         );
     }

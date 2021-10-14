@@ -40,17 +40,20 @@ deleteProject.forEach((button) => {
 
         const url = event.target.href;
         const row = event.target.closest('[data-project-index]');
+        const choice = confirm('Êtes-vous sûr de supprimer ce projet ? ');
 
-        axios
-            .delete(url)
-            .then(({ status }) => {
-                if (status === 204) {
-                    row.remove();
-                }
-            })
-            .catch(({ response }) => {
-                console.error(response);
-                errorHTTPRequest();
-            })
+        if (choice) {
+            axios
+                .delete(url)
+                .then(({ status }) => {
+                    if (status === 204) {
+                        row.remove();
+                    }
+                })
+                .catch(({ response }) => {
+                    console.error(response);
+                    errorHTTPRequest();
+                });
+        }
     });
 });
