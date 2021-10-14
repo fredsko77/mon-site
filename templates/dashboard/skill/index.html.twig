@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     {% for skill in skills %}
-                        <tr data-project-index="{{ skill.id }}">
+                        <tr data-skill-index="{{ skill.id }}">
                             <th scope="col">{{ skill.id }}</th>
                             <td>{{ skill.name }}</td>
                             <td> <span class="badge badge-{{ skill.color }}">{{ skill.color }}</span></td>
