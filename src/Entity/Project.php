@@ -317,4 +317,18 @@ class Project
 
         return $this;
     }
+
+    public function getMainImage(): ?ProjectImage
+    {
+
+        foreach ($this->images as $key => $image) {
+            if ($image->getIsMain()) {
+
+                return $image;
+            }
+        }
+
+        return null;
+    }
+
 }

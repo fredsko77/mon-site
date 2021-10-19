@@ -1,0 +1,29 @@
+<section class="section" id="competences">
+    <section class="page-section">
+        <div class="container-fluid container-xl">
+            <div class="section-header">
+                <h3 class="section-title">Compétences</h3> 
+                <small class="section-subtitle">Ce que j'ai appris pendant mon parcours</small>
+                <hr>
+            </div>
+            <div class="section-content">
+                <div class="skill-list">
+                    {% for skill in skills %}
+                        <div class="skill">
+                            <div class="skill-header bg-{{ skill.color }}">
+                                <i class="bi bi-{{ skill.icon }}"></i>
+                                <h5 class="skill-title">{{ skill.name }}</h5>
+                            </div>
+                            <div class="skill-content">
+                                {% for skill in skill.skills %}
+                                    <p>{{ skill }}</p>
+                                {% endfor %}
+                            </div>
+                            <div class="skill-footer bg-{{ skill.color }}"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

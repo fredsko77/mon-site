@@ -1,0 +1,54 @@
+<section class="section" id="a-propos">
+    <section class="page-section">
+        <div class="container-fluid container-xl">
+            <div class="section-header">
+                <h3 class="section-title">Lorem ipsum dolor.</h3> 
+                <small class="section-subtitle">Lorem ipsum dolor sit amet.</small>
+                <hr>
+            </div>
+            <div class="section-content">
+                <div class="row mt-5">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="bloc-infos">
+                            <img 
+                                src="{{ asset('images/zepeto.png') }}" 
+                                alt="Photo de profil" 
+                                srcset="{{ asset('images/zepeto.png') }}" 
+                                class="image-infos" 
+                                id="image-infos"
+                            >
+                            <div class="infos">
+                                <p>
+                                    <strong>
+                                        <i class="bi bi-geo-alt"></i>
+                                    </strong>
+                                     : 
+                                    Croissy-Beaubourg, Île-de-France
+                                </p>
+                                <p>
+                                    <strong>
+                                        <i class="bi bi-at"></i>
+                                    </strong>
+                                     : 
+                                    agathefrederick@gmail.com
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-8">
+                        <div class="bloc-introduction">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas minima nisi officiis! Beatae, recusandae est veritatis sit ipsa, perferendis enim cumque dolorem possimus iste inventore.</p>
+                            <p>Incidunt at maiores temporibus aliquam sequi consequatur recusandae voluptatum consequuntur facere in eum vitae a, sed ut accusantium omnis fugiat libero veniam fugit quibusdam soluta?</p>
+                            <p>Accusantium totam, cum pariatur sint rerum quisquam. Provident, explicabo. Quas illo maiores laudantium quisquam tenetur inventore beatae. Voluptatibus quo accusantium, molestiae in voluptate cupiditate fugiat.</p>
+                            <p>Ab unde quisquam explicabo ad similique consectetur temporibus? Reprehenderit recusandae quis eum! Vero voluptas molestiae tenetur blanditiis repudiandae exercitationem illo, repellat, error dolores explicabo porro.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions-btn">
+                    <a href="#contact" class="btn btn-blue btn-round">Me contacter</a>
+                    <a href="{{ user.resume ? : '#' }}" class="btn btn-green btn-round">Télécharger mon cv</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

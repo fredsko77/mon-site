@@ -1,9 +1,5 @@
 <aside class="sidebar">
     <div class="sidebar-top">
-        <a href="{{ path('dashboard') }}" class="sidebar-brand">
-            <i class="bi bi-house"></i>
-            Tableau de bord
-        </a>
         <div class="sidebar-menu">
             <ul class="nav flex-column">
                 <li class="nav-item">
@@ -37,9 +33,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-people"></i>
-                        Utilisateurs
+                    <a href="{{ path('dashboard_profile') }}" class="nav-link">
+                        <i class="bi bi-person-lines-fill"></i>
+                        Mon profil
                     </a>
                 </li>
             </ul>

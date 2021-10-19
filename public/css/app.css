@@ -4,7 +4,7 @@
     --text-content-color: #25252c;
     --font-body: 'Quicksand', sans-serif !important;
     --crm-shadow: 0px 2px 4px -1px rgb(0, 0, 0, .09), -1px 2px 4px 0px rgb(0, 0, 0, .05);
-    --crm-shadow-light: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    --crm-shadow-light: 0px 2px 8px 0px rgba(99, 99, 99, 0.2);
     --crm-border-radius: .3rem;
     --crm-border: 1px solid #ced4da;
     --crm-primary-text: #212529;
@@ -51,10 +51,13 @@
     --crm-red-600: #F5222D;
     --crm-red-300: #f98086;
     --crm-red-100: #fdcbcd;
+    --app-blue: #00c3da;
+    --app-blue-hover: #00c3dade;
+    --app-green: #2fdc9c;
+    --app-green-hover: #2fdc9dde;
 }
 
 html {
-    scroll-behavior: smooth;
     max-height: 100vh;
     overflow: hidden;
 }
@@ -236,6 +239,14 @@ body {
 
 /* Background Color */
 
+.bg-blue {
+    background-color: var(--app-blue) !important;
+}
+
+.bg-green {
+    background-color: var(--app-green) !important;
+}
+
 .bg-success {
     background-color: var(--crm-green-600) !important;
 }
@@ -395,6 +406,67 @@ body {
     color: var(--bs-white);
 }
 
+.btn.btn-blue {
+    background-color: var(--app-blue);
+    border-color: var(--app-blue);
+    color: var(--bs-white);
+}
+
+.btn.btn-blue:hover {
+    background-color: var(--app-blue-hover);
+    border-color: var(--app-blue-hover);
+}
+
+.btn.btn.btn-outline-blue {
+    border-color: var(--app-blue);
+    color: var(--app-blue);
+}
+
+.btn.btn-outline-blue:hover {
+    background-color: var(--app-blue-hover);
+    border-color: var(--app-blue-hover);
+    color: var(--bs-white);
+}
+
+.btn.btn-green {
+    background-color: var(--app-green);
+    border-color: var(--app-green);
+    color: var(--bs-white);
+}
+
+.btn.btn-green:hover {
+    background-color: var(--app-green-hover);
+    border-color: var(--app-green-hover);
+}
+
+.btn.btn.btn-outline-green {
+    border-color: var(--app-green);
+    color: var(--app-green);
+}
+
+.btn.btn-outline-green:hover {
+    background-color: var(--app-green-hover);
+    border-color: var(--app-green-hover);
+    color: var(--bs-white);
+}
+
+.btn.btn-round {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-radius: 40px;
+}
+
+.btn.btn-outline-home {
+    border-color: var(--bs-white);
+    color: var(--bs-white);
+}
+
+.btn.btn-outline-home:hover {
+    background-color: var(--app-blue-hover);
+    border-color: var(--app-blue-hover);
+    color: var(--bs-white);
+}
+
 
 /* Global Typograpgy CSS */
 
@@ -407,6 +479,14 @@ li {
 
 .text-underline {
     text-decoration: underline !important;
+}
+
+.text-blue {
+    color: var(--app-blue);
+}
+
+.text-green {
+    color: var(--app-green);
 }
 
 

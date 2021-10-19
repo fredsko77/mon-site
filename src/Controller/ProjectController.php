@@ -35,7 +35,7 @@ class ProjectController extends AbstractController
      *  }
      * )
      */
-    public function index(Request $request): Response
+    public function show(Request $request): Response
     {
         $project = $this->repository->find($request->attributes->get('id'));
 

@@ -33,9 +33,9 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
     private $urlGenerator;
 
     /**
-     * @var UserPasswordHasherInterface $passwordEncoder
+     * @var UserPasswordHasherInterface $hasher
      */
-    private $passwordEncoder;
+    private $hasher;
 
     /**
      * @var UserRepository $userRepository
@@ -44,11 +44,11 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
-        UserPasswordHasherInterface $passwordEncoder,
+        UserPasswordHasherInterface $hasher,
         UserRepository $userRepository
     ) {
         $this->urlGenerator = $urlGenerator;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->hasher = $hasher;
         $this->userRepository = $userRepository;
     }
 
@@ -63,7 +63,7 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
         $user = $this->getUser($credentials);
 
-        if ($user instanceof User && $this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+        if ($user instanceof User && $this->hasher->isPasswordValid($user, $credentials['password'])) {
 
             return new Passport(
                 new UserBadge($credentials['username']),
@@ -79,7 +79,7 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getUser(array $credentials): ?User
     {
-        return $this->userRepository->findOneBy(['email' => $credentials['username']]);
+        return $this->userRepository->findOneBy(['username' => $credentials['username']]);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

@@ -69,7 +69,7 @@ class ProfileController extends AbstractController
 
     /**
      * @Route(
-     *  "/{uid}/upload-image",
+     *  "/{id}/upload-image",
      *  name="upload_image",
      *  methods={"POST"})
      */
