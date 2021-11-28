@@ -27,10 +27,10 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route("/signout", name="app_signout")
      */
-    public function logout()
+    public function signout()
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException('This method can be blank - it will be intercepted by the signout key on your firewall.');
     }
 }
