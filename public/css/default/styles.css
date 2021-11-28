@@ -358,7 +358,6 @@ body {
 /* Footer CSS */
 
 .footer {
-    min-height: 7vh;
     height: auto;
     width: 100%;
     margin-top: 1rem;
@@ -367,4 +366,20 @@ body {
     border-top: 1px solid rgba(0, 0, 0, .1);
     align-items: center;
     justify-content: flex-start;
+}
+
+.footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer .copyright {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.copyright>* {
+    margin-bottom: 0;
 }
