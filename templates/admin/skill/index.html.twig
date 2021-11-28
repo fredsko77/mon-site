@@ -1,0 +1,61 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block main %}
+
+    <div class="container-fluid" id="skills-list">
+        <h1 class="mt-2 mb-3">
+            Mes groupes de compétences
+        </h1>
+        <div class="d-flex justify-content-end">
+            <button 
+                type="button" 
+                class="btn btn-crm btn-sm" 
+                data-bs-toggle="modal" 
+                data-bs-target="#skill-modal"
+            >Ajouter un groupe</button>
+        </div>
+        <div class="mt-2" id="skill-table">
+            <table class="table table-hover table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="row">#</th>
+                        <th scope="row">Nom</th>
+                        <th scope="row">Couleur</th>
+                        <th scope="row">Icone</th>
+                        <th scope="row">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for skill in skills %}
+                        <tr data-skill-index="{{ skill.id }}">
+                            <th scope="col">{{ skill.id }}</th>
+                            <td>{{ skill.name }}</td>
+                            <td> <span class="badge badge-{{ skill.color }}">{{ skill.color }}</span></td>
+                            <td><i class="bi bi-{{ skill.icon }}"></i></td>
+                            <td>
+                                <a 
+                                    href="{{ path('dashboard_skill_edit', {id: skill.id}) }}" 
+                                    class="btn btn-warning btn-sm"
+                                >Modifier</a>
+                                <a 
+                                    href="{{ path('dashboard_skill_delete', {id: skill.id}) }}" 
+                                    class="btn btn-danger btn-sm skill-delete"
+                                >Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+
+    {% include "admin/skill/modals/create-skill.html.twig" %}
+
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/admin/skill.js') }}"></script>
+{% endblock %}
+
+{% block css %}{% endblock %}

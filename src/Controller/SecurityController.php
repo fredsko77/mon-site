@@ -15,7 +15,7 @@ class SecurityController extends AbstractController
     public function signin(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('admin');
         }
 
         // get the signin error if there is one

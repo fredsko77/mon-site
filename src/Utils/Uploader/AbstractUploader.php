@@ -40,6 +40,11 @@ abstract class AbstractUploader
                 $this->setErrors('security', 'This image is not valid !');
             }
         }
+        if ($type === 'resume') {
+            if (!in_array($fileExtension, $this->getResumeExtenxion())) {
+                $this->setErrors('security', 'This file is not valid !');
+            }
+        }
         if ($type === 'default') {
             if (in_array($fileExtension, $this->getExcludedFile())) {
                 $this->setErrors('security', 'Try to upload a harmful file !');
@@ -125,7 +130,7 @@ abstract class AbstractUploader
      *
      * @return  self
      */
-    public function setFilename(UploadedFile $file)
+    protected function setFilename(UploadedFile $file)
     {
         $filename = explode('.', $file->getClientOriginalName())[0] . '_' . md5(uniqid($this->generateShuffleChars(5)));
         $this->filename = (new Slugify)->slugify($filename, '_') . '.' . $file->guessExtension();
@@ -167,6 +172,16 @@ abstract class AbstractUploader
             'png',
             'webp',
             'svg',
+        ];
+    }
+
+    public function getResumeExtenxion(string $extension = ''): array
+    {
+        return [
+            'doc',
+            'docx',
+            'odt',
+            'pdf',
         ];
     }
 

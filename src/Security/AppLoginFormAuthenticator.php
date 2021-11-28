@@ -25,7 +25,7 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_signin';
-    public const SUCCESS_ROUTE = 'dashboard';
+    public const SUCCESS_ROUTE = 'admin';
 
     /**
      * @var UrlGeneratorInterface $urlGenerator

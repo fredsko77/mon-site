@@ -1,7 +1,9 @@
 <?php
-namespace App\Controller\Auth;
 
-use App\Services\Auth\SignupServicesInterface;
+namespace App\Controller\Admin;
+
+use App\Entity\Content;
+use App\Services\Admin\ContentServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,46 +11,42 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/signup")
+ * @Route("/admin/content", name="admin_content")
  */
-class SignupController extends AbstractController
+class ContentController extends AbstractController
 {
 
     /**
-     * @var SignupServicesInterface $service
+     * @var ContentServicesInterface $service
      */
     private $service;
 
-    public function __construct(SignupServicesInterface $service)
+    public function __construct(ContentServicesInterface $service)
     {
         $this->service = $service;
     }
 
     /**
-     * @Route("", name="auth_signup", methods={"GET"})
+     * @Route("", name="_form", methods={"GET"})
      */
-    public function signup(): Response
+    public function index(): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('admin');
-        }
-
-        return $this->render('auth/signup.html.twig');
+        return $this->render('admin/content/index.html.twig', [
+            'content' => $this->getUser()->getContent() ?? (new Content()),
+        ]);
     }
 
     /**
-     * @Route("", name="auth_signup_store", methods={"POST"})
+     * @Route("", name="_store", methods={"POST"})
      */
     public function store(Request $request): JsonResponse
     {
         $response = $this->service->store($request);
-
         return $this->json(
             $response->data,
             $response->status,
             $response->headers,
-            ['groups' => 'user:read']
+            ['groups' => 'content:read']
         );
     }
-
 }

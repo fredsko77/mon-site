@@ -51,6 +51,6 @@ class ProjectController extends AbstractController
             );
         }
 
-        return $this->render('default/project/show.html.twig', compact('project'));
+        return $this->render('site/project/show.html.twig', compact('project'));
     }
 }

@@ -1,0 +1,18 @@
+{% extends "site/layout.html.twig" %}
+
+{% set bgImage = "linear-gradient(to top, rgba(0, 0, 0, .35) 33.33%, rgba(0, 0, 0, .4) 50%, rgba(0, 0, 0, .75) 100%), url(" ~  absolute_url(content.image) ~ ")" %} 
+
+{% block main %}
+
+    {% include "site/sections/masthead.html.twig" %}
+    {% include "site/sections/about.html.twig" %}
+    {% include "site/sections/skills.html.twig" %}
+    {% include "site/sections/projects.html.twig" %}
+    {% include "site/sections/contact.html.twig" %}
+    <pre>
+        {{ dump({'user': user,'content': content}) }}
+    </pre>
+
+{% endblock %}
+
+{% block js %}{% endblock %}

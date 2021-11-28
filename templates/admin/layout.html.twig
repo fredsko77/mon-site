@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Tableau de bord de agathefrederick.fr{% endblock %}
+
+{% block body %}
+
+        <div class="wrapper" id="app">
+            {% include "admin/template-parts/sidebar.html.twig" %}
+            <section class="page-section">
+                {% include "admin/template-parts/navbar.html.twig" %}
+                <main class="main-section">
+                    {% block main %}
+                    {% endblock %}
+                </main>
+            </section>
+        </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/styles.css') }}">
+    {% block css %}{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/admin/main.js') }}"></script>
+    {% block js %}{% endblock %}
+{% endblock %} 
