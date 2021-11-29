@@ -23,7 +23,7 @@ security:
         main:
             lazy: true
             custom_authenticator: App\Security\AppLoginFormAuthenticator
-            signout:
+            logout:
                 path: app_signout
                 # where to redirect after signout
                 # target: app_any_route
