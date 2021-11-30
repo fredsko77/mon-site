@@ -8,8 +8,6 @@ use App\Services\Auth\SignupServicesInterface;
 use App\Utils\ServicesTrait;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -56,6 +54,11 @@ class SignupServices implements SignupServicesInterface
      */
     private $hasher;
 
+    /**
+     * @var Slugify $slugger
+     */
+    private $slugger;
+
     public function __construct(
         UserRepository $repository,
         ValidatorInterface $validator,
@@ -72,53 +75,33 @@ class SignupServices implements SignupServicesInterface
         $this->router = $router;
         $this->mailing = $mailing;
         $this->hasher = $hasher;
+        $this->slugger = new Slugify;
     }
 
     /**
-     * @param Request $request
+     * @param User $user
      *
      * @return object
      */
-    public function store(Request $request): object
+    public function store(User $user): void
     {
-        $data = $request->getContent();
-        $user = $this->serializer->deserialize($data, User::class, 'json');
-        $slugify = new Slugify();
-        $identifier = uniqid();
-
-        $violations = $this->filterViolations($this->validator->validate($user));
-
-        if ($this->repository->findOneBy(['username' => $user->getUsername()]) instanceof User) {
-            $violations['username'] = 'Ce nom d\'utilisateur est déjà utilisé !';
-        }
-
-        if (count($violations) > 0) {
-            return $this->sendViolations($violations);
-        }
-
         $user
             ->setPassword($this->hasher->hashPassword($user, $user->getPassword()))
             ->setCreatedAt($this->now())
             ->setUsername($user->getUsername() ?? $this->generateUserName($user))
             ->setRoles(['ROLE_USER'])
             ->setConfirm(false)
-            ->setUid($identifier)
-            ->setSlug($slugify->slugify($user->getFirstname() . " " . $user->getLastname()))
+            ->setSlug()
             ->setToken($this->generateTokenBase64($user))
         ;
+
+        dd($user);
 
         $this->manager->persist($user);
         $this->manager->flush();
 
         $this->mailing->confirmEmail($user);
 
-        return $this->sendJson(
-            $user,
-            Response::HTTP_CREATED,
-            [
-                'Location' => $this->router->generate('app_signin', [], UrlGenerator::ABSOLUTE_URL),
-            ]
-        );
     }
 
 }

@@ -1,15 +1,16 @@
 <?php
 namespace App\Controller\Auth;
 
+use App\Entity\User;
+use App\Form\RegistrationType;
 use App\Services\Auth\SignupServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/signup")
+ * @Route("/auth/signup", name="auth_signup")
  */
 class SignupController extends AbstractController
 {
@@ -25,30 +26,33 @@ class SignupController extends AbstractController
     }
 
     /**
-     * @Route("", name="auth_signup", methods={"GET"})
+     * @Route("", name="", methods={"GET", "POST"})
      */
-    public function signup(): Response
+    public function signup(Request $request): Response
     {
         if ($this->getUser()) {
+
             return $this->redirectToRoute('admin');
         }
 
-        return $this->render('auth/signup.html.twig');
-    }
+        $user = new User;
+        $form = $this->createForm(RegistrationType::class, $user);
+        $form->handleRequest($request);
 
-    /**
-     * @Route("", name="auth_signup_store", methods={"POST"})
-     */
-    public function store(Request $request): JsonResponse
-    {
-        $response = $this->service->store($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->service->store($user);
 
-        return $this->json(
-            $response->data,
-            $response->status,
-            $response->headers,
-            ['groups' => 'user:read']
-        );
+            $this->addFlash(
+                'success',
+                'Votre compte a bien été crée'
+            );
+
+            return $this->redirectToRoute('auth_signup');
+        }
+
+        return $this->renderForm('auth/signup.html.twig', [
+            'form' => $form,
+        ]);
     }
 
 }

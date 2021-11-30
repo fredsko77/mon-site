@@ -1,16 +1,16 @@
 <?php
 namespace App\Services\Auth;
 
-use Symfony\Component\HttpFoundation\Request;
+use App\Entity\User;
 
 interface SignupServicesInterface
 {
 
     /**
-     * @param Request $request
+     * @param User $user
      *
-     * @return object
+     * @return void
      */
-    public function store(Request $request): object;
+    public function store(User $user): void;
 
 }

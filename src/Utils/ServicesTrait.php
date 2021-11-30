@@ -69,8 +69,7 @@ trait ServicesTrait
     {
 
         return base64_encode(json_encode([
-            'uid' => $user->getUid(),
-            'expired_at' => (new DateTime('now'))->modify('+15 minutes'),
+            'expired_at' => (new DateTime('now'))->modify('+30 minutes'),
             'email' => $user->getEmail(),
         ]));
     }

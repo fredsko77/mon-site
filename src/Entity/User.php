@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Utils\ServicesTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -17,9 +18,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     errorPath="email",
  *     message="Cette adresse email est déjà utilisée !"
  * )
+ * @UniqueEntity(
+ *     fields={"username"},
+ *     errorPath="username",
+ *     message="Ce nom d'utilisateur est déjà pris !"
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    use ServicesTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -313,9 +322,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): self
+    public function setSlug(): self
     {
-        $this->slug = $slug;
+        if ($this->firstname !== null && $this->lastname !== null) {
+            $identifier = $this->firstname . '-' . $this->lastname;
+        } else {
+            $identifier = $this->username;
+        }
+
+        $this->identifier = strtolower($this->skipAccents($identifier) . '-' . (string) random_int(1000, 5000000));
 
         return $this;
     }

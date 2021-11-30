@@ -4,56 +4,15 @@
 
 {% block main %}
     <section class="auth-container">
-        <form action="#" method="post" class="auth-form" novalidate>
+        {{ form_start(form, {'attr': {'class': 'auth-form'}}) }}
             <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
-            <fieldset aria-label="Informations utilisateur">
-                <legend>Informations</legend>
-                <div class="form-group">
-                    <span class="form-label me-3">Je suis :</span>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="mr" value="mr" checked>
-                        <label class="form-check-label" for="mr">un homme</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="mme" value="mme">
-                        <label class="form-check-label" for="mme">une femme</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="firstname">Prénom</label>
-                    <input type="text" name="firstname" id="firstname" class="form-control" autocomplete="firstname" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="lastname">Nom de famille</label>
-                    <input type="text" name="lastname" id="lastname" class="form-control" autocomplete="lastname" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="username">Nom d'utilisateur</label>
-                    <input type="text" name="username" id="username" class="form-control" autocomplete="username">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="email">E-mail</label>
-                    <input type="email" name="email" id="email" class="form-control" autocomplete="email">
-                </div>                
-                <div class="form-group">
-                    <label for="telephone" class="form-label">Téléphone</label>
-                    <input type="text" name="telephone" id="telephone" class="form-control" autocomplete="telephone">
-                </div>
-            </fieldset>
-            <div class="form-group">
-                <label class="form-label" for="password">Mot de passe</label>
-                <input type="password" name="password" id="password" class="form-control" autocomplete="current-password" required>
-            </div>
-            <div class="d-flex mt-3">
-                <button class="btn btn-lg btn-primary" type="submit">
-                    S'inscrire
-                </button>
-            </div>
-                
-        </form>
-    </section>
-{% endblock %}
 
-{% block js %}
-    <script src="{{ asset('js/auth/signup.js') }}"></script>
+            {% include "flashes.html.twig" %}
+
+            {{ form_widget(form) }}
+            <div class="d-flex mt-1">
+                <button class="btn btn-lg btn-primary" type="submit">S'inscrire</button>
+            </div>
+        {{ form_end(form) }}     
+    </section>
 {% endblock %}
