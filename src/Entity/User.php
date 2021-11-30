@@ -92,32 +92,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $updated_at;
 
     /**
-     * @ORM\Column(type="string", length=20, nullable=true)
-     * @Assert\NotBlank(message="Le numéro de téléphone est obligatoire !", allowNull=true)
-     * @Groups({"user:read"})
-     */
-    private $telephone;
-
-    /**
-     * @ORM\Column(type="string", length=20, nullable=true)
-     * @Groups({"user:read"})
-     */
-    private $uid;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $resume;
+    private $confirm;
 
     /**
-     * @ORM\OneToOne(targetEntity=Content::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $content;
+    private $slug;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $biography;
 
     public function __construct()
     {
@@ -233,7 +225,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTimeInterface $created_at): self
+    public function setCreatedAt(?\DateTimeInterface$created_at): self
     {
         $this->created_at = $created_at;
 
@@ -245,21 +237,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(?\DateTimeInterface$updated_at): self
     {
         $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
-
-    public function setTelephone(?string $telephone): self
-    {
-        $this->telephone = $telephone;
 
         return $this;
     }
@@ -280,18 +260,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername($username)
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    public function getUid(): ?string
-    {
-        return $this->uid;
-    }
-
-    public function setUid(string $uid): self
-    {
-        $this->uid = $uid;
 
         return $this;
     }
@@ -328,36 +296,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getResume(): ?string
+    public function getConfirm(): ?bool
     {
-        return $this->resume;
+        return $this->confirm;
     }
 
-    public function setResume(?string $resume): self
+    public function setConfirm(?bool $confirm): self
     {
-        $this->resume = $resume;
+        $this->confirm = $confirm;
 
         return $this;
     }
 
-    public function getContent(): ?Content
+    public function getSlug(): ?string
     {
-        return $this->content;
+        return $this->slug;
     }
 
-    public function setContent(?Content $content): self
+    public function setSlug(?string $slug): self
     {
-        // unset the owning side of the relation if necessary
-        if ($content === null && $this->content !== null) {
-            $this->content->setUser(null);
-        }
+        $this->slug = $slug;
 
-        // set the owning side of the relation if necessary
-        if ($content !== null && $content->getUser() !== $this) {
-            $content->setUser($this);
-        }
+        return $this;
+    }
 
-        $this->content = $content;
+    public function getBiography(): ?string
+    {
+        return $this->biography;
+    }
+
+    public function setBiography(?string $biography): self
+    {
+        $this->biography = $biography;
 
         return $this;
     }

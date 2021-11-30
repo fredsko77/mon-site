@@ -64,22 +64,26 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $user = $this->getUser($credentials);
 
         if ($user instanceof User && $this->hasher->isPasswordValid($user, $credentials['password'])) {
+            if ($user->getConfirm()) {
 
-            return new Passport(
-                new UserBadge($credentials['username']),
-                new PasswordCredentials($credentials['password']),
-                [
-                    new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
-                ]
-            );
+                return new Passport(
+                    new UserBadge($credentials['username']),
+                    new PasswordCredentials($credentials['password']),
+                    [
+                        new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
+                    ]
+                );
+            }
+
+            throw new CustomUserMessageAuthenticationException('Vous devez confirmer votre compte avant la première connexion !');
         }
 
-        throw new CustomUserMessageAuthenticationException('Bad credentials.');
+        throw new CustomUserMessageAuthenticationException('Identifiants incorrects !');
     }
 
     protected function getUser(array $credentials): ?User
     {
-        return $this->userRepository->findOneBy(['username' => $credentials['username']]);
+        return $this->userRepository->authenticate($credentials['username']);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
