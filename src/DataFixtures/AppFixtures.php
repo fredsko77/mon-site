@@ -29,7 +29,10 @@ class AppFixtures extends Fixture
             ->setPassword($this->hasher->hashPassword($admin, 'admin123!'))
             ->setRoles(['ROLE_ADMIN'])
             ->setCreatedAt(new DateTime('now'))
-            ->setUid(uniqid('user'))
+            ->setUpdatedAt(new DateTime('now'))
+            ->setToken(null)
+            ->setSlug()
+            ->setConfirm(true)
         ;
 
         $manager->persist($admin);
@@ -42,7 +45,10 @@ class AppFixtures extends Fixture
             ->setPassword($this->hasher->hashPassword($user, 'user123!'))
             ->setRoles(['ROLE_USER'])
             ->setCreatedAt(new DateTime('now'))
-            ->setUid(uniqid('user'))
+            ->setUpdatedAt(new DateTime('now'))
+            ->setToken(null)
+            ->setSlug()
+            ->setConfirm(true)
         ;
 
         $manager->persist($user);
