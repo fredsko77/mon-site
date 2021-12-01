@@ -38,22 +38,31 @@ class ConfirmationController extends AbstractController
     /**
      * @Route("/{token}", name="auth_confirmation")
      */
-    public function index(User $user): Response
+    public function index(string $token): Response
     {
-        $data = $this->tokenBase64Decode($user->getToken());
+        $user = $this->repository->findOneBy(['token' => $token]);
         $valid = false;
 
-        if ($this->now() < new DateTime($data['expired_at']['date']) && $user instanceof User) {
-            $valid = true;
+        if ($user instanceof User) {
 
-            $user
-                ->setToken(null)
-            ;
-
-            $this->manager->persist($user);
-            $this->manager->flush();
+            $data = $this->tokenBase64Decode($user->getToken());
+    
+            if ($this->now() < new DateTime($data['expired_at']['date']) && $user instanceof User) {
+                $valid = true;
+    
+                $user
+                    ->setToken(null)
+                    ->setConfirm(true)
+                    ->setUpdatedAt($this->now())
+                ;
+    
+                $this->manager->flush();
+            }
         }
 
-        return $this->render('auth/confirm.html.twig', compact('user'));
+        return $this->render('auth/confirm.html.twig', [
+            'user' => $user,
+            'valid' => $valid,
+        ]);
     }
 }

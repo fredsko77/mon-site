@@ -3,10 +3,14 @@
 {% block title %}Page d'inscription{% endblock %}
 
 {% block main %}
-    <section class="auth-container">
+    <section class="auth-container {% if valid != true %}bg-danger-light{% endif %}">
         <div class="d-flex flex-column confirm my-3">
-            <h1 class="h2 mb-5">Bravo 🎊,</h1>
-            <p>Ton compte vient d'être activé, clique <a href="{{ path('app_signin') }}" class="link">ici</a> pour te connecter.</p>
+            {% if valid == true %}
+                <h1 class="h2 mb-5">Bravo 🎊,</h1>
+                <p>Ton compte vient d'être activé, clique <a href="{{ path('app_signin') }}" class="link">ici</a> pour te connecter.</p>
+            {% else %}
+                Votre jeton a expiré ou est invalide ! 🤕 
+            {% endif %}            
         </div>
     </section>
 {% endblock %}
