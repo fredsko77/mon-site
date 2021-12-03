@@ -6,14 +6,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin")
+ * @Route("/admin", name="admin")
  */
 class AdminController extends AbstractController
 {
 
     /**
-     * @Route("/profile", name="admin_profile", methods={"GET"})
-     * @Route("", name="admin", methods={"GET"})
+     * @Route("/profile", name="_profile", methods={"GET"})
+     * @Route("", name="", methods={"GET"})
      */
     public function index(): Response
     {

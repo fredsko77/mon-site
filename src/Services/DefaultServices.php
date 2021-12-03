@@ -45,12 +45,11 @@ class DefaultServices implements DefaultServicesInterface
     public function index(): array
     {
         $user = $this->userRepository->findOneBy(['email' => 'fagathe77@gmail.com']);
-        $content = $user->getContent();
         $projects = $this->projectRepository->findBy(['visibility' => 'publique']);
         $socials = $this->socialRepository->findAll();
         $skills = $this->skillRepository->findAll();
 
-        return compact('user', 'content', 'projects', 'socials', 'skills');
+        return compact('user', 'projects', 'socials', 'skills');
     }
 
 }

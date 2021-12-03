@@ -63,6 +63,7 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
         $user = $this->getUser($credentials);
 
+        // dd($user instanceof User && $this->hasher->isPasswordValid($user, $credentials['password']) && $user->getConfirm());
         if ($user instanceof User && $this->hasher->isPasswordValid($user, $credentials['password'])) {
             if ($user->getConfirm()) {
 

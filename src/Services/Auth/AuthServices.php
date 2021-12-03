@@ -2,9 +2,9 @@
 namespace App\Services\Auth;
 
 use App\Entity\User;
-use App\Mailing\Auth\ConfirmationMailing;
+use App\Mailing\Auth\AuthMailing;
 use App\Repository\UserRepository;
-use App\Services\Auth\SignupServicesInterface;
+use App\Services\Auth\AuthServicesInterface;
 use App\Utils\ServicesTrait;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class SignupServices implements SignupServicesInterface
+class AuthServices implements AuthServicesInterface
 {
 
     use ServicesTrait;
@@ -45,7 +45,7 @@ class SignupServices implements SignupServicesInterface
     private $router;
 
     /**
-     * @var ConfirmationMailing $mailing
+     * @var AuthMailing $mailing
      */
     private $mailing;
 
@@ -65,7 +65,7 @@ class SignupServices implements SignupServicesInterface
         SerializerInterface $serializer,
         EntityManagerInterface $manager,
         UrlGeneratorInterface $router,
-        ConfirmationMailing $mailing,
+        AuthMailing $mailing,
         UserPasswordHasherInterface $hasher
     ) {
         $this->repository = $repository;
@@ -95,13 +95,31 @@ class SignupServices implements SignupServicesInterface
             ->setToken($this->generateTokenBase64($user))
         ;
 
-        dd($user);
-
         $this->manager->persist($user);
         $this->manager->flush();
 
         $this->mailing->confirmEmail($user);
 
+    }
+
+    /**
+     * @param null|array $data
+     *
+     * @return void
+     */
+    public function forgotPassword(?array $data = null): void
+    {
+        if (array_key_exists('email', $data)) {
+            $user = $this->repository->findOneBy(['email' => $data['email']]);
+
+            if ($user instanceof User) {
+                $user->setToken($this->generateTokenBase64($user));
+
+                $this->mailing->forgotPassword($user);
+
+                $this->manager->flush();
+            }
+        }
     }
 
 }

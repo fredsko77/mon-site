@@ -3,24 +3,24 @@ namespace App\Controller\Auth;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
-use App\Services\Auth\SignupServicesInterface;
+use App\Services\Auth\AuthServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/auth/signup", name="auth_signup")
+ * @Route("/signup", name="auth_signup")
  */
 class SignupController extends AbstractController
 {
 
     /**
-     * @var SignupServicesInterface $service
+     * @var AuthServicesInterface $service
      */
     private $service;
 
-    public function __construct(SignupServicesInterface $service)
+    public function __construct(AuthServicesInterface $service)
     {
         $this->service = $service;
     }
