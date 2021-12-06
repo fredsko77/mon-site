@@ -5,7 +5,7 @@
             <!-- Form ajout image --> 
             <div class="row mt-2 mb-4">
                 <div class="col-12 col-lg-6 col-xxl-4">
-                    <form action="{{ path('dashboard_project_image_new', {id: project.id}) }}">
+                    <form action="{{ path('admin_project_image_new', {id: project.id}) }}">
                         <div class="form-group">
                             <label for="image-new" class="form-label">Ajouter une image</label>
                             <input type="file" name="image" id="image-new" class="form-control">
@@ -26,7 +26,7 @@
                         >
                         <div class="card-footer">
                             <a 
-                                href="{{ path('dashboard_project_image_edit', {id: image.id}) }}" 
+                                href="{{ path('admin_project_image_edit', {id: image.id}) }}" 
                                 class="link project-image-main" 
                                 data-col-image="is_main"
                                 title="Définir comme image principale"
@@ -35,14 +35,14 @@
                             <label 
                                 for="image_{{ image.id }}" 
                                 data-col-image="path" 
-                                data-action-url="{{ path('dashboard_project_image_edit', {id: image.id}) }}"
+                                data-action-url="{{ path('admin_project_image_edit', {id: image.id}) }}"
                                 title="Modifier l'image"
                             >
                                 <i class="bi bi-pencil-fill"></i>
                                 <input type="file" class="project-image-edit hidden" name="image" id="image_{{ image.id }}">
                             </label>
                             <a 
-                                href="{{ path('dashboard_project_image_delete', {id: image.id}) }}" 
+                                href="{{ path('admin_project_image_delete', {id: image.id}) }}" 
                                 class="link project-image-delete"
                                 title="Supprimer cette image"
                             ><i class="bi bi-trash text-danger"></i></a>

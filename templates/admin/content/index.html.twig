@@ -2,112 +2,60 @@
 
 {% block main %}
 
-    {% set image = content.image %}
-    <div class="container-fluid">
-
-        <h1 class="mt-2 mb-3">Mon contenu</h1>
-
-        <form action="" method="post">
-
-            <div class="row mt-1 mb-3">
-
-                <div class="col-8">
-                    <fieldset aria-label="Contenu du haut de la page">
-                        <legend>Contenu du haut de la page</legend>
-                        <div class="form-group">
-                            <label for="heading_primary" class="form-label">Heading primary</label>
-                            <input type="text" name="heading_primary" id="heading_primary" class="form-control" value="{{ content.headingPrimary }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="heading_secondary" class="form-label">Heading secondary</label>
-                            <input type="text" name="heading_secondary" id="heading_secondary" class="form-control" value="{{ content.headingSecondary }}">
-                        </div>
-                    </fieldset>
-                    <fieldset aria-label="Blocs d'introduction" id="bloc-container">
-                        <legend>Blocs d'introduction</legend>
-                        {% for index, bloc in content.biographyBlocs %}
-                            {% set i = (index + 1) %}
-                            <div class="form-group">
-                                <label for="bloc_{{ i }}" class="form-label label-add">    
-                                    <span>Bloc <span data-bloc="{{ i }}">{{ i }}</span></span>                             
-                                    {% if index == 0 %}
-                                        <button type="button" class="btn btn-sm btn-crm" id="add-bloc">Ajouter un bloc</button>
-                                    {% endif %}                                    
-                                </label>
-                                
-                                <textarea class="form-control" name="biography_blocs[]" id="bloc_{{ i }}" cols="30" rows="3">{{ bloc }}</textarea>
-                            </div>
-                        {% else %}
-                            <div class="form-group">
-                                <label for="bloc_1" class="form-label label-add">    
-                                    <span>Bloc <span data-bloc="1">1</span></span>                             
-                                    <button type="button" class="btn btn-sm btn-crm" id="add-bloc">Ajouter un bloc</button>
-                                </label>
-                                <textarea class="form-control" name="biography_blocs[]" id="bloc_1" cols="30" rows="3"></textarea>
-                            </div>                                                        
-                        {% endfor %}
-                    </fieldset>
-                    <fieldset aria-label="Contenu du bas de la page">
-                        <legend>Contenu du bas de la page</legend>
-                        <div class="form-group">
-                            <label for="footing_primary" class="form-label">Footing primary</label>
-                            <input type="text" name="footing_primary" id="footing_primary" class="form-control" value="{{ content.footingSecondary }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="footing_secondary" class="form-label">Footing secondary</label>
-                            <input type="text" name="footing_secondary" id="footing_secondary" class="form-control" value="{{ content.footingSecondary }}">
-                        </div>
-                    </fieldset>
-                </div>
-                <div class="col-4 form-side pt-2">
-                    <div class="mb-4">
-                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
-                    </div>
-
-                    <div class="accordion" id="accordionPanelsStayOpenExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                Image
-                            </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                <div class="accordion-body">                                    
-                                    <img 
-                                        class="{% if image == null %}hidden {% endif %}content-image" 
-                                        src="{{ asset(image) }}" 
-                                        alt="Fichier téléversé" 
-                                        id="uploaded-image"
-                                    >
-                                    <p id="error-upload" class="error hidden mb-2"></p>
-                                    <div class="form-group">
-                                        <label for="image" class="form-label">Sélectionner une image</label>
-                                        <input class="form-control" type="file" name="image" id="image">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
-
-            </div>
-
-        </form>
-
-    </div>
-    <template id="biography-blocs-template">
-        <div class="form-group">
-            <label for="bloc_1" class="form-label text-right">    
-                Bloc <span data-bloc="1">1</span>                            
-            </label>
-            <textarea class="form-control" name="biography_blocs[]" id="bloc_1" cols="30" rows="3"></textarea>
+    <div class="container-fluid" id="contents-list">
+        <h1 class="mt-2 mb-3">
+            Mes contenus
+        </h1>
+        <div class="d-flex justify-content-end">
+            <a href="{{ path('admin_content_create') }}" class="btn btn-crm btn-sm" >Ajouter un contenu</a>
         </div>
-    </template>
+        <div class="my-3">
+            {% include "flashes.html.twig" %}
+        </div>
+        <div class="mt-2" id="content-table">
+            <table class="table table-hover table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Statut</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for content in contents %}
+                        <tr data-index="{{ content.id }}">
+                            <th scope="row">{{ content.id }}</th>
+                            <td>{{ content.state }}</td>
+                            <td>{{ content.image != null ? "oui" : "non" }}</td>
+                            <td>{{ (content.updatedAt ?? content.createdAt)|format_datetime('full', locale='fr') }}</td>
+                            <td>
+                                <a 
+                                    href="{{ path('admin_content_edit', {id: content.id}) }}" 
+                                    class="btn btn-warning btn-sm"
+                                    title="Editer le contenu"
+                                    aria-label="Editer le contenu"
+                                >Modifier</a>
+                                <a 
+                                    class="btn btn-danger btn-sm"
+                                    data-role="delete" 
+                                    href="{{ path('admin_content_delete', {id: content.id}) }}"
+                                    title="Supprimer le contenu"
+                                    aria-label="Supprimer le contenu"
+                                >Supprimer</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="11">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-{% endblock %}
-
-{% block css %}
-    <link rel="stylesheet" href="{{ asset('css/admin/content.css') }}">
 {% endblock %}
 
 {% block js %}

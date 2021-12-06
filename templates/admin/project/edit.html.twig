@@ -4,7 +4,7 @@
 
     <section id="project-edit">
 
-        <a class="mb-2" href="{{ path('dashboard_project_list') }}">
+        <a class="mb-2" href="{{ path('admin_project_list') }}">
             <i class="bi bi-arrow-left me-2"></i>
             Revenir aux projets
         </a>
@@ -105,7 +105,7 @@
 {% block js %}
     <script>
         var formUrls = {
-            base: "{{ path('dashboard_project_task_new', {id: project.id}) }}"
+            base: "{{ path('admin_project_task_new', {id: project.id}) }}"
         };
     </script>
     <script src="{{ asset('js/admin/project/edit.js') }}"></script>

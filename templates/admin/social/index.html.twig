@@ -10,7 +10,7 @@
             <div class="col-12 col-lg-9">
                 <div class="d-flex justify-content-end">
                     <a 
-                        href="{{ path('dashboard_social_create') }}" 
+                        href="{{ path('admin_social_create') }}" 
                         class="btn btn-crm btn-sm" 
                     >Ajouter un profil</a>
                 </div>
@@ -34,11 +34,11 @@
                                     <td><i class="bi bi-{{ social.icon }}"></i></td>
                                     <td>
                                         <a 
-                                            href="{{ path('dashboard_social_edit', {id: social.id}) }}" 
+                                            href="{{ path('admin_social_edit', {id: social.id}) }}" 
                                             class="btn btn-warning btn-sm"
                                         >Modifier</a>
                                         <a 
-                                            href="{{ path('dashboard_social_delete', {id: social.id}) }}" 
+                                            href="{{ path('admin_social_delete', {id: social.id}) }}" 
                                             class="btn btn-danger btn-sm social-delete"
                                         >Supprimer</a>
                                     </td>

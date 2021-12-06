@@ -1,7 +1,7 @@
 <!-- Modal formulaire tâche -->
 <div class="modal fade" id="modal-task" tabindex="-1" aria-labelledby="modal-task-title" aria-hidden="true">
     <form 
-        action="{{ path('dashboard_project_task_new', {id: project.id}) }}" 
+        action="{{ path('admin_project_task_new', {id: project.id}) }}" 
         method="post" 
         id="task-form" 
         data-form-action="create"

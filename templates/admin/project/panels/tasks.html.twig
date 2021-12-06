@@ -16,14 +16,14 @@
                         <h3 class="h5" class="task-name" data-col-task="name">{{ task.name }}</h3>
                         <span class="task-icons">
                             <a 
-                                href="{{ path('dashboard_project_task_edit', {id: task.id}) }}" 
+                                href="{{ path('admin_project_task_edit', {id: task.id}) }}" 
                                 class="link mx-1 task-edit"
                                 title="Modification de la tâche"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modal-task"
                             ><i class="bi bi-pencil-square"></i></a>
                             <a 
-                                href="{{ path('dashboard_project_task_delete', {id: task.id}) }}" 
+                                href="{{ path('admin_project_task_delete', {id: task.id}) }}" 
                                 class="link task-delete"
                                 title="Suppression de la tâche"
                             ><i class="bi bi-trash mx-1 text-danger"></i></a>

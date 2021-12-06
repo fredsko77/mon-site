@@ -4,11 +4,11 @@
 
     <section class="skill-edit">
 
-        <a href="{{ path('dashboard_skill_list') }}">Revenir aux skills</a>
+        <a href="{{ path('admin_skill_list') }}">Revenir aux skills</a>
 
         <h1 class="h3">Modification skill #{{ skill.id }}</h1>
 
-        <form action="{{ path('dashboard_skill_store', {id: skill.id}) }}" id="skill-edit-form" method="post">
+        <form action="{{ path('admin_skill_store', {id: skill.id}) }}" id="skill-edit-form" method="post">
 
             <div class="row">
 

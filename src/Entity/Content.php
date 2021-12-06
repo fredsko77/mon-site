@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\ContentRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ContentRepository::class)
@@ -19,118 +18,58 @@ class Content
     private $id;
 
     /**
-     * @ORM\Column(type="text")
-     * @Groups({"content:read"})
-     */
-    private $heading_primary;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"content:read"})
      */
-    private $heading_secondary;
+    private $biography;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     * @Groups({"content:read"})
+     * @ORM\Column(type="string", length=20)
      */
-    private $biography_blocs = [];
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Groups({"content:read"})
-     */
-    private $footing_primary;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Groups({"content:read"})
-     */
-    private $footing_secondary;
+    private $state;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"content:read"})
      */
     private $image;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"content:read"})
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"content:read"})
      */
-    private $updated_at;
+    private $updatedAt;
 
-    public function __construct()
-    {
-    }
+    private const STATE_PROD = 'prod';
+    private const STATE_PENDING = 'pending';
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getHeadingPrimary(): ?string
+    public function getBiography(): ?string
     {
-        return $this->heading_primary;
+        return $this->biography;
     }
 
-    public function setHeadingPrimary(string $heading_primary): self
+    public function setBiography(?string $biography): self
     {
-        $this->heading_primary = $heading_primary;
+        $this->biography = $biography;
 
         return $this;
     }
 
-    public function getHeadingSecondary(): ?string
+    public function getState(): ?string
     {
-        return $this->heading_secondary;
+        return $this->state;
     }
 
-    public function setHeadingSecondary(?string $heading_secondary): self
+    public function setState(string $state): self
     {
-        $this->heading_secondary = $heading_secondary;
-
-        return $this;
-    }
-
-    public function getBiographyBlocs(): ?array
-    {
-        return $this->biography_blocs;
-    }
-
-    public function setBiographyBlocs(?array $biography_blocs): self
-    {
-        $this->biography_blocs = $biography_blocs;
-
-        return $this;
-    }
-
-    public function getFootingPrimary(): ?string
-    {
-        return $this->footing_primary;
-    }
-
-    public function setFootingPrimary(?string $footing_primary): self
-    {
-        $this->footing_primary = $footing_primary;
-
-        return $this;
-    }
-
-    public function getFootingSecondary(): ?string
-    {
-        return $this->footing_secondary;
-    }
-
-    public function setFootingSecondary(?string $footing_secondary): self
-    {
-        $this->footing_secondary = $footing_secondary;
+        $this->state = $state;
 
         return $this;
     }
@@ -149,38 +88,33 @@ class Content
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface$created_at): self
+    public function setCreatedAt(\DateTimeInterface$createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface$updated_at): self
+    public function setUpdatedAt(?\DateTimeInterface$updatedAt): self
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public static function listState(): array
     {
-        return $this->user;
+        return [
+            self::STATE_PENDING => self::STATE_PENDING,
+            self::STATE_PROD => self::STATE_PROD,
+        ];
     }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
 }
