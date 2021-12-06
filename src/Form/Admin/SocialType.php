@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 use App\Entity\Social;
 use Symfony\Component\Form\AbstractType;
@@ -23,7 +23,7 @@ class SocialType extends AbstractType
                 'required' => true,
             ])
             ->add('icon', TextType::class, [
-                'label' => 'Icone',
+                'label' => 'Icône',
                 'required' => true,
             ])
             ->add('Enregistrer', SubmitType::class)

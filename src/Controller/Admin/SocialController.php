@@ -2,7 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Social;
-use App\Form\SocialType;
+use App\Form\Admin\SocialType;
 use App\Repository\SocialRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,12 +65,6 @@ class SocialController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            $social = $form->getData();
-
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
             $this->manager->persist($social);
             $this->manager->flush();
 
@@ -101,13 +95,6 @@ class SocialController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            $social = $form->getData();
-
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
-            $this->manager->persist($social);
             $this->manager->flush();
 
             return $this->redirectToRoute('admin_social_edit', [
