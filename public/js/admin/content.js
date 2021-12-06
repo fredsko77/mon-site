@@ -13,9 +13,12 @@ deleteButtons.forEach((button) => {
                 .delete(url)
                 .then(({ headers, status }) => {
                     if (status === 204) {
-                        if (headers.hasOwnProperty('location')) {
-                            setTimeout(() => window.location = headers.location, 1000);
-                        }
+                        // if (headers.hasOwnProperty('location')) {
+                        setTimeout(() => {
+                            // window.location = headers.location
+                            window.location.reload();
+                        }, 1000);
+                        // }
                     }
                 })
                 .catch(({ response }) => {
