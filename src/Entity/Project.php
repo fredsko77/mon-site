@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -69,18 +67,6 @@ class Project
     private $updated_at;
 
     /**
-     * @ORM\OneToMany(targetEntity=ProjectTask::class, mappedBy="project", cascade={"persist", "remove"})
-     * @Groups({"project:read"})
-     */
-    private $tasks;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ProjectImage::class, mappedBy="project", cascade={"persist", "remove"})
-     * @Groups({"project:read"})
-     */
-    private $images;
-
-    /**
      * @ORM\Column(type="string", length=15, nullable=true)
      * @Groups({"project:read"})
      */
@@ -100,8 +86,6 @@ class Project
 
     public function __construct()
     {
-        $this->tasks = new ArrayCollection();
-        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,7 +158,7 @@ class Project
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface$created_at): self
     {
         $this->created_at = $created_at;
 
@@ -186,87 +170,9 @@ class Project
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(?\DateTimeInterface$updated_at): self
     {
         $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ProjectTask[]
-     */
-    public function getTasks(): Collection
-    {
-        return $this->tasks;
-    }
-
-    public function addTask(ProjectTask $task): self
-    {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->setProject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTask(ProjectTask $task): self
-    {
-        if ($this->tasks->removeElement($task)) {
-            // set the owning side to null (unless already changed)
-            if ($task->getProject() === $this) {
-                $task->setProject(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return ProjectImage[]
-     */
-    public function getProjectImages()
-    {
-        $images = $this->images->toArray();
-        foreach ($this->images as $key => $image) {
-            if ($image->getIsMain() && $key !== 0) {
-                $replacements = [
-                    0 => $images[$key],
-                    $key => $images[0],
-                ];
-                $images = array_replace($images, $replacements);
-            }
-        }
-        return $images;
-    }
-
-    /**
-     * @return Collection|ProjectImage[]
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(ProjectImage $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setProject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(ProjectImage $image): self
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getProject() === $this) {
-                $image->setProject(null);
-            }
-        }
 
         return $this;
     }
@@ -316,19 +222,6 @@ class Project
         $this->stack = $stack;
 
         return $this;
-    }
-
-    public function getMainImage(): ?ProjectImage
-    {
-
-        foreach ($this->images as $key => $image) {
-            if ($image->getIsMain()) {
-
-                return $image;
-            }
-        }
-
-        return null;
     }
 
 }

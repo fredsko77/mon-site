@@ -1,0 +1,46 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Stack index{% endblock %}
+
+{% block main %}
+
+    <div class="container-fluid" id="stack-list">
+        <h1 class="mb-3 mt-2">Stack index</h1>
+        <div class="row">
+            <div class="col-12 col-xl-9">
+                <div class="d-flex justify-content-end">
+                    <a 
+                        href="{{ path('admin_stack_create') }}" 
+                        class="btn btn-crm btn-sm" 
+                    >Ajouter un profil</a>
+                </div>
+                <div class="mt-2" id="s-stack-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for stack in stacks %}
+                            <tr>
+                                <td>{{ stack.id }}</td>
+                                <td>{{ stack.name }}</td>
+                                <td>
+                                    <a class="btn btn-warning" href="{{ path('admin_stack_edit', {'id': stack.id}) }}">Modifier</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>                
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

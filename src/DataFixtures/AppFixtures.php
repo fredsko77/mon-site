@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Stack;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -23,6 +24,33 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+
+        $stacks = [
+            'PHP',
+            'JavaScript',
+            'CSS',
+            'HTML',
+            'Twig',
+            'Symfony',
+            'React js',
+            'Bash',
+            'Python',
+            'WordPress',
+            'Drupal',
+            'Vue js',
+            'Slim Framework',
+            'Flask',
+            'Laravel',
+            'MySql',
+        ];
+
+        foreach ($stacks as $s) {
+            $stack = new Stack;
+            $stack->setName($s);
+
+            $manager->persist($stack);
+        }
+
         $admin = new User;
         $admin->setUsername('admin')
             ->setEmail('admin@admin.fr')
