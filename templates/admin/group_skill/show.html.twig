@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GroupSkil{% endblock %}
+
+{% block body %}
+    <h1>GroupSkil</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ group_skil.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ group_skil.name }}</td>
+            </tr>
+            <tr>
+                <th>Icon</th>
+                <td>{{ group_skil.icon }}</td>
+            </tr>
+            <tr>
+                <th>Color</th>
+                <td>{{ group_skil.color }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ group_skil.description }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ group_skil.createdAt ? group_skil.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ group_skil.updatedAt ? group_skil.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_group_skill_index') }}">back to list</a>
+
+    <a href="{{ path('admin_group_skill_edit', {'id': group_skil.id}) }}">edit</a>
+
+    {{ include('admin/group_skill/_delete_form.html.twig') }}
+{% endblock %}

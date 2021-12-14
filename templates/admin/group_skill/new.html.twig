@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New GroupSkil{% endblock %}
+
+{% block body %}
+    <h1>Create new GroupSkil</h1>
+
+    {{ include('admin/group_skill/_form.html.twig') }}
+
+    <a href="{{ path('admin_group_skill_index') }}">back to list</a>
+{% endblock %}

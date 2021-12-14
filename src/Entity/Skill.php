@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use App\Repository\SkillRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SkillRepository::class)
@@ -20,43 +18,14 @@ class Skill
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\NotBlank(message="Ce champs est obligatoire !")
-     * @Groups({"skill:read"})
+     * @ORM\Column(type="string", length=30)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
-     * @Assert\NotBlank(message="Ce champs est obligatoire !")
-     * @Groups({"skill:read"})
+     * @ORM\ManyToOne(targetEntity=GroupSkil::class, inversedBy="skills")
      */
-    private $icon;
-
-    /**
-     * @ORM\Column(type="string", length=30, nullable=true)
-     * @Assert\NotBlank(message="Ce champs est obligatoire !")
-     * @Groups({"skill:read"})
-     */
-    private $color;
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     * @Groups({"skill:read"})
-     */
-    private $skills = [];
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Groups({"skill:read"})
-     */
-    private $created_at;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"skill:read"})
-     */
-    private $updated_at;
+    private $groupSkill;
 
     public function getId(): ?int
     {
@@ -68,69 +37,21 @@ class Skill
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getIcon(): ?string
+    public function getGroupSkill(): ?GroupSkil
     {
-        return $this->icon;
+        return $this->groupSkill;
     }
 
-    public function setIcon(?string $icon): self
+    public function setGroupSkill(?GroupSkil $groupSkill): self
     {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
-    public function getColor(): ?string
-    {
-        return $this->color;
-    }
-
-    public function setColor(?string $color): self
-    {
-        $this->color = $color;
-
-        return $this;
-    }
-
-    public function getSkills(): ?array
-    {
-        return $this->skills;
-    }
-
-    public function setSkills(?array $skills): self
-    {
-        $this->skills = $skills;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
-    {
-        $this->updated_at = $updated_at;
+        $this->groupSkill = $groupSkill;
 
         return $this;
     }
