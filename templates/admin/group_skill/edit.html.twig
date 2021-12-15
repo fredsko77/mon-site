@@ -1,13 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/layout.html.twig' %}
 
-{% block title %}Edit GroupSkil{% endblock %}
+{% block title %}Edit GroupSkill{% endblock %}
 
-{% block body %}
-    <h1>Edit GroupSkil</h1>
+{% block main %}
+    <h1>Edit GroupSkill</h1>
 
-    {{ include('admin/group_skill/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin/group_skill/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('admin_group_skill_index') }}">back to list</a>
+    <a href="{{ path('admin_group_skill_list') }}">back to list</a>
 
     {{ include('admin/group_skill/_delete_form.html.twig') }}
 {% endblock %}

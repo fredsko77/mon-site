@@ -2,80 +2,115 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\GroupSkil;
-use App\Form\GroupSkilType;
-use App\Repository\GroupSkilRepository;
+use App\Entity\GroupSkill;
+use App\Form\GroupSkillType;
+use App\Repository\GroupSkillRepository;
+use App\Services\Admin\SkillServices;
+use App\Services\Admin\SkillServicesInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/group/skill')]
+/**
+ * @Route(
+ *  "/admin/group/skill",
+ *  name="admin_group_skill_"
+ * )
+ **/
 class GroupSkillController extends AbstractController
 {
-    #[Route('/', name: 'admin_group_skill_index', methods: ['GET'])]
-    public function index(GroupSkilRepository $groupSkilRepository): Response
+
+    /**
+     * @var SkillServicesInterface $service
+     */
+    private $service;
+
+    public function __construct(SkillServicesInterface $service)
+    {
+        $this->service = $service;
+    }
+
+    /**
+     * @Route(
+     *  "",
+     *  name="list",
+     *  methods={"GET"}
+     * )
+     **/
+    public function index(GroupSkillRepository $groupSkillRepository): Response
     {
         return $this->render('admin/group_skill/index.html.twig', [
-            'group_skils' => $groupSkilRepository->findAll(),
+            'group_skils' => $groupSkillRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'admin_group_skill_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    /**
+     * @Route(
+     *  "/create",
+     *  name="new",
+     *  methods={"GET", "POST"}
+     * )
+     **/
+    public function create(Request $request): Response
     {
-        $groupSkil = new GroupSkil();
-        $form = $this->createForm(GroupSkilType::class, $groupSkil);
+        $groupSkill = new GroupSkill();
+        $form = $this->createForm(GroupSkillType::class, $groupSkill);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($groupSkil);
-            $entityManager->flush();
+            $this->service->store($groupSkill);
 
-            return $this->redirectToRoute('admin_group_skill_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_group_skill_list', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/group_skill/new.html.twig', [
-            'group_skil' => $groupSkil,
+            'group_skil' => $groupSkill,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_group_skill_show', methods: ['GET'])]
-    public function show(GroupSkil $groupSkil): Response
+    /**
+     * @Route(
+     *  "/{id}/edit",
+     *  name="edit",
+     *  methods={"GET", "POST"},
+     *  requirements={"id":"\d+"}
+     * )
+     **/
+    public function edit(Request $request, GroupSkill $groupSkill, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('admin/group_skill/show.html.twig', [
-            'group_skil' => $groupSkil,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'admin_group_skill_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, GroupSkil $groupSkil, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(GroupSkilType::class, $groupSkil);
+        $form = $this->createForm(GroupSkillType::class, $groupSkill);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->service->store($groupSkill);
 
-            return $this->redirectToRoute('admin_group_skill_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_group_skill_list', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/group_skill/edit.html.twig', [
-            'group_skil' => $groupSkil,
+            'group_skil' => $groupSkill,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_group_skill_delete', methods: ['POST'])]
-    public function delete(Request $request, GroupSkil $groupSkil, EntityManagerInterface $entityManager): Response
+    /**
+     * @Route(
+     *  "/{id}",
+     *  name="delete",
+     *  methods={"POST"},
+     *  requirements={"id"="\d+"}
+     * )
+     **/
+    public function delete(Request $request, GroupSkill $groupSkill, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$groupSkil->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($groupSkil);
+        if ($this->isCsrfTokenValid('delete' . $groupSkill->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($groupSkill);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_group_skill_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_group_skill_list', [], Response::HTTP_SEE_OTHER);
     }
 }

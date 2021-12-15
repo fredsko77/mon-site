@@ -2,15 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\GroupSkilRepository;
+use App\Repository\GroupSkillRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=GroupSkilRepository::class)
+ * @ORM\Entity(repositoryClass=GroupSkillRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Ce nom est déjà pris !")
  */
-class GroupSkil
+class GroupSkill
 {
     /**
      * @ORM\Id
@@ -21,16 +25,20 @@ class GroupSkil
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Ce champs est obligatoire !")
+     * @Assert\Length(min=2,minMessage="Le nom dot comporter au moins 2 caractères !")
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, nullable=true)
+     * @Assert\NotBlank(allowNull=true)
      */
     private $icon;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
+     * @Assert\NotBlank(message="Vous devez selectionner une couleur !")
      */
     private $color;
 
@@ -117,19 +125,19 @@ class GroupSkil
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface$createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -165,4 +173,19 @@ class GroupSkil
 
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public static function listColor(): array
+    {
+        return [
+            'primary' => 'primary',
+            'success' => 'success',
+            'warning' => 'warning',
+            'info' => 'info',
+            'danger' => 'danger',
+        ];
+    }
+
 }

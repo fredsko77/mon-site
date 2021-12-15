@@ -23,7 +23,7 @@ class Skill
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=GroupSkil::class, inversedBy="skills")
+     * @ORM\ManyToOne(targetEntity=GroupSkill::class, inversedBy="skills")
      */
     private $groupSkill;
 
@@ -44,12 +44,12 @@ class Skill
         return $this;
     }
 
-    public function getGroupSkill(): ?GroupSkil
+    public function getGroupSkill(): ?GroupSkill
     {
         return $this->groupSkill;
     }
 
-    public function setGroupSkill(?GroupSkil $groupSkill): self
+    public function setGroupSkill(?GroupSkill $groupSkill): self
     {
         $this->groupSkill = $groupSkill;
 

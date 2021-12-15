@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/layout.html.twig' %}
 
-{% block title %}GroupSkil index{% endblock %}
+{% block title %}GroupSkill index{% endblock %}
 
-{% block body %}
-    <h1>GroupSkil index</h1>
+{% block main %}
+    <h1>GroupSkill index</h1>
 
     <table class="table">
         <thead>
@@ -12,25 +12,26 @@
                 <th>Name</th>
                 <th>Icon</th>
                 <th>Color</th>
-                <th>Description</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for group_skil in group_skils %}
+        {% for group_skill in group_skils %}
             <tr>
-                <td>{{ group_skil.id }}</td>
-                <td>{{ group_skil.name }}</td>
-                <td>{{ group_skil.icon }}</td>
-                <td>{{ group_skil.color }}</td>
-                <td>{{ group_skil.description }}</td>
-                <td>{{ group_skil.createdAt ? group_skil.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ group_skil.updatedAt ? group_skil.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ group_skill.id }}</td>
+                <td>{{ group_skill.name }}</td>
                 <td>
-                    <a href="{{ path('admin_group_skill_show', {'id': group_skil.id}) }}">show</a>
-                    <a href="{{ path('admin_group_skill_edit', {'id': group_skil.id}) }}">edit</a>
+                    {% if group_skill.icon != null %}
+                        <i class="bi bi-{{ group_skill.icon }}"></i>
+                    {% else %}
+                        Aucune icône    
+                    {% endif %}
+                </td>
+                <td>{{ group_skill.color }}</td>
+                {# <td>{{ group_skill.createdAt ? group_skill.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ group_skill.updatedAt ? group_skill.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
+                <td>
+                    <a href="{{ path('admin_group_skill_edit', {'id': group_skill.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +42,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_group_skill_new') }}">Create new</a>
+    <a class="btn btn-crm" href="{{ path('admin_group_skill_new') }}">Create new</a>
 {% endblock %}

@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Admin;
 
-use App\Entity\Skill;
+use App\Entity\GroupSkill;
 use Symfony\Component\HttpFoundation\Request;
 
 interface SkillServicesInterface
@@ -14,29 +14,14 @@ interface SkillServicesInterface
 
     /**
      * @param Request $request
-     * @param Skill $skill
+     * @param GroupSkill $groupSkill
+     */
+    public function store(GroupSkill $groupSkill);
+
+    /**
+     * @param GroupSkill $groupSkill
      *
      * @return object
      */
-    public function create(Request $request): object;
-
-    /**
-     * @return array
-     */
-    public function edit(Skill $skill): array;
-
-    /**
-     * @param Request $request
-     * @param Skill $skill
-     *
-     * @return object
-     */
-    public function store(Request $request, Skill $skill): object;
-
-    /**
-     * @param Skill $skill
-     *
-     * @return object
-     */
-    public function delete(Skill $skill): object;
+    public function delete(GroupSkill $groupSkill): object;
 }
