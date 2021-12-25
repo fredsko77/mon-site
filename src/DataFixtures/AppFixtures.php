@@ -2,8 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\GroupSkill;
+use App\Entity\Skill;
 use App\Entity\Stack;
 use App\Entity\User;
+use App\Utils\ServicesTrait;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -11,6 +14,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+
+    use ServicesTrait;
 
     /**
      * @var UserPasswordHasherInterface $hasher
@@ -25,6 +30,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
 
+        // Stack
         $stacks = [
             'PHP',
             'JavaScript',
@@ -49,6 +55,46 @@ class AppFixtures extends Fixture
             $stack->setName($s);
 
             $manager->persist($stack);
+        }
+
+        // GroupSkill
+        $groupskills = [
+            0 => [
+                'name' => 'Front-end',
+                'icon' => 'display',
+                'color' => 'warning',
+                'skills' => ['Html/Twig', 'Css/Bootstrap', 'Javascript/jQuery', 'VueJs'],
+            ],
+            1 => [
+                'name' => 'Back-end',
+                'icon' => 'cpu',
+                'color' => 'crm',
+                'skills' => ['PHP/POO/MVC', 'SQL/MySql', 'Slim Framework/Laravel', 'Zend Framework/Symfony', 'Ajax/Node'],
+            ],
+            2 => [
+                'name' => 'Extra',
+                'icon' => 'plus-square',
+                'color' => 'success',
+                'skills' => ['SEO', 'Gitlab', 'Composer', 'Debian 9'],
+            ],
+        ];
+
+        foreach ($groupskills as $k => $group) {
+            $groupskill = new GroupSkill;
+            $groupskill->setName($group['name'])
+                ->setIcon($group['icon'])
+                ->setColor($group['color'])
+                ->setCreatedAt($this->now())
+            ;
+
+            foreach ($group['skills'] as $k => $v) {
+                $skill = new Skill;
+                $skill->setName($v);
+
+                $groupskill->addSkill($skill);
+            }
+
+            $manager->persist($groupskill);
         }
 
         $admin = new User;
