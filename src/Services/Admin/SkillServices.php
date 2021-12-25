@@ -7,6 +7,7 @@ use App\Services\Admin\SkillServicesInterface;
 use App\Utils\ServicesTrait;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -58,9 +59,9 @@ class SkillServices implements SkillServicesInterface
      * @param Request $request
      * @param GroupSkill $GroupSkill
      */
-    public function store(GroupSkill $groupSkill)
+    public function store(GroupSkill $groupSkill, FormInterface $form)
     {
-        $groupSkill->getId() ? $groupSkill->setCreatedAt(new DateTime) : $groupSkill->setUpdatedAt(new DateTime);
+        $groupSkill->getId() === null ? $groupSkill->setCreatedAt(new DateTime) : $groupSkill->setUpdatedAt(new DateTime);
 
         $this->manager->persist($groupSkill);
         $this->manager->flush();

@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\GroupSkill;
-use App\Form\GroupSkillType;
+use App\Form\Admin\GroupSkillType;
 use App\Repository\GroupSkillRepository;
 use App\Services\Admin\SkillServices;
 use App\Services\Admin\SkillServicesInterface;
@@ -60,7 +60,7 @@ class GroupSkillController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->service->store($groupSkill);
+            $this->service->store($groupSkill, $form);
 
             return $this->redirectToRoute('admin_group_skill_list', [], Response::HTTP_SEE_OTHER);
         }
@@ -85,7 +85,7 @@ class GroupSkillController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->service->store($groupSkill);
+            $this->service->store($groupSkill, $form);
 
             return $this->redirectToRoute('admin_group_skill_list', [], Response::HTTP_SEE_OTHER);
         }

@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 use App\Entity\GroupSkill;
+use App\Form\SkillType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,6 +31,15 @@ class GroupSkillType extends AbstractType
             ->add('description', CKEditorType::class, [
                 'label' => 'Description',
                 'required' => false,
+            ])
+            ->add('skills', CollectionType::class, [
+                'label' => 'Compétences',
+                'entry_type' => SkillType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'entry_options' => ['label' => false],
+                'by_reference' => false,
             ])
         ;
     }

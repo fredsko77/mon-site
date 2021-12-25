@@ -1,4 +1,38 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+    {{ form_row(form.name) }}
+    
+    {{ form_row(form.icon) }}
+
+    {{ form_row(form.color) }}
+    
+    {{ form_row(form.description) }}
+
+
+    {# store the prototype on the data-prototype attribute #}
+    <div class="group-skill-list">
+        <label for="#" class="form-label">
+            Compétences
+            <span id="add-skill" class="btn" data-list-selector="#skills-field-list"><i class="bi bi-plus-square"></i></span>
+        </label>
+        <div 
+            id="skills-field-list"
+            data-prototype="{{ form_widget(form.skills.vars.prototype)|e('html_attr') }}"
+            data-widget-tags="{{ '<div></div>'|e }}"
+            data-widget-counter="{{ form.skills|length }}"
+        >
+            {% for skill in form.skills %}
+                <div class="row">
+                    <div class="col-11">
+                        {{ form_row(skill) }}
+                    </div>
+                    <div class="col-1">
+                        <span class="btn btn-delete text-danger" onclick="deleteSkill(event)"><i class="bi bi-x-square"></i></span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

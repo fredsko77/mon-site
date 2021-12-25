@@ -58,7 +58,8 @@ class GroupSkill
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Skill::class, mappedBy="groupSkill")
+     * @ORM\OneToMany(targetEntity=Skill::class, mappedBy="groupSkill", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $skills;
 

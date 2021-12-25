@@ -2,7 +2,7 @@
 namespace App\Services\Admin;
 
 use App\Entity\GroupSkill;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormInterface;
 
 interface SkillServicesInterface
 {
@@ -13,10 +13,10 @@ interface SkillServicesInterface
     public function index(): array;
 
     /**
-     * @param Request $request
      * @param GroupSkill $groupSkill
+     * @param FormInterface $form
      */
-    public function store(GroupSkill $groupSkill);
+    public function store(GroupSkill $groupSkill, FormInterface $form);
 
     /**
      * @param GroupSkill $groupSkill
