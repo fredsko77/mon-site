@@ -16,8 +16,8 @@
             </tr>
         </thead>
         <tbody>
-        {% for group_skill in group_skils %}
-            <tr>
+        {% for key, group_skill in group_skils %}
+            <tr data-index="{{ key }}">
                 <td>{{ group_skill.id }}</td>
                 <td>{{ group_skill.name }}</td>
                 <td>
@@ -32,6 +32,13 @@
                 <td>{{ group_skill.updatedAt ? group_skill.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
                 <td>
                     <a href="{{ path('admin_group_skill_edit', {'id': group_skill.id}) }}">edit</a>
+                    <a 
+                        class="btn btn-danger btn-sm" 
+                        id="group_skill_{{ key }}" 
+                        href="{{ path('admin_group_skill_delete', {'id': group_skill.id}) }}"
+                        data-role="delete"
+                        data-skill-index="{{ key }}"
+                    >Supprimer</a>
                 </td>
             </tr>
         {% else %}
@@ -43,4 +50,36 @@
     </table>
 
     <a class="btn btn-crm" href="{{ path('admin_group_skill_new') }}">Create new</a>
+{% endblock %}
+
+{% block js %}
+
+    <script>
+    
+        const deleteButtons = document.querySelectorAll('a[data-role="delete"]');
+
+        deleteButtons.forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const answer = confirm('Êtes-vous sûr de supprimer définivement ce groupe skill ?');
+                const url = button.href;
+                const row = button.closest(`tr[data-index="${button.dataset.skillIndex}"]`);
+
+                if (answer === true) {
+                    axios
+                        .delete(url)
+                        .then(({status, headers}) => {
+                            if (status === 204) {
+                                row.remove();
+                                flash("Groupe skill supprimé ! ", "info")
+                            }
+                        })
+                        .catch(({response}) => console.error(response))
+                }
+            });
+        })
+    
+    </script>
+    
 {% endblock %}

@@ -79,6 +79,9 @@ class SkillServices implements SkillServicesInterface
      */
     public function delete(GroupSkill $groupSkill): object
     {
+        $this->manager->remove($groupSkill);
+        $this->manager->flush();
+
         return $this->sendJson(
             [],
             Response::HTTP_NO_CONTENT,

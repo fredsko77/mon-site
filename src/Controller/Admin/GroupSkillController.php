@@ -4,14 +4,15 @@ namespace App\Controller\Admin;
 
 use App\Entity\GroupSkill;
 use App\Form\Admin\GroupSkillType;
-use App\Repository\GroupSkillRepository;
 use App\Services\Admin\SkillServices;
-use App\Services\Admin\SkillServicesInterface;
+use App\Repository\GroupSkillRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use App\Services\Admin\SkillServicesInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route(
@@ -100,17 +101,17 @@ class GroupSkillController extends AbstractController
      * @Route(
      *  "/{id}",
      *  name="delete",
-     *  methods={"POST"},
+     *  methods={"DELETE"},
      *  requirements={"id"="\d+"}
      * )
      **/
-    public function delete(Request $request, GroupSkill $groupSkill, EntityManagerInterface $entityManager): Response
+    public function delete(GroupSkill $groupSkill): JsonResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $groupSkill->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($groupSkill);
-            $entityManager->flush();
-        }
+        $response = $this->service->delete($groupSkill);
 
-        return $this->redirectToRoute('admin_group_skill_list', [], Response::HTTP_SEE_OTHER);
+        return $this->json(
+            $response->data,
+            $response->status
+        );
     }
 }
