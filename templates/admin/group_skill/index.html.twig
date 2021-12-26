@@ -27,11 +27,15 @@
                         Aucune icône    
                     {% endif %}
                 </td>
-                <td>{{ group_skill.color }}</td>
-                {# <td>{{ group_skill.createdAt ? group_skill.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ group_skill.updatedAt ? group_skill.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
                 <td>
-                    <a href="{{ path('admin_group_skill_edit', {'id': group_skill.id}) }}">edit</a>
+                    <span class="badge badge-{{ group_skill.color }}">{{ group_skill.color }}</span>                  
+                </td>
+                <td>
+                    <a 
+                        class="btn btn-warning btn-sm"
+                        data-role="edit"
+                        href="{{ path('admin_group_skill_edit', {'id': group_skill.id}) }}"
+                    >Modifier</a>
                     <a 
                         class="btn btn-danger btn-sm" 
                         id="group_skill_{{ key }}" 
