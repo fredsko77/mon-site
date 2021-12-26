@@ -23,7 +23,7 @@ class Skill
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=GroupSkill::class, inversedBy="skills", orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity=GroupSkill::class, inversedBy="skills")
      */
     private $groupSkill;
 
