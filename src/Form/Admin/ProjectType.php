@@ -5,13 +5,16 @@ namespace App\Form\Admin;
 use App\Entity\Project;
 use App\Entity\Stack;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProjectType extends AbstractType
 {
@@ -33,7 +36,9 @@ class ProjectType extends AbstractType
                 'expanded' => false,
                 'choices' => Project::states(),
             ])
-            ->add('slug')
+            ->add('slug', TextType::class, [
+                'label' => 'Permalien du projet',
+            ])
             ->add('visibility', ChoiceType::class, [
                 'label' => 'Visibilité du projet',
                 'multiple' => false,
@@ -52,8 +57,27 @@ class ProjectType extends AbstractType
                 'label' => 'Stack du projet',
                 'class' => Stack::class,
                 'choice_label' => 'name',
-                'multiple' => true,
                 'expanded' => true,
+                'multiple' => true,
+            ])
+            ->add('uploadedFile', FileType::class, [
+                'label' => 'Image du contenu',
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+                // make it optional so you don't have to re-upload the image file
+                // every time you edit the Product details
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '20M',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Cette image n\'est pas valide !',
+                    ]),
+                ],
             ])
         ;
     }

@@ -5,7 +5,7 @@
 {% block main %}
     <h1>Create new GroupSkill</h1>
 
-    {{ include('admin/group_skill/_form.html.twig') }}
+    {% include 'admin/group_skill/_form.html.twig' %}
 
     <a href="{{ path('admin_group_skill_list') }}">back to list</a>
 {% endblock %}

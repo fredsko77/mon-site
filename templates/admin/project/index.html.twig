@@ -7,12 +7,10 @@
             Mes projets
         </h1>
         <div class="d-flex justify-content-end">
-            <button 
-                type="button" 
+            <a 
                 class="btn btn-crm btn-sm" 
-                data-bs-toggle="modal" 
-                data-bs-target="#project-modal"
-            >Ajouter un projet</button>
+                href="{{ path('admin_project_new') }}"
+            >Ajouter un projet</a>
         </div>
         <div class="mt-2" id="project-table">
             <table class="table table-hover table-striped align-middle">
@@ -52,10 +50,6 @@
 
     {% include "admin/project/modals/create-project.html.twig" %}
 
-{% endblock %}
-
-{% block js %}
-    <script src="{{ asset('js/admin/project/index.js') }}"></script>
 {% endblock %}
 
 {% block css %}{% endblock %}

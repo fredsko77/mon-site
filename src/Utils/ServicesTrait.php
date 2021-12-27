@@ -30,7 +30,7 @@ trait ServicesTrait
 
     /**
      * now
-     * @return string
+     * @return DateTime
      */
     public function now(): DateTime
     {

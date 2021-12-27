@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -73,11 +75,6 @@ class Project
     private $visibility;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Stack::class)
-     */
-    private $stacks;
-
-    /**
      * @ORM\Column(type="json", nullable=true)
      */
     private $tasks = [];
@@ -86,6 +83,11 @@ class Project
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Stack::class)
+     */
+    private $stacks;
 
     public const STATE_DEVELOPMENT = "en-developpement";
     public const STATE_STABLE = "stable";
@@ -96,6 +98,7 @@ class Project
 
     public function __construct()
     {
+        $this->stacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,18 +225,6 @@ class Project
         ];
     }
 
-    public function getStacks(): ?Stack
-    {
-        return $this->stacks;
-    }
-
-    public function setStacks(?Stack $stacks): self
-    {
-        $this->stacks = $stacks;
-
-        return $this;
-    }
-
     public function getTasks(): ?array
     {
         return $this->tasks;
@@ -254,6 +245,30 @@ class Project
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Stack[]
+     */
+    public function getStacks(): Collection
+    {
+        return $this->stacks;
+    }
+
+    public function addStack(Stack $stack): self
+    {
+        if (!$this->stacks->contains($stack)) {
+            $this->stacks[] = $stack;
+        }
+
+        return $this;
+    }
+
+    public function removeStack(Stack $stack): self
+    {
+        $this->stacks->removeElement($stack);
 
         return $this;
     }

@@ -4,7 +4,6 @@ namespace App\Services\Admin;
 use App\Entity\Content;
 use App\Repository\ContentRepository;
 use App\Services\Admin\ContentServicesInterface;
-use App\Services\Uploader\ContentUploader;
 use App\Utils\ServicesTrait;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,10 +13,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ContentServices implements ContentServicesInterface
 {
@@ -35,21 +31,6 @@ class ContentServices implements ContentServicesInterface
     private $manager;
 
     /**
-     * @var ValidatorInterface $validator
-     */
-    private $validator;
-
-    /**
-     * @var SerializerInterface $serializer
-     */
-    private $serializer;
-
-    /**
-     * @var ContentUploader $uploader
-     */
-    private $uploader;
-
-    /**
      * @var Filesystem $filesystem
      */
     private $filesystem;
@@ -65,11 +46,6 @@ class ContentServices implements ContentServicesInterface
     public $container;
 
     /**
-     * @var UrlGeneratorInterface $router
-     */
-    private $router;
-
-    /**
      * @var Session $session
      */
     private $session;
@@ -77,23 +53,15 @@ class ContentServices implements ContentServicesInterface
     public function __construct(
         Security $security,
         EntityManagerInterface $manager,
-        ValidatorInterface $validator,
-        SerializerInterface $serializer,
-        ContentUploader $uploader,
         Filesystem $filesystem,
         ContentRepository $repository,
         ContainerInterface $container,
-        UrlGeneratorInterface $router,
     ) {
         $this->security = $security;
         $this->manager = $manager;
-        $this->validator = $validator;
-        $this->serializer = $serializer;
-        $this->uploader = $uploader;
         $this->filesystem = $filesystem;
         $this->repository = $repository;
         $this->container = $container;
-        $this->router = $router;
         $this->session = new Session;
     }
 

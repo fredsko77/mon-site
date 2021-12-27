@@ -52,7 +52,14 @@ class ProjectController extends AbstractController
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {}
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->service->store($form, $project);
+
+            return $this->redirectToRoute('admin_project_edit', [
+                $project->getId(),
+            ]);
+        }
 
         return $this->renderForm('admin/project/new.html.twig', [
             'form' => $form,
@@ -67,8 +74,13 @@ class ProjectController extends AbstractController
      *  requirements={"id": "\d+"}
      * )
      */
-    public function edit(Project $project): Response
+    public function edit(Request $request, Project $project): Response
     {
+        $form = $this->createForm(ProjectType::class, $project);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {}
+
         return $this->render("admin/project/edit.html.twig", [
             'project' => $project,
         ]);

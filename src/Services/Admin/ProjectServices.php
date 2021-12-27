@@ -2,11 +2,8 @@
 namespace App\Services\Admin;
 
 use App\Entity\Project;
-use App\Entity\ProjectImage;
-use App\Repository\ProjectImageRepository;
 use App\Repository\ProjectRepository;
 use App\Services\Admin\ProjectServicesInterface;
-use App\Services\Uploader\ProjectUploader;
 use App\Utils\ServicesTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -45,32 +42,18 @@ class ProjectServices implements ProjectServicesInterface
      */
     private $repository;
 
-    /**
-     * @var ProjectUploader $uploader
-     */
-    private $uploader;
-
-    /**
-     * @var ProjectImageRepository $imageRepository
-     */
-    private $imageRepository;
-
     public function __construct(
         EntityManagerInterface $manager,
         SerializerInterface $serializer,
         UrlGeneratorInterface $router,
         ValidatorInterface $validator,
         ProjectRepository $repository,
-        ProjectUploader $uploader,
-        ProjectImageRepository $imageRepository
     ) {
         $this->manager = $manager;
         $this->serializer = $serializer;
         $this->router = $router;
         $this->validator = $validator;
         $this->repository = $repository;
-        $this->uploader = $uploader;
-        $this->imageRepository = $imageRepository;
     }
 
     /**
@@ -85,12 +68,22 @@ class ProjectServices implements ProjectServicesInterface
 
     public function store(FormInterface $form, Project $project)
     {
-        
+
     }
 
     public function delete(Project $project)
     {
-        
+
+    }
+
+    private function deleteImage(Project $project): void
+    {
+        if ($project->getImage() !== null) {
+            $file = $this->container->getParameter('root_directory') . $project->getImage();
+            if ($this->filesystem->exists($file)) {
+                $this->filesystem->remove($file);
+            }
+        }
     }
 
 }

@@ -53,6 +53,7 @@ class ContentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->service->store($form, $content);
+
             $this->addFlash(
                 'info',
                 'Le contenu a été mis à jour'
