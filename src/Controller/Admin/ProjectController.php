@@ -3,8 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Project;
-use App\Entity\ProjectImage;
-use App\Entity\ProjectTask;
+use App\Form\Admin\ProjectType;
 use App\Services\Admin\ProjectServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/project", name="admin_project")
+ * @Route("/admin/project", name="admin_project_")
  */
 class ProjectController extends AbstractController
 {
@@ -31,7 +30,7 @@ class ProjectController extends AbstractController
     /**
      * @Route(
      *  "",
-     *  name="_list",
+     *  name="list",
      *  methods={"GET"}
      * )
      */
@@ -42,9 +41,29 @@ class ProjectController extends AbstractController
 
     /**
      * @Route(
+     *  "/new",
+     *  name="new",
+     *  methods={"POST", "GET"}
+     * )
+     */
+    public function create(Request $request): Response
+    {
+        $project = new Project;
+        $form = $this->createForm(ProjectType::class, $project);
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {}
+
+        return $this->renderForm('admin/project/new.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route(
      *  "/{id}/edit",
-     *  name="_edit",
-     *  methods={"GET"},
+     *  name="edit",
+     *  methods={"GET", "POST"},
      *  requirements={"id": "\d+"}
      * )
      */
@@ -58,7 +77,7 @@ class ProjectController extends AbstractController
     /**
      * @Route(
      *  "/{id}",
-     *  name="_delete",
+     *  name="delete",
      *  methods={"DELETE"},
      *  requirements={"id": "\d+"}
      * )
@@ -71,164 +90,6 @@ class ProjectController extends AbstractController
             $response->data,
             $response->status,
             $response->headers
-        );
-    }
-
-    /**
-     * @Route(
-     *  "/{id}/edit",
-     *  name="_store",
-     *  methods={"PUT"},
-     *  requirements={"id": "\d+"}
-     * )
-     */
-    public function store(Request $request, Project $project): JsonResponse
-    {
-        $response = $this->service->store($request, $project);
-
-        return $this->json(
-            $response->data,
-            $response->status,
-            $response->headers,
-            ['groups' => 'project:read']
-        );
-    }
-
-    /**
-     * @Route(
-     *  "",
-     *  name="_new",
-     *  methods={"POST"}
-     * )
-     */
-    public function create(Request $request)
-    {
-        $response = $this->service->create($request);
-
-        return $this->json(
-            $response->data,
-            $response->status,
-            $response->headers,
-            ['groups' => 'project:read']
-        );
-    }
-
-    /**
-     * @Route(
-     *  "/{id}/task",
-     *  name="_task_new",
-     *  methods={"POST"},
-     *  requirements={"id": "\d+"}
-     * )
-     */
-    public function createTask(Project $project, Request $request): JsonResponse
-    {
-        $response = $this->service->createTask($project, $request);
-
-        return $this->json(
-            $response->data,
-            $response->status,
-            $response->headers,
-            ['groups' => 'task:read']
-        );
-    }
-
-    /**
-     * @Route(
-     *  "/{id}/task",
-     *  name="_task_edit",
-     *  methods={"PUT"},
-     *  requirements={"id": "\d+"}
-     * )
-     */
-    public function editTask(ProjectTask $task, Request $request): JsonResponse
-    {
-        $response = $this->service->editTask($task, $request);
-
-        return $this->json(
-            $response->data,
-            $response->status,
-            $response->headers,
-            ['groups' => 'task:read']
-        );
-    }
-
-    /**
-     * @Route(
-     *  "/{id}/task",
-     *  name="_task_delete",
-     *  methods={"DELETE"},
-     *  requirements={"id": "\d+"}
-     * )
-     */
-    public function deleteTask(ProjectTask $task): JsonResponse
-    {
-        $response = $this->service->deleteTask($task);
-
-        return $this->json(
-            $response->data,
-            $response->status,
-            $response->headers
-        );
-    }
-
-    /**
-     * @Route(
-     *  "/{id}/image",
-     *  name="_image_new",
-     *  methods={"POST"},
-     *  requirements={"id": "\d+"}
-     * )
-     */
-    public function createImage(Project $project, Request $request): JsonResponse
-    {
-        $response = $this->service->createImage($project, $request);
-
-        return $this->json(
-            $response->data,
-            $response->status,
-            $response->headers,
-            ['groups' => 'image:read']
-        );
-    }
-
-    /**
-     * @Route(
-     *  "/{id}/image/edit",
-     *  name="_image_edit",
-     *  methods={"POST"},
-     *  requirements={"id": "\d+"}
-     * )
-     */
-    public function editImage(ProjectImage $image, Request $request): JsonResponse
-    {
-        $response = $this->service->editImage($image, $request);
-
-        return $this->json(
-            $response->data,
-            $response->status,
-            $response->headers,
-            ['groups' => 'image:read']
-        );
-    }
-
-    /**
-     * @Route(
-     *  "/{id}/image",
-     *  name="_image_delete",
-     *  methods={"DELETE"},
-     *  requirements={"id": "\d+"}
-     * )
-     */
-    public function deleteImage(ProjectImage $project): JsonResponse
-    {
-        $response = $this->service->deleteImage($project);
-
-        return $this->json(
-            $response->data,
-            $response->status,
-            $response->headers,
-            ['groups' => 'image:read']
         );
     }
 

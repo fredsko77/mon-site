@@ -73,9 +73,19 @@ class Project
     private $visibility;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Stack::class)
+     */
+    private $stacks;
+
+    /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private $stack = [];
+    private $tasks = [];
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
 
     public const STATE_DEVELOPMENT = "en-developpement";
     public const STATE_STABLE = "stable";
@@ -212,14 +222,38 @@ class Project
         ];
     }
 
-    public function getStack(): ?array
+    public function getStacks(): ?Stack
     {
-        return $this->stack;
+        return $this->stacks;
     }
 
-    public function setStack(?array $stack): self
+    public function setStacks(?Stack $stacks): self
     {
-        $this->stack = $stack;
+        $this->stacks = $stacks;
+
+        return $this;
+    }
+
+    public function getTasks(): ?array
+    {
+        return $this->tasks;
+    }
+
+    public function setTasks(?array $tasks): self
+    {
+        $this->tasks = $tasks;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
