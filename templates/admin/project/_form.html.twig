@@ -1,3 +1,46 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+    {{ form_row(form.name) }}
+    
+    {{ form_row(form.link) }}
+    
+    {{ form_row(form.slug) }}
+
+    {{ form_row(form.description) }}
+
+    {{ form_row(form.state) }}
+
+    {{ form_row(form.uploadedFile) }}
+
+    {{ form_row(form.visibility) }}
+
+    {{ form_row(form.stacks) }}
+
+    {# store the prototype on the data-prototype attribute #}
+    <div class="group-task-list mb-3">
+        <label for="#" class="form-label">
+            Les tâches
+            <span id="add-task" class="btn" data-list-selector="#tasks-field-list"><i class="bi bi-plus-square"></i></span>
+        </label>
+        <div 
+            id="tasks-field-list"
+            data-prototype="{{ form_widget(form.tasks.vars.prototype)|e('html_attr') }}"
+            data-widget-tags="{{ '<div></div>'|e }}"
+            data-widget-counter="{{ form.tasks|length }}"
+        >
+            {% for task in form.tasks %}
+                <div class="row">
+                    <div class="col-11">
+                        {{ form_row(task) }}
+                    </div>
+                    <div class="col-1">
+                        <span class="btn btn-delete text-danger" onclick="deleteTask(event)"><i class="bi bi-x-square"></i></span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+
 {{ form_end(form) }}

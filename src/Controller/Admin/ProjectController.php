@@ -57,7 +57,7 @@ class ProjectController extends AbstractController
             $this->service->store($form, $project);
 
             return $this->redirectToRoute('admin_project_edit', [
-                $project->getId(),
+                'id' => $project->getId(),
             ]);
         }
 

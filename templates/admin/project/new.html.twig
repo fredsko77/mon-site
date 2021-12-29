@@ -3,7 +3,12 @@
 {% block main %}
     <h1>Ajouter un projet</h1>
 
-    {% include "admin/project/_form.html.twig" %}
+    {% include "admin/project/_form.html.twig" with {button_label:"Enregistrer"} %}
 
+{% endblock %}
+
+{% block js %}
+
+    <script src="{{ asset('js/admin/project/collection-type.js') }}"></script>
 
 {% endblock %}

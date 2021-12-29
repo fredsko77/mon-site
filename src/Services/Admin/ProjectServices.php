@@ -6,7 +6,11 @@ use App\Repository\ProjectRepository;
 use App\Services\Admin\ProjectServicesInterface;
 use App\Utils\ServicesTrait;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -42,18 +46,36 @@ class ProjectServices implements ProjectServicesInterface
      */
     private $repository;
 
+    /**
+     * @var Filesystem $filesystem
+     */
+    private $filesystem;
+
+    /**
+     * @var ContainerInterface $container
+     */
+    private $container;
+
+    /**
+     * @var Session $session
+     */
+    private $session;
+
     public function __construct(
         EntityManagerInterface $manager,
         SerializerInterface $serializer,
         UrlGeneratorInterface $router,
-        ValidatorInterface $validator,
         ProjectRepository $repository,
+        ContainerInterface $container,
+        Filesystem $filesystem,
     ) {
         $this->manager = $manager;
         $this->serializer = $serializer;
         $this->router = $router;
-        $this->validator = $validator;
         $this->repository = $repository;
+        $this->container = $container;
+        $this->filesystem = $filesystem;
+        $this->session = new Session;
     }
 
     /**
@@ -68,7 +90,29 @@ class ProjectServices implements ProjectServicesInterface
 
     public function store(FormInterface $form, Project $project)
     {
+        $image = $form->get('uploadedFile')->getData();
+        $project->getId() !== null ? $project->setUpdatedAt($this->now()) : $project->setCreatedAt($this->now());
 
+        if ($image instanceof UploadedFile) {
+            $filename = md5(uniqid()) . '.' . $image->guessExtension();
+
+            $image->move(
+                $this->container->getParameter('project_directory'),
+                $filename
+            );
+
+            $project->setImage('/uploads/project/' . $filename);
+
+            $this->deleteImage($project);
+
+            $this->session->getFlashBag()->add(
+                'info',
+                'Le contenu a été mis à jour'
+            );
+        }
+
+        $this->manager->persist($project);
+        $this->manager->flush();
     }
 
     public function delete(Project $project)
