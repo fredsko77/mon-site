@@ -79,9 +79,16 @@ class ProjectController extends AbstractController
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {}
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->service->store($form, $project);
 
-        return $this->render("admin/project/edit.html.twig", [
+            return $this->redirectToRoute('admin_project_edit', [
+                'id' => $project->getId(),
+            ]);
+        }
+
+        return $this->renderForm("admin/project/edit.html.twig", [
+            'form' => $form,
             'project' => $project,
         ]);
     }

@@ -94,6 +94,7 @@ class ProjectServices implements ProjectServicesInterface
         $project->getId() !== null ? $project->setUpdatedAt($this->now()) : $project->setCreatedAt($this->now());
 
         if ($image instanceof UploadedFile) {
+
             $filename = md5(uniqid()) . '.' . $image->guessExtension();
 
             $image->move(
@@ -101,9 +102,9 @@ class ProjectServices implements ProjectServicesInterface
                 $filename
             );
 
-            $project->setImage('/uploads/project/' . $filename);
-
             $this->deleteImage($project);
+
+            $project->setImage('/uploads/project/' . $filename);
 
             $this->session->getFlashBag()->add(
                 'info',
