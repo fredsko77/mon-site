@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -118,7 +119,15 @@ class ProjectServices implements ProjectServicesInterface
 
     public function delete(Project $project)
     {
+        $this->deleteImage($project);
 
+        $this->manager->remove($project);
+        $this->manager->flush();
+
+        return $this->sendJson(
+            [],
+            Response::HTTP_NO_CONTENT
+        );
     }
 
     private function deleteImage(Project $project): void
