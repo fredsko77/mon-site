@@ -38,6 +38,7 @@ class ProjectType extends AbstractType
             ])
             ->add('slug', TextType::class, [
                 'label' => 'Permalien du projet',
+                'required' => false,
             ])
             ->add('visibility', ChoiceType::class, [
                 'label' => 'Visibilité du projet',

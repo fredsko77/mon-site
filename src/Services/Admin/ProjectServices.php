@@ -5,6 +5,7 @@ use App\Entity\Project;
 use App\Repository\ProjectRepository;
 use App\Services\Admin\ProjectServicesInterface;
 use App\Utils\ServicesTrait;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -62,6 +63,11 @@ class ProjectServices implements ProjectServicesInterface
      */
     private $session;
 
+    /**
+     * @var Slugify $slugger
+     */
+    private $slugger;
+
     public function __construct(
         EntityManagerInterface $manager,
         SerializerInterface $serializer,
@@ -77,6 +83,7 @@ class ProjectServices implements ProjectServicesInterface
         $this->container = $container;
         $this->filesystem = $filesystem;
         $this->session = new Session;
+        $this->slugger = new Slugify;
     }
 
     /**
@@ -93,6 +100,13 @@ class ProjectServices implements ProjectServicesInterface
     {
         $image = $form->get('uploadedFile')->getData();
         $project->getId() !== null ? $project->setUpdatedAt($this->now()) : $project->setCreatedAt($this->now());
+
+        $project->setSlug(
+            $this->slugger->slugify(
+                $project->getSlug() ?? $project->getName(),
+                '-'
+            )
+        );
 
         if ($image instanceof UploadedFile) {
 
