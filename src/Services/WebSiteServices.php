@@ -1,12 +1,13 @@
 <?php
 namespace App\Services;
 
+use App\Repository\GroupSkillRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\SocialRepository;
 use App\Repository\UserRepository;
-use App\Services\DefaultServicesInterface;
+use App\Services\WebSiteServicesInterface;
 
-class DefaultServices implements DefaultServicesInterface
+class WebSiteServices implements WebSiteServicesInterface
 {
 
     /**
@@ -24,23 +25,31 @@ class DefaultServices implements DefaultServicesInterface
      */
     private $socialRepository;
 
+    /**
+     * @var GroupSkillRepository $groupSkillRepository
+     */
+    private $groupSkillRepository;
+
     public function __construct(
         UserRepository $userRepository,
         ProjectRepository $projectRepository,
-        SocialRepository $socialRepository
+        SocialRepository $socialRepository,
+        GroupSkillRepository $groupSkillRepository
     ) {
         $this->userRepository = $userRepository;
         $this->projectRepository = $projectRepository;
         $this->socialRepository = $socialRepository;
+        $this->groupSkillRepository = $groupSkillRepository;
     }
 
     public function index(): array
     {
         $user = $this->userRepository->findOneBy(['email' => 'fagathe77@gmail.com']);
-        $projects = $this->projectRepository->findBy(['visibility' => 'publique']);
+        $projects = $this->projectRepository->findHomePageProjects();
         $socials = $this->socialRepository->findAll();
+        $groupSkills = $this->groupSkillRepository->findAll();
 
-        return compact('user', 'projects', 'socials');
+        return compact('user', 'projects', 'socials', 'groupSkills');
     }
 
 }

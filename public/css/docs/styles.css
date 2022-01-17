@@ -1,3 +1,550 @@
-.navbar {
-    box-shadow: var(--crm-shadow-light);
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+:root {
+    --text-color: #161728;
+    --text-content-color: #25252c;
+    --font-body: 'Quicksand', sans-serif !important;
+    --app-shadow: 0px 2px 4px -1px rgb(0, 0, 0, .09), -1px 2px 4px 0px rgb(0, 0, 0, .05);
+    --app-shadow-light: 0px 2px 8px 0px rgba(99, 99, 99, 0.2);
+    --app-border-radius: .3rem;
+    --app-border: 1px solid #ced4da;
+    --app-primary-text: #212529;
+    --app-secondary-text: #595959;
+    --app-disabled-text: #8C8C8C;
+    --app-outline: #D9D9D9;
+    --app-active: #722ED1;
+    --app-primary: #262626;
+    --app-secondary: #595959;
+    --app-error: #F5222D;
+    --app-warning: #FAAD14;
+    --app-success: #52C41A;
+    --app-purple-hover: #6027b1;
+    --app-purple-900: #22075E;
+    --app-purple-600: #722ED1;
+    --app-purple-300: #D3ADF7;
+    --app-purple-100: #F9F0FF;
+    --app-blue-hover: #007df0;
+    --app-blue-900: #003A8C;
+    --app-blue-600: #1890FF;
+    --app-blue-300: #91D5FF;
+    --app-blue-100: #E6F7FF;
+    --app-cyan-hover: #109E9E;
+    --app-cyan-900: #00474F;
+    --app-cyan-600: #13C2C2;
+    --app-cyan-300: #87E8D8;
+    --app-cyan-100: #E6FFFB;
+    --app-orange-900: #871400;
+    --app-orange-600: #F4541C;
+    --app-orange-300: #FFBB96;
+    --app-orange-100: #FFF2E8;
+    --app-green-hover: #44a115;
+    --app-green-900: #135200;
+    --app-green-600: #52C41A;
+    --app-green-300: #B7EB8F;
+    --app-green-100: #F6FFED;
+    --app-yellow-hover: #E29805;
+    --app-yellow-900: #956403;
+    --app-yellow-600: #FAAD14;
+    --app-yellow-300: #FDE3AE;
+    --app-yellow-100: #FEF7E7;
+    --app-red-hover: #D30A14;
+    --app-red-900: #9a070f;
+    --app-red-600: #F5222D;
+    --app-red-300: #f98086;
+    --app-red-100: #fdcbcd;
+    --app-blue: #00c3da;
+    --app-blue-hover: #00c3dade;
+    --app-green: #2fdc9c;
+    --app-green-hover: #2fdc9dde;
 }
+
+html {
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bs-white);
+    color: var(--text-color);
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+}
+
+.no-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+/* Scroll Bar layout */
+
+::-webkit-scrollbar {
+    /* width */
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    /* Track */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    /* Handle */
+    background: #777995;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    /* Handle on hover */
+    background: #71777d;
+}
+
+
+/* Utils */
+
+.hidden {
+    display: none !important;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.separator {
+    padding-bottom: .75rem;
+    border-bottom: 1px solid #c1c6d1;
+    margin-bottom: 1rem;
+}
+
+.cursor-pointer:hover {
+    cursor: pointer;
+}
+
+.link,
+.link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.link {
+    font-weight: 600;
+    display: block;
+}
+
+.error {
+    color: var(--app-error);
+}
+
+
+/* Alert layout */
+
+.alert.alert-success {
+    background-color: var(--app-green-100);
+    border-color: var(--app-green-300);
+}
+
+.alert-success *,
+.alert.alert-success,
+.alert-success .alert-link {
+    color: var(--app-green-900);
+}
+
+.alert-success .alert-link {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.alert.alert-danger {
+    background-color: var(--app-red-100);
+    border-color: var(--app-red-300);
+}
+
+.alert-danger *,
+.alert.alert-danger,
+.alert-danger .alert-link {
+    color: var(--app-red-900);
+}
+
+.alert-danger .alert-link {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.alert.alert-info {
+    background-color: var(--app-cyan-100);
+    border-color: var(--app-cyan-300);
+}
+
+.alert-info *,
+.alert.alert-info,
+.alert-info .alert-link {
+    color: var(--app-cyan-900);
+}
+
+.alert-info .alert-link {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.alert.alert-primary {
+    background-color: var(--app-blue-100);
+    border-color: var(--app-blue-300);
+}
+
+.alert-primary *,
+.alert.alert-primary,
+.alert-primary .alert-link {
+    color: var(--app-blue-900);
+}
+
+.alert-primary .alert-link {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.alert.alert-warning {
+    background-color: var(--app-yellow-100);
+    border-color: var(--app-yellow-300);
+}
+
+.alert-warning *,
+.alert.alert-warning,
+.alert-warning .alert-link {
+    color: var(--app-yellow-900);
+}
+
+.alert-warning .alert-link {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.alert.alert-crm {
+    background-color: var(--app-purple-100);
+    border-color: var(--app-purple-300);
+}
+
+.alert-crm *,
+.alert.alert-crm,
+.alert-crm .alert-link {
+    color: var(--app-purple-900);
+}
+
+.alert-crm .alert-link {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+
+/* Background Color */
+
+.bg-blue {
+    background-color: var(--app-blue) !important;
+}
+
+.bg-green {
+    background-color: var(--app-green) !important;
+}
+
+.bg-success {
+    background-color: var(--app-green-600) !important;
+}
+
+.bg-success-light {
+    background-color: var(--app-green-100) !important;
+}
+
+.bg-danger {
+    background-color: var(--app-red-600) !important;
+}
+
+.bg-danger-light {
+    background-color: var(--app-red-100) !important;
+}
+
+.bg-warning {
+    background-color: var(--app-yellow-600) !important;
+}
+
+.bg-warning-light {
+    background-color: var(--app-yellow-100) !important;
+}
+
+.bg-info {
+    background-color: var(--app-cyan-600) !important;
+}
+
+.bg-info-light {
+    background-color: var(--app-cyan-100) !important;
+}
+
+.bg-crm {
+    background-color: var(--app-purple-600) !important;
+}
+
+.bg-crm-light {
+    background-color: var(--app-purple-100) !important;
+}
+
+.bg-primary {
+    background-color: var(--app-blue-600) !important;
+}
+
+.bg-primary-light {
+    background-color: var(--app-blue-100) !important;
+}
+
+
+/* Badge colors */
+
+.badge {
+    font-weight: 600;
+    padding: .4rem .65rem;
+    border-width: 1px;
+    border-style: solid;
+    color: var(--app-primary);
+    border-color: var(--app-primary);
+    background-color: #d3d3d4;
+    border-radius: var(--app-border-radius);
+    font-size: .75rem;
+}
+
+.badge.badge-primary {
+    border-color: var(--app-blue-600);
+    color: var(--app-blue-600);
+    background-color: var(--app-blue-100);
+}
+
+.badge.badge-info {
+    border-color: var(--app-cyan-600);
+    color: var(--app-cyan-600);
+    background-color: var(--app-cyan-100);
+}
+
+.badge.badge-warning {
+    border-color: var(--app-yellow-600);
+    color: var(--app-yellow-600);
+    background-color: var(--app-yellow-100);
+}
+
+.badge.badge-success {
+    border-color: var(--app-green-600);
+    color: var(--app-green-600);
+    background-color: var(--app-green-100);
+}
+
+.badge.badge-danger {
+    border-color: var(--app-red-600);
+    color: var(--app-red-600);
+    background-color: var(--app-red-100);
+}
+
+.badge.badge-crm {
+    border-color: var(--app-purple-600);
+    color: var(--app-purple-600);
+    background-color: var(--app-purple-100);
+}
+
+
+/* Buttons layout */
+
+.btn {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.btn.btn-link,
+.btn.btn-link:hover,
+.btn.btn.btn-transparent,
+.btn.btn.btn-transparent:hover {
+    box-shadow: none !important;
+}
+
+.btn:hover {
+    box-shadow: 1px 2px 6px 0 rgb(0, 0, 0, .14), 0 3px 1px -2px rgb(0, 0, 0, .12), 0 1px 6px 0 rgb(0, 0, 0, .2) !important;
+}
+
+.btn.btn-transparent {
+    border-color: var(--app-secondary-text);
+}
+
+.btn.btn-primary,
+.btn.btn-primary:hover,
+.btn.btn-info,
+.btn.btn-info:hover,
+.btn.btn-success,
+.btn.btn-success:hover,
+.btn.btn-danger,
+.btn.btn-danger:hover,
+.btn.btn-crm,
+.btn.btn-crm:hover,
+.btn.btn-warning,
+.btn.btn-warning:hover,
+[class^="btn btn-outline"]:hover {
+    color: var(--bs-white);
+}
+
+.btn.btn-crm {
+    background-color: var(--app-purple-600);
+    border-color: var(--app-purple-600);
+}
+
+.btn.btn-crm:hover {
+    background-color: var(--app-purple-hover);
+    border-color: var(--app-purple-hover);
+}
+
+.btn.btn.btn-outline-crm {
+    border-color: var(--app-purple-600);
+    color: var(--app-purple-600);
+}
+
+.btn.btn-outline-crm:hover {
+    background-color: var(--app-purple-hover);
+    border-color: var(--app-purple-hover);
+    color: var(--bs-white);
+}
+
+.btn.btn-blue {
+    background-color: var(--app-blue);
+    border-color: var(--app-blue);
+    color: var(--bs-white);
+}
+
+.btn.btn-blue:hover {
+    background-color: var(--app-blue-hover);
+    border-color: var(--app-blue-hover);
+}
+
+.btn.btn.btn-outline-blue {
+    border-color: var(--app-blue);
+    color: var(--app-blue);
+}
+
+.btn.btn-outline-blue:hover {
+    background-color: var(--app-blue-hover);
+    border-color: var(--app-blue-hover);
+    color: var(--bs-white);
+}
+
+.btn.btn-green {
+    background-color: var(--app-green);
+    border-color: var(--app-green);
+    color: var(--bs-white);
+}
+
+.btn.btn-green:hover {
+    background-color: var(--app-green-hover);
+    border-color: var(--app-green-hover);
+}
+
+.btn.btn.btn-outline-green {
+    border-color: var(--app-green);
+    color: var(--app-green);
+}
+
+.btn.btn-outline-green:hover {
+    background-color: var(--app-green-hover);
+    border-color: var(--app-green-hover);
+    color: var(--bs-white);
+}
+
+.btn.btn-round {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-radius: 40px;
+}
+
+.btn.btn-outline-home {
+    border-color: var(--bs-white);
+    color: var(--bs-white);
+}
+
+.btn.btn-outline-home:hover {
+    background-color: var(--app-blue-hover);
+    border-color: var(--app-blue-hover);
+    color: var(--bs-white);
+}
+
+
+/* Global Typograpgy CSS */
+
+p,
+small,
+ul,
+li {
+    color: var(--text-color-content);
+}
+
+.text-underline {
+    text-decoration: underline !important;
+}
+
+.text-blue {
+    color: var(--app-blue);
+}
+
+.text-green {
+    color: var(--app-green);
+}
+
+
+/* Form Layout */
+
+.form-floating>.form-control,
+.form-floating>.form-select {
+    border-radius: 2px;
+}
+
+.form-control.is-valid,
+.was-validated .form-control:valid {
+    border-bottom-color: var(--app-success);
+}
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+    border-bottom-color: var(--app-error);
+}
+
+.form-label {
+    margin-bottom: .25rem;
+}
+
+.form-label.label-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.form-group {
+    margin-bottom: .95rem;
+}
+
+.btn-check:checked+.btn-outline-crm {
+    color: var(--bs-white);
+    background-color: var(--app-purple-600);
+    border-color: var(--app-purple-600);
+}
+
+
+/* fieldset {
+    padding: 1.75rem 1.5rem 1rem;
+    box-shadow: var(--app-shadow-light);
+    border-radius: var(--app-border-radius);
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+legend {
+    display: inline-block;
+    margin-bottom: .6rem;
+    margin-left: 0;
+    font-size: .95rem;
+    z-index: 20;
+    background-color: var(--bs-white);
+    position: absolute;
+    top: -15px;
+    width: auto;
+    padding: .3rem .7rem;
+} */

@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-interface DefaultServicesInterface
+interface WebSiteServicesInterface
 {
 
     public function index(): array;

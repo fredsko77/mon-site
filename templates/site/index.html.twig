@@ -4,7 +4,7 @@
 
 {% block main %}
 
-    {% include "site/sections/masthead.html.twig" %}
+    {% include "site/sections/masthead.html.twig" with {bgImage: bgImage} %}
     {% include "site/sections/about.html.twig" %}
     {% include "site/sections/skills.html.twig" %}
     {% include "site/sections/projects.html.twig" %}

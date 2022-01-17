@@ -1,4 +1,4 @@
-<header class="header d-flex justify-content-center" aria-label="Top navigation bar" id="default-navbar">
+<header class="header d-flex justify-content-center {{ home|default('') }}" aria-label="Top navigation bar" id="default-navbar">
     <section class="container-fluid header-content">
         <a class="navbar-brand link" href="{{ path('app_default') }}">
             <img src="{{ asset('images/logo.png') }}" alt="logo du site" width="75" height="50">
@@ -6,19 +6,19 @@
         <nav class="header-nav mobi-nav" id="navbarMenu" aria-label="Top navigation menu">
             <ul class="header-menu">
                 <li class="menu-item">
-                    <a href="#accueil" class="menu-link">Accueil</a>
+                    <a href="{{ path('app_default') }}" class="menu-link">Accueil</a>
                 </li>
                 <li class="menu-item">
-                    <a href="#a-propos" class="menu-link">À propos</a>
+                    <a href="{{ path('website_project_index') }}" class="menu-link">Mes réalisations</a>
                 </li>
                 <li class="menu-item">
-                    <a href="#competences" class="menu-link">Compétences</a>
+                    <a href="{{ path('website_about') }}" class="menu-link">Qui suis-je ?</a>
                 </li>
                 <li class="menu-item">
-                    <a href="#realisations" class="menu-link">Réalisations</a>
+                    <a href="{{ path('docs_default') }}" class="menu-link">Technique</a>
                 </li>
                 <li class="menu-item">
-                    <a href="#contact" class="menu-link">Contact</a>
+                    <a href="{{ path('website_contact') }}" class="btn btn-primary btn-sm btn-round">Me contacter</a>
                 </li>
             </ul>
         </nav>

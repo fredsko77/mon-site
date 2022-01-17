@@ -1,0 +1,74 @@
+<section class="section" id="realisations">
+    <section class="page-section">
+        <div class="container-fluid container-xl">
+            <div class="section-header">
+                <h3 class="section-title">Mes Réalisations</h3> 
+                <small class="section-subtitle">Les derniers projets sur lesquels j'ai travaillé</small>
+                <hr>
+            </div>
+            <div class="section-content">
+                <div class="row project-list my-5">
+                    <div id="carouselHomePage" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true">
+                        <div class="carousel-indicators">
+                            {% for key, project in projects %}
+                                <button 
+                                type="button" 
+                                data-bs-target="#carouselHomePage" 
+                                data-bs-slide-to="{{ key }}" 
+                                {% if key == 0 %}
+                                    class="active" aria-current="true"
+                                {% endif %} 
+                                aria-label="Projet n°{{ 1 + 1 }}"
+                            ></button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% for key,project in projects %}
+                                <div class="carousel-item {% if key == 0 %}active{% endif %}">
+                                    <div class="carousel-item-image-overlay">
+                                        <img 
+                                            src="{{ asset(project.image) }}" 
+                                            srcset="{{ asset(project.image) }}" 
+                                            class="carousel-item-image" 
+                                            alt="Image du project"
+                                        >
+                                    </div>
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>
+                                                <a 
+                                                    href="{{ path('website_project_show',    { 
+                                                        id: project.id,
+                                                        slug: project.slug
+                                                    }) }}"
+                                                    title="Voir les informations sur le projet"
+                                                    class="link"
+                                                >
+                                                    {{ project.name }}
+                                                </a>
+                                            </h5>
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur voluptatem deserunt voluptatibus magnam, neque possimus delectus ullam sit quisquam earum!</p>
+                                        </div>
+                                </div>                        
+                            {% endfor %}
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselHomePage" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselHomePage" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-end mt-3">
+                        <a 
+                            href="{{ path('website_project_index') }}" 
+                            class="text-underline link" 
+                            title="Lien vers tous les projets"
+                        >Voir tous les projets</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

@@ -1,0 +1,24 @@
+{% include "site/template-parts/navbar.html.twig" with {home: "home"} %}
+<section class="masthead" id="accueil" style="background-image: {{ image }}">
+    <div class="masthead-container">
+        <div class="masthead-body">
+            <div class="masthead-content">
+                <h1 class="masthead-title">Frédérick AGATHE</h1>
+                <h2 class="masthead-subitle mb-5 text-blue">Développeur d'application web php-symfony</h2>
+                <a class="btn btn-primary btn-round" href="#mes-competences">En savoir plus</a>
+            </div>
+        </div>
+        <div class="masthead-footer">
+            <div class="masthead-socials text-dark">
+                {% for social in socials() %}
+                    <a href="{{ social.link }}" class="social-link link" title="{{ social.name }}" rel="noreferrer">
+                        <i class="bi bi-{{ social.icon }}"></i>
+                    </a>  
+                {% endfor %}
+                <a href="{{ path('website_download_resume') }}" title="Lien vers ..." target="_blank" class="social-link link" rel="noreferrer">
+                    <i class="bi bi-download"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

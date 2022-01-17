@@ -3,7 +3,7 @@
 namespace App\Form\Admin;
 
 use App\Entity\GroupSkill;
-use App\Form\SkillType;
+use App\Form\Admin\SkillType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

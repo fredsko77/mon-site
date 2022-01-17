@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% set image = "linear-gradient(to top, rgba(0, 0, 0, .35) 33.33%, rgba(0, 0, 0, .4) 50%, rgba(0, 0, 0, .75) 100%), url(" ~  absolute_url(asset('images/background.jpg')) ~ ")" %} 
+
+{% block body %}
+    <div id="app" class="wrapper">
+        {% include "site/home-sections/masthead.html.twig" with {image: image} %}   
+        <main>  
+            {% include "site/home-sections/skills.html.twig" %}
+            {% include "site/home-sections/projects.html.twig" %}
+            {% include "site/home-sections/contact.html.twig" %}
+        </main>
+        {% include "site/template-parts/footer.html.twig" %}
+    </div>
+
+{% endblock %}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/default/styles.css') }}">
+    {% block css %}{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/default/main.js') }}"></script>
+    {% block js %}{% endblock %}
+{% endblock %}

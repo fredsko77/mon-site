@@ -19,11 +19,15 @@ class SocialType extends AbstractType
                 'required' => true,
             ])
             ->add('link', TextType::class, [
-                'label' => 'Lien vers le profil',
+                'label' => 'Url',
                 'required' => true,
             ])
             ->add('icon', TextType::class, [
                 'label' => 'Icône',
+                'required' => true,
+            ])
+            ->add('title', TextType::class, [
+                'label' => 'Titre du lien',
                 'required' => true,
             ])
             ->add('Enregistrer', SubmitType::class)

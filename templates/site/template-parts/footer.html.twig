@@ -1,9 +1,67 @@
 <footer class="footer">
     <div class="container d-flex flex-column">
-        <div class="socials"></div>
+        <div class="footer-top row g-3">
+            <div class="menu-container col-lg-6 col-md-12 col-12">
+                <p class="h5">Liens sociaux</p>
+                <div class="socials-list">
+                    {% for social in socials() %}
+                        <a 
+                            href="{{ social.link }}" 
+                            class="social-link" 
+                            rel="noreferrer"
+                            title="{{ social.title }}"
+                            target="_blank"
+                        >
+                            <i class="bi bi-{{ social.icon }}"></i>
+                        </a>                        
+                    {% endfor %}
+                </div>
+                <a 
+                    href="{{ path('website_download_resume') }}" 
+                    class="btn btn-primary btn-sm"
+                    title="Télécharger mon CV au format pdf"
+                >Télécharger mon CV</a>
+
+            </div>
+            <div class="menu-container col-lg-3 col-sm-6 col-12">
+                <p class="h5">Plan du site</p>
+                <ul class="menu-footer">
+                    <li class="menu-item">
+                        <a href="{{ path('app_default') }}" class="menu-link">Accueil</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ path('website_project_index') }}" class="menu-link">Mes réalisations</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ path('website_about') }}" class="menu-link">Qui suis-je ?</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ path('docs_default') }}" class="menu-link" target="_blank">Technique</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ path('website_contact') }}" class="text-crm menu-link">Me contacter</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="menu-container col-lg-3 col-sm-6 col-12">
+                <p class="h5">Mentions légales</p>
+                <ul class="menu-footer">
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" title="Lien vers les mentions légales">Mention légales</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" title="Lien vers la politique de confidentialité">Politique de confidentialité</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" title="Lien vers la politique des cookies">Politique des cookies</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr class="mt-4 mb-2">
         <div class="copyright">
-            <p>Frédérick AGATHE &copy; {{ "now"|date('Y') }}</p>
-            <small>Tous droits réservés</small>
+            <p>Tous droits réservés &copy; {{ "now"|date('Y') }}</p>
+            <small>Site développé et designé par Frédérick AGATHE</small>
         </div>
     </div>    
 </footer>

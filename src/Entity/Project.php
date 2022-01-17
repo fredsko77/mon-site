@@ -93,8 +93,8 @@ class Project
     public const STATE_STABLE = "stable";
     public const STATE_ACHIEVED = "termine";
 
-    public const VISIBILITY_PUBLIC = 'publique';
-    public const VISIBILITY_PRIVATE = 'privee';
+    public const VISIBILITY_PUBLIC = 'public';
+    public const VISIBILITY_PRIVATE = 'private';
 
     public function __construct()
     {
@@ -208,9 +208,9 @@ class Project
     public static function states(): array
     {
         return [
-            self::STATE_DEVELOPMENT => 'En développement',
-            self::STATE_STABLE => 'Stable',
-            self::STATE_ACHIEVED => 'Achevé',
+            'En développement' => self::STATE_DEVELOPMENT,
+            'Stable' => self::STATE_STABLE,
+            'Achevé' => self::STATE_ACHIEVED,
         ];
     }
 
@@ -220,8 +220,8 @@ class Project
     public static function visibilities(): array
     {
         return [
-            self::VISIBILITY_PRIVATE => 'Privée',
-            self::VISIBILITY_PUBLIC => 'Publique',
+            'Privée' => self::VISIBILITY_PRIVATE,
+            'Publique' => self::VISIBILITY_PUBLIC,
         ];
     }
 

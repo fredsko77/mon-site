@@ -3,58 +3,59 @@
     --text-color: #161728;
     --text-content-color: #25252c;
     --font-body: 'Quicksand', sans-serif !important;
-    --crm-shadow: 0px 2px 4px -1px rgb(0, 0, 0, .09), -1px 2px 4px 0px rgb(0, 0, 0, .05);
-    --crm-shadow-light: 0px 2px 8px 0px rgba(99, 99, 99, 0.2);
-    --crm-border-radius: .3rem;
-    --crm-border: 1px solid #ced4da;
-    --crm-primary-text: #212529;
-    --crm-secondary-text: #595959;
-    --crm-disabled-text: #8C8C8C;
-    --crm-outline: #D9D9D9;
-    --crm-active: #722ED1;
-    --crm-primary: #262626;
-    --crm-secondary: #595959;
-    --crm-error: #F5222D;
-    --crm-warning: #FAAD14;
-    --crm-success: #52C41A;
-    --crm-purple-hover: #6027b1;
-    --crm-purple-900: #22075E;
-    --crm-purple-600: #722ED1;
-    --crm-purple-300: #D3ADF7;
-    --crm-purple-100: #F9F0FF;
-    --crm-blue-hover: #007df0;
-    --crm-blue-900: #003A8C;
-    --crm-blue-600: #1890FF;
-    --crm-blue-300: #91D5FF;
-    --crm-blue-100: #E6F7FF;
-    --crm-cyan-hover: #109E9E;
-    --crm-cyan-900: #00474F;
-    --crm-cyan-600: #13C2C2;
-    --crm-cyan-300: #87E8D8;
-    --crm-cyan-100: #E6FFFB;
-    --crm-orange-900: #871400;
-    --crm-orange-600: #F4541C;
-    --crm-orange-300: #FFBB96;
-    --crm-orange-100: #FFF2E8;
-    --crm-green-hover: #44a115;
-    --crm-green-900: #135200;
-    --crm-green-600: #52C41A;
-    --crm-green-300: #B7EB8F;
-    --crm-green-100: #F6FFED;
-    --crm-yellow-hover: #E29805;
-    --crm-yellow-900: #956403;
-    --crm-yellow-600: #FAAD14;
-    --crm-yellow-300: #FDE3AE;
-    --crm-yellow-100: #FEF7E7;
-    --crm-red-hover: #D30A14;
-    --crm-red-900: #9a070f;
-    --crm-red-600: #F5222D;
-    --crm-red-300: #f98086;
-    --crm-red-100: #fdcbcd;
-    --app-blue: #00c3da;
-    --app-blue-hover: #00c3dade;
-    --app-green: #2fdc9c;
-    --app-green-hover: #2fdc9dde;
+    --app-shadow: 0px 2px 4px -1px rgb(0, 0, 0, .09), -1px 2px 4px 0px rgb(0, 0, 0, .05);
+    --app-shadow-light: 0px 2px 8px 0px rgba(99, 99, 99, 0.2);
+    --app-border-radius: .3rem;
+    --app-border: 1px solid #ced4da;
+    --app-primary-text: #212529;
+    --app-secondary-text: #595959;
+    --app-disabled-text: #8C8C8C;
+    --app-outline: #D9D9D9;
+    --app-active: #722ED1;
+    --app-primary: #262626;
+    --app-secondary: #595959;
+    --app-error: #F5222D;
+    --app-warning: #FAAD14;
+    --app-success: #52C41A;
+    --app-purple-hover: #6027b1;
+    --app-purple-900: #22075E;
+    --app-purple-600: #722ED1;
+    --app-purple-300: #D3ADF7;
+    --app-purple-100: #F9F0FF;
+    --app-blue-hover: #007df0;
+    --app-blue-900: #003A8C;
+    --app-blue-600: #1890FF;
+    --app-blue-300: #91D5FF;
+    --app-blue-100: #E6F7FF;
+    --app-cyan-hover: #109E9E;
+    --app-cyan-900: #00474F;
+    --app-cyan-600: #13C2C2;
+    --app-cyan-300: #87E8D8;
+    --app-cyan-100: #E6FFFB;
+    --app-orange-900: #871400;
+    --app-orange-600: #F4541C;
+    --app-orange-300: #FFBB96;
+    --app-orange-100: #FFF2E8;
+    --app-green-hover: #44a115;
+    --app-green-900: #135200;
+    --app-green-600: #52C41A;
+    --app-green-300: #B7EB8F;
+    --app-green-100: #F6FFED;
+    --app-yellow-hover: #E29805;
+    --app-yellow-900: #956403;
+    --app-yellow-600: #FAAD14;
+    --app-yellow-300: #FDE3AE;
+    --app-yellow-100: #FEF7E7;
+    --app-red-hover: #D30A14;
+    --app-red-900: #9a070f;
+    --app-red-600: #F5222D;
+    --app-red-300: #f98086;
+    --app-red-100: #fdcbcd;
+    --site-blue: #00c3da;
+    --site-blue-hover: #00c3dade;
+    --site-green: #2fdc9c;
+    --site-green-hover: #2fdc9dde;
+    --site-smoke-white: #f5f5f5;
 }
 
 html {
@@ -134,21 +135,21 @@ body {
 }
 
 .error {
-    color: var(--crm-error);
+    color: var(--app-error);
 }
 
 
 /* Alert layout */
 
 .alert.alert-success {
-    background-color: var(--crm-green-100);
-    border-color: var(--crm-green-300);
+    background-color: var(--app-green-100);
+    border-color: var(--app-green-300);
 }
 
 .alert-success *,
 .alert.alert-success,
 .alert-success .alert-link {
-    color: var(--crm-green-900);
+    color: var(--app-green-900);
 }
 
 .alert-success .alert-link {
@@ -157,14 +158,14 @@ body {
 }
 
 .alert.alert-danger {
-    background-color: var(--crm-red-100);
-    border-color: var(--crm-red-300);
+    background-color: var(--app-red-100);
+    border-color: var(--app-red-300);
 }
 
 .alert-danger *,
 .alert.alert-danger,
 .alert-danger .alert-link {
-    color: var(--crm-red-900);
+    color: var(--app-red-900);
 }
 
 .alert-danger .alert-link {
@@ -173,14 +174,14 @@ body {
 }
 
 .alert.alert-info {
-    background-color: var(--crm-cyan-100);
-    border-color: var(--crm-cyan-300);
+    background-color: var(--app-cyan-100);
+    border-color: var(--app-cyan-300);
 }
 
 .alert-info *,
 .alert.alert-info,
 .alert-info .alert-link {
-    color: var(--crm-cyan-900);
+    color: var(--app-cyan-900);
 }
 
 .alert-info .alert-link {
@@ -189,14 +190,14 @@ body {
 }
 
 .alert.alert-primary {
-    background-color: var(--crm-blue-100);
-    border-color: var(--crm-blue-300);
+    background-color: var(--app-blue-100);
+    border-color: var(--app-blue-300);
 }
 
 .alert-primary *,
 .alert.alert-primary,
 .alert-primary .alert-link {
-    color: var(--crm-blue-900);
+    color: var(--app-blue-900);
 }
 
 .alert-primary .alert-link {
@@ -205,14 +206,14 @@ body {
 }
 
 .alert.alert-warning {
-    background-color: var(--crm-yellow-100);
-    border-color: var(--crm-yellow-300);
+    background-color: var(--app-yellow-100);
+    border-color: var(--app-yellow-300);
 }
 
 .alert-warning *,
 .alert.alert-warning,
 .alert-warning .alert-link {
-    color: var(--crm-yellow-900);
+    color: var(--app-yellow-900);
 }
 
 .alert-warning .alert-link {
@@ -221,14 +222,14 @@ body {
 }
 
 .alert.alert-crm {
-    background-color: var(--crm-purple-100);
-    border-color: var(--crm-purple-300);
+    background-color: var(--app-purple-100);
+    border-color: var(--app-purple-300);
 }
 
 .alert-crm *,
 .alert.alert-crm,
 .alert-crm .alert-link {
-    color: var(--crm-purple-900);
+    color: var(--app-purple-900);
 }
 
 .alert-crm .alert-link {
@@ -248,51 +249,51 @@ body {
 }
 
 .bg-success {
-    background-color: var(--crm-green-600) !important;
+    background-color: var(--app-green-600) !important;
 }
 
 .bg-success-light {
-    background-color: var(--crm-green-100) !important;
+    background-color: var(--app-green-100) !important;
 }
 
 .bg-danger {
-    background-color: var(--crm-red-600) !important;
+    background-color: var(--app-red-600) !important;
 }
 
 .bg-danger-light {
-    background-color: var(--crm-red-100) !important;
+    background-color: var(--app-red-100) !important;
 }
 
 .bg-warning {
-    background-color: var(--crm-yellow-600) !important;
+    background-color: var(--app-yellow-600) !important;
 }
 
 .bg-warning-light {
-    background-color: var(--crm-yellow-100) !important;
+    background-color: var(--app-yellow-100) !important;
 }
 
 .bg-info {
-    background-color: var(--crm-cyan-600) !important;
+    background-color: var(--app-cyan-600) !important;
 }
 
 .bg-info-light {
-    background-color: var(--crm-cyan-100) !important;
+    background-color: var(--app-cyan-100) !important;
 }
 
 .bg-crm {
-    background-color: var(--crm-purple-600) !important;
+    background-color: var(--app-purple-600) !important;
 }
 
 .bg-crm-light {
-    background-color: var(--crm-purple-100) !important;
+    background-color: var(--app-purple-100) !important;
 }
 
 .bg-primary {
-    background-color: var(--crm-blue-600) !important;
+    background-color: var(--app-blue-600) !important;
 }
 
 .bg-primary-light {
-    background-color: var(--crm-blue-100) !important;
+    background-color: var(--app-blue-100) !important;
 }
 
 
@@ -303,47 +304,47 @@ body {
     padding: .4rem .65rem;
     border-width: 1px;
     border-style: solid;
-    color: var(--crm-primary);
-    border-color: var(--crm-primary);
+    color: var(--app-primary);
+    border-color: var(--app-primary);
     background-color: #d3d3d4;
-    border-radius: var(--crm-border-radius);
+    border-radius: var(--app-border-radius);
     font-size: .75rem;
 }
 
 .badge.badge-primary {
-    border-color: var(--crm-blue-600);
-    color: var(--crm-blue-600);
-    background-color: var(--crm-blue-100);
+    border-color: var(--app-blue-600);
+    color: var(--app-blue-600);
+    background-color: var(--app-blue-100);
 }
 
 .badge.badge-info {
-    border-color: var(--crm-cyan-600);
-    color: var(--crm-cyan-600);
-    background-color: var(--crm-cyan-100);
+    border-color: var(--app-cyan-600);
+    color: var(--app-cyan-600);
+    background-color: var(--app-cyan-100);
 }
 
 .badge.badge-warning {
-    border-color: var(--crm-yellow-600);
-    color: var(--crm-yellow-600);
-    background-color: var(--crm-yellow-100);
+    border-color: var(--app-yellow-600);
+    color: var(--app-yellow-600);
+    background-color: var(--app-yellow-100);
 }
 
 .badge.badge-success {
-    border-color: var(--crm-green-600);
-    color: var(--crm-green-600);
-    background-color: var(--crm-green-100);
+    border-color: var(--app-green-600);
+    color: var(--app-green-600);
+    background-color: var(--app-green-100);
 }
 
 .badge.badge-danger {
-    border-color: var(--crm-red-600);
-    color: var(--crm-red-600);
-    background-color: var(--crm-red-100);
+    border-color: var(--app-red-600);
+    color: var(--app-red-600);
+    background-color: var(--app-red-100);
 }
 
 .badge.badge-crm {
-    border-color: var(--crm-purple-600);
-    color: var(--crm-purple-600);
-    background-color: var(--crm-purple-100);
+    border-color: var(--app-purple-600);
+    color: var(--app-purple-600);
+    background-color: var(--app-purple-100);
 }
 
 
@@ -366,7 +367,7 @@ body {
 }
 
 .btn.btn-transparent {
-    border-color: var(--crm-secondary-text);
+    border-color: var(--app-secondary-text);
 }
 
 .btn.btn-primary,
@@ -386,67 +387,67 @@ body {
 }
 
 .btn.btn-crm {
-    background-color: var(--crm-purple-600);
-    border-color: var(--crm-purple-600);
+    background-color: var(--app-purple-600);
+    border-color: var(--app-purple-600);
 }
 
 .btn.btn-crm:hover {
-    background-color: var(--crm-purple-hover);
-    border-color: var(--crm-purple-hover);
+    background-color: var(--app-purple-hover);
+    border-color: var(--app-purple-hover);
 }
 
 .btn.btn.btn-outline-crm {
-    border-color: var(--crm-purple-600);
-    color: var(--crm-purple-600);
+    border-color: var(--app-purple-600);
+    color: var(--app-purple-600);
 }
 
 .btn.btn-outline-crm:hover {
-    background-color: var(--crm-purple-hover);
-    border-color: var(--crm-purple-hover);
+    background-color: var(--app-purple-hover);
+    border-color: var(--app-purple-hover);
     color: var(--bs-white);
 }
 
 .btn.btn-blue {
-    background-color: var(--app-blue);
-    border-color: var(--app-blue);
+    background-color: var(--site-blue);
+    border-color: var(--site-blue);
     color: var(--bs-white);
 }
 
 .btn.btn-blue:hover {
-    background-color: var(--app-blue-hover);
-    border-color: var(--app-blue-hover);
+    background-color: var(--site-blue-hover);
+    border-color: var(--site-blue-hover);
 }
 
 .btn.btn.btn-outline-blue {
-    border-color: var(--app-blue);
-    color: var(--app-blue);
+    border-color: var(--site-blue);
+    color: var(--site-blue);
 }
 
 .btn.btn-outline-blue:hover {
-    background-color: var(--app-blue-hover);
-    border-color: var(--app-blue-hover);
+    background-color: var(--site-blue-hover);
+    border-color: var(--site-blue-hover);
     color: var(--bs-white);
 }
 
 .btn.btn-green {
-    background-color: var(--app-green);
-    border-color: var(--app-green);
+    background-color: var(--site-green);
+    border-color: var(--site-green);
     color: var(--bs-white);
 }
 
 .btn.btn-green:hover {
-    background-color: var(--app-green-hover);
-    border-color: var(--app-green-hover);
+    background-color: var(--site-green-hover);
+    border-color: var(--site-green-hover);
 }
 
 .btn.btn.btn-outline-green {
-    border-color: var(--app-green);
-    color: var(--app-green);
+    border-color: var(--site-green);
+    color: var(--site-green);
 }
 
 .btn.btn-outline-green:hover {
-    background-color: var(--app-green-hover);
-    border-color: var(--app-green-hover);
+    background-color: var(--site-green-hover);
+    border-color: var(--site-green-hover);
     color: var(--bs-white);
 }
 
@@ -499,12 +500,12 @@ li {
 
 .form-control.is-valid,
 .was-validated .form-control:valid {
-    border-bottom-color: var(--crm-success);
+    border-bottom-color: var(--app-success);
 }
 
 .form-control.is-invalid,
 .was-validated .form-control:invalid {
-    border-bottom-color: var(--crm-error);
+    border-bottom-color: var(--app-error);
 }
 
 .form-label {
@@ -523,15 +524,15 @@ li {
 
 .btn-check:checked+.btn-outline-crm {
     color: var(--bs-white);
-    background-color: var(--crm-purple-600);
-    border-color: var(--crm-purple-600);
+    background-color: var(--app-purple-600);
+    border-color: var(--app-purple-600);
 }
 
 
 /* fieldset {
     padding: 1.75rem 1.5rem 1rem;
-    box-shadow: var(--crm-shadow-light);
-    border-radius: var(--crm-border-radius);
+    box-shadow: var(--app-shadow-light);
+    border-radius: var(--app-border-radius);
     margin: 1.5rem 0;
     position: relative;
 }
