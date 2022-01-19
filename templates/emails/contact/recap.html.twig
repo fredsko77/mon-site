@@ -1,0 +1,22 @@
+<h1>Demande de contact</h1>
+
+<p>Bonjour {{ contact.fullname|capitalize }},</p>
+
+<p>J'ai bien reçu votre demande de contact. J'y repondrai dans les plus brefs délais.</p>
+
+<p>Voici un récapitulatif de votre demande de contact : </p>
+
+<p>Cordialement,</p>
+
+<p>Frédérick AGATHE</p>
+
+<p>Nom : {{ contact.fullname }}</p>
+<p>E-mail : {{ contact.email }}</p>
+{% if contact.telephone %}
+    <p>Téléphone : {{ contact.telephone }}</p>
+{% endif %}
+{% if contact.companyName %}
+    <p>Raison sociale : {{ contact.companyName }}</p>
+{% endif %}
+<p>Objet : {{ contact.about }}</p>
+<p>Message : {{ contact.message }}</p>

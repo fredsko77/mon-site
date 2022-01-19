@@ -1,6 +1,10 @@
 <?php
 namespace App\Controller\Website;
 
+use App\Entity\Contact;
+use App\Form\ContactType;
+use App\Services\WebSiteServices;
+use App\Services\WebSiteServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebsiteController extends AbstractController
 {
 
-    public function __construct()
-    {}
+    /**
+     * @var WebSiteServicesInterface $service
+     */
+    private $service;
+
+    public function __construct(WebSiteServicesInterface $service)
+    {
+        $this->service = $service;
+    }
 
     /**
      * @Route(
@@ -23,8 +34,21 @@ class WebsiteController extends AbstractController
      */
     public function contact(Request $request): Response
     {
+        $contact = new Contact;
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
 
-        return $this->renderForm('site/contact.html.twig');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->service->contact($contact);
+
+            $this->addFlash('info', 'Nous avons bien pris en compte votre demande !');
+
+            return $this->redirectToRoute('website_contact');
+        }
+
+        return $this->render('site/contact.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

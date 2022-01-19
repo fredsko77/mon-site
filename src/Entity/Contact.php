@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
@@ -18,16 +19,13 @@ class Contact
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Ce champs doit être renseigné")
      * @ORM\Column(type="string", length=100)
      */
-    private $firstname;
+    private $fullname;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $lastname;
-
-    /**
+     * @Assert\NotBlank(message="Ce champs doit être renseigné")
      * @ORM\Column(type="string", length="255")
      */
     private $about;
@@ -40,7 +38,7 @@ class Contact
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="string", length=20)
@@ -52,36 +50,50 @@ class Contact
      */
     private $telephone;
 
+    /**
+     * @Assert\NotBlank(message="L'adresse e-mail est obligatoire")
+     * @Assert\Email(message="Cette adresse e-mail n'est pas valide !")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $companyName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $repliedAt;
+
+    public const STATE_PENDING = 'pending';
+    public const STATE_READ = 'read';
+    public const STATE_REPLIED = 'replied';
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    public function getFullname(): ?string
     {
-        return $this->firstname;
+        return $this->fullname;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFullname(string $fullname): self
     {
-        $this->firstname = $firstname;
+        $this->fullname = $fullname;
 
         return $this;
     }
 
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): self
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getAbout(): ?string
+    public function getAbout(): string
     {
         return $this->about;
     }
@@ -107,12 +119,12 @@ class Contact
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface$createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -132,7 +144,7 @@ class Contact
     /**
      * Get the value of telephone
      */
-    public function getTelephone(): string
+    public function getTelephone(): ?string
     {
         return $this->telephone;
     }
@@ -147,5 +159,62 @@ class Contact
         $this->telephone = $telephone;
 
         return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCompanyName(): ?string
+    {
+        return $this->companyName;
+    }
+
+    public function setCompanyName(?string $companyName): self
+    {
+        $this->companyName = $companyName;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface$updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getRepliedAt(): ?\DateTimeInterface
+    {
+        return $this->repliedAt;
+    }
+
+    public function setRepliedAt(?\DateTimeInterface$repliedAt): self
+    {
+        $this->repliedAt = $repliedAt;
+
+        return $this;
+    }
+
+    public function states(): array
+    {
+        return [
+            'En attente' => self::STATE_PENDING,
+            'Lu' => self::STATE_READ,
+            'Répondu' => self::STATE_REPLIED,
+        ];
     }
 }

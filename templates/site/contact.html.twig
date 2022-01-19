@@ -2,22 +2,64 @@
 
 {% block main %}
 
-    <section class="section" id="contact">
+    <section class="section" id="page-contact">
         <section class="page-section">
-            <div class="container-fluid container-xl">
-                <div class="section-header">
-                    <h3 class="section-title">Contact</h3> 
-                    <small class="section-subtitle">Me contacter...</small>
-                    <hr>
-                </div>
+            <div class="container-fluid container-xl">               
                 <div class="section-content">
                     <div class="row">
-                        <div class="col-12 col-lg-4 bg-crm py-5">
-                            <div class="contacts"></div>
+                        <div class="col-12 col-lg-4">
+                            <h1 class="h3">Mes coordonnées</h1>
+                            <div class="contacts">
+                                <div class="contact-list">
+                                    <a 
+                                        href="tel:+33649640119" 
+                                        class="contact-link link" 
+                                        title="Me contacter par téléphone"
+                                    >
+                                        <div class="box">                            
+                                            <i class="contact-icon bi bi-phone" role="img" aria-label="Telephone"></i>
+                                        </div>
+                                    </a>
+                                    <a 
+                                        href="mailto:contact@agathefrederick.fr?subject=Demande de contact via agathefrederick.fr&cci=agathefrederick@gmail.com&body=Bonjour monsieur AGATHE," 
+                                        class="contact-link link" 
+                                        title="Me contacter par téléphone"
+                                    >
+                                        <div class="box">                            
+                                            <i class="contact-icon bi bi-at" role="img" aria-label="Email"></i>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="area-available">
+                                    <p class="h6">Je suis disponbible sur Paris et ses alentours</p>
+                                    <iframe 
+                                        id="maps-iframe"
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d83998.76457540963!2d2.2769955282495733!3d48.85894658072431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis!5e0!3m2!1sfr!2sfr!4v1642542678056!5m2!1sfr!2sfr" 
+                                        width="600" 
+                                        height="450" 
+                                        style="border:0;" 
+                                        allowfullscreen="" 
+                                        loading="lazy"
+                                    ></iframe>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-12 col-lg-8 bg-primary py-5">
+                        <div class="col-12 col-lg-8 mt-4 mt-lg-0">
                             <div class="contact-form">
-                                <h3>Formulaire de contact</h3>
+                                <h2 class="h3">Vous avez une question, contactez-moi !</h2>
+                                {{ form_start(form) }}
+                                    {{ form_row(form.fullname) }}
+                                    {{ form_row(form.email) }}
+                                    {{ form_row(form.telephone) }}
+                                    {{ form_row(form.isCompany) }}
+                                    {{ form_row(form.companyName) }}
+                                    {{ form_row(form.about) }}
+                                    {{ form_row(form.message, {"attr": {"rows": 4}}) }}
+                                    {{ form_rest(form) }}
+
+                                    <button type="submit" class="btn btn-primary">Envoyer</button>
+
+                                {{ form_end(form) }}
                             </div>
                         </div>
                     </div>
@@ -25,5 +67,23 @@
             </div>
         </section>
     </section>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+        window.onload = () => {
+            const checkbox = document.querySelector('#contact_isCompany');
+            
+            const displayCompanyName = () => document.querySelector('#company-name-field').classList.toggle('hidden');
+
+            if (checkbox.checked === true ) {
+                displayCompanyName();
+            }
+
+            checkbox.addEventListener('change', () => displayCompanyName());
+        };
+    </script>
 
 {% endblock %}

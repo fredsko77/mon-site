@@ -13,7 +13,7 @@
                     </div>
                 </div>
                 <div class="contact-list row g-4">
-                    <div class="contact-box col-lg-3">
+                    <div class="contact-box col-12 col-md-4 col-lg-3">
                         <a 
                             href="tel:+33649640119" 
                             class="contact-link link" 
@@ -24,7 +24,7 @@
                             </div>
                         </a>                        
                     </div>
-                    <div class="contact-box col-lg-3">
+                    <div class="contact-box col-12 col-md-4 col-lg-3">
                         <a 
                             href="{{ path('website_contact') }}" 
                             class="contact-link link" 
@@ -36,7 +36,7 @@
                         </a>                        
                     </div>
                     {% for social in socials() %}
-                        <div class="contact-box col-lg-3">
+                        <div class="contact-box col-6 col-md-4 col-lg-3">
                             <a 
                                 href="{{ social.link }}" 
                                 target="_blank" 

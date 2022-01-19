@@ -1,10 +1,14 @@
 <?php
 namespace App\Services;
 
-use App\Repository\GroupSkillRepository;
-use App\Repository\ProjectRepository;
-use App\Repository\SocialRepository;
+use DateTime;
+use App\Entity\Contact;
+use App\Mailing\Contact\ContactMailing;
 use App\Repository\UserRepository;
+use App\Repository\SocialRepository;
+use App\Repository\ProjectRepository;
+use App\Repository\GroupSkillRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Services\WebSiteServicesInterface;
 
 class WebSiteServices implements WebSiteServicesInterface
@@ -30,16 +34,30 @@ class WebSiteServices implements WebSiteServicesInterface
      */
     private $groupSkillRepository;
 
+    /**
+     * @var EntityManagerInterface $manager
+     */
+    private $manager;
+
+    /**
+     * @var ContactMailing $mailing
+     */
+    private $mailing;
+
     public function __construct(
         UserRepository $userRepository,
         ProjectRepository $projectRepository,
         SocialRepository $socialRepository,
-        GroupSkillRepository $groupSkillRepository
+        GroupSkillRepository $groupSkillRepository,
+        EntityManagerInterface $manager,
+        ContactMailing $mailing
     ) {
         $this->userRepository = $userRepository;
         $this->projectRepository = $projectRepository;
         $this->socialRepository = $socialRepository;
         $this->groupSkillRepository = $groupSkillRepository;
+        $this->manager = $manager;
+        $this->mailing = $mailing;
     }
 
     public function index(): array
@@ -50,6 +68,21 @@ class WebSiteServices implements WebSiteServicesInterface
         $groupSkills = $this->groupSkillRepository->findAll();
 
         return compact('user', 'projects', 'socials', 'groupSkills');
+    }
+
+    public function contact(Contact $contact): void
+    {
+        $contact->setState(Contact::STATE_PENDING)
+            ->setCreatedAt(new DateTime)
+        ;
+
+        $this->manager->persist($contact);
+        $this->manager->flush();
+
+        $this->mailing->contact($contact);
+
+        // TODO: Insérer le contact en base de données
+        // TODO: Envoyer un mail recap au contact
     }
 
 }
