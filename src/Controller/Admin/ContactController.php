@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Contact;
 use App\Services\Admin\ContactServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,5 +32,30 @@ class ContactController extends AbstractController
         return $this->render('admin/contact/index.html.twig', [
             'contacts' => $this->service->index(),
         ]);
+    }
+
+    /**
+     * @Route(
+     *  "/mark-as-read/{id}",
+     *  name="_mark_read",
+     *  methods={}
+     * )
+     */
+    public function read(Contact $contact): Response
+    {
+        return new Response();
+    }
+
+    /**
+     * @Route(
+     *  "/{id}",
+     *  name="_edit",
+     *  methods={"GET", "POST"},
+     *  requirements={"id": "\d+"}
+     * )
+     */
+    public function edit(): Response
+    {
+        return new Response();
     }
 }

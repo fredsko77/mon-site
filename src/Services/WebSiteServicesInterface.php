@@ -10,4 +10,6 @@ interface WebSiteServicesInterface
 
     public function contact(Contact $contact): void;
 
+    public function projects(): ?array;
+
 }

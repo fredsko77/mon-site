@@ -1,15 +1,16 @@
 <?php
 namespace App\Services;
 
-use DateTime;
 use App\Entity\Contact;
+use App\Entity\Project;
 use App\Mailing\Contact\ContactMailing;
-use App\Repository\UserRepository;
-use App\Repository\SocialRepository;
-use App\Repository\ProjectRepository;
 use App\Repository\GroupSkillRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ProjectRepository;
+use App\Repository\SocialRepository;
+use App\Repository\UserRepository;
 use App\Services\WebSiteServicesInterface;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 
 class WebSiteServices implements WebSiteServicesInterface
 {
@@ -70,6 +71,11 @@ class WebSiteServices implements WebSiteServicesInterface
         return compact('user', 'projects', 'socials', 'groupSkills');
     }
 
+    /**
+     * @param Contact $contact
+     *
+     * @return void
+     */
     public function contact(Contact $contact): void
     {
         $contact->setState(Contact::STATE_PENDING)
@@ -80,9 +86,14 @@ class WebSiteServices implements WebSiteServicesInterface
         $this->manager->flush();
 
         $this->mailing->contact($contact);
+    }
 
-        // TODO: Insérer le contact en base de données
-        // TODO: Envoyer un mail recap au contact
+    /**
+     * @return Project[]|null
+     */
+    public function projects(): ?array
+    {
+        return $this->projectRepository->findBy(['visibility' => 'public']);
     }
 
 }

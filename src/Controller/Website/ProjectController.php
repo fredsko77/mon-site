@@ -2,6 +2,7 @@
 namespace App\Controller\Website;
 
 use App\Repository\ProjectRepository;
+use App\Services\WebSiteServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,12 +14,18 @@ class ProjectController extends AbstractController
 {
 
     /**
+     * @var WebSiteServicesInterface $service
+     */
+    private $service;
+
+    /**
      * @var ProjectRepository $repository
      */
     private $repository;
 
-    public function __construct(ProjectRepository $repository)
+    public function __construct(WebSiteServicesInterface $service, ProjectRepository $repository)
     {
+        $this->service = $service;
         $this->repository = $repository;
     }
 
@@ -32,7 +39,7 @@ class ProjectController extends AbstractController
     public function index(): Response
     {
         return $this->render('site/project/index.html.twig', [
-            'projects' => [],
+            'projects' => $this->service->projects(),
         ]);
     }
 
