@@ -1,20 +1,60 @@
-{% extends 'base.html.twig' %}
+{% extends "admin/layout.html.twig" %}
 
-{% block title %}Hello AdminContactController!{% endblock %}
+{% block main %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container-fluid" id="contents-list">
+        <h1 class="mt-2 mb-3">
+            Mes contenus
+        </h1>
+        <div class="my-3">
+            {% include "flashes.html.twig" %}
+        </div>
+        <div class="mt-2" id="contact-table">
+            <table class="table table-hover table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">De</th>
+                        <th scope="col">Statut</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in contacts %}
+                        <tr data-index="{{ contact.id }}">
+                            <th scope="row">{{ contact.id }}</th>
+                            <td>{{ contact.fullname }}</td>
+                            <td><div class="badge badge-crm">{{ contact.state }}</div></td>
+                            <td>{{ (contact.updatedAt ?? contact.createdAt)|format_datetime('full', locale='fr') }}</td>
+                            <td>
+                                {# <a 
+                                    href="{{ path('admin_contact_edit', {id: contact.id}) }}" 
+                                    class="btn btn-warning btn-sm"
+                                    title="Editer le contenu"
+                                    aria-label="Editer le contenu"
+                                >Modifier</a>
+                                <a 
+                                    class="btn btn-danger btn-sm"
+                                    data-role="delete" 
+                                    href="{{ path('admin_contact_delete', {id: contact.id}) }}"
+                                    title="Supprimer le contenu"
+                                    aria-label="Supprimer le contenu"
+                                >Supprimer</a>#}
+                            </td> 
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="11">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% endblock %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/workspace/mon-site/src/Controller/AdminContactController.php'|file_link(0) }}">src/Controller/AdminContactController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/workspace/mon-site/templates/admin_contact/index.html.twig'|file_link(0) }}">templates/admin_contact/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% block js %}
+    <script src="{{ asset('js/admin/contact.js') }}"></script>
 {% endblock %}
