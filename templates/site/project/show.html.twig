@@ -1,7 +1,56 @@
 {% extends "site/layout.html.twig" %}
 
-{% block title %}{{ project.name|capitalize }}{% endblock %}
+{% block title %}Projet {{ project.name|capitalize }}{% endblock %}
 
 {% block main %}
-
+    <section class="section" id="page-projet">
+        <section class="page-section">
+            <div class="container-fluid container-xl">
+                <div class="section-content">
+                    <h1 class="h3 text-center">{{ project.name|capitalize }}</h1>
+                    <div class="row">
+                        <div class="col-12 col-lg-8">
+                            <img 
+                                src="{{ asset(project.image ?? 'images/default/project-default.jpg') }}" 
+                                srcset="{{ asset(project.image ?? 'images/default/project-default.jpg') }}" 
+                                class="project-image"
+                                title="Image du projet {{ project.name|capitalize }}"
+                                alt="Image du projet {{ project.name|capitalize }}"
+                            >
+                            {% if project.stacks %}
+                                <div class="my-2">
+                                    {% for stack in project.stacks %}
+                                        <span class="badge badge-primary me-2">{{ stack.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div>
+                                {% if project.link %}
+                                    <a 
+                                        href="{{ project.link }}" 
+                                        target="_blank" 
+                                        class="project-link"
+                                        title="Lien vers le projet"
+                                    >Voir le projet en ligne</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="badge badge-crm mb-3">{{ project.state }}</div>
+                            <h2 class="h5">Description</h2>
+                            <div class="project-description">
+                                {{ project.description|raw }}
+                            </div>
+                            <h2 class="h5">Les tâches</h2>
+                            <ul class="project-tasks">
+                                {% for task in project.tasks %}                                    
+                                    <li class="task">{{ task }}</li>
+                                {% endfor %}                               
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
 {% endblock %}

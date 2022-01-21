@@ -27,8 +27,8 @@
                                 <div class="carousel-item {% if key == 0 %}active{% endif %}">
                                     <div class="carousel-item-image-overlay">
                                         <img 
-                                            src="{{ asset(project.image) }}" 
-                                            srcset="{{ asset(project.image) }}" 
+                                            src="{{ asset(project.image ?? 'images/default/project-default.jpg') }}" 
+                                            srcset="{{ asset(project.image ?? 'images/default/project-default.jpg') }}" 
                                             class="carousel-item-image" 
                                             alt="Image du project"
                                         >

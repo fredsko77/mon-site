@@ -74,6 +74,11 @@ class ProjectController extends AbstractController
             );
         }
 
+        if (!$this->getUser() && $project->getVisibility() === 'private') {
+
+            return $this->redirectToRoute('website_project_index');
+        }
+
         return $this->render('site/project/show.html.twig', [
             'project' => $project,
         ]);

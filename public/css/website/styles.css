@@ -520,3 +520,11 @@ body {
     box-shadow: var(--app-shadow-light);
     cursor: pointer;
 }
+
+
+/* Page Show projet */
+
+#page-projet .project-image {
+    width: 100%;
+    height: auto;
+}
