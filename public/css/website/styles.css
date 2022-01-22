@@ -528,3 +528,24 @@ body {
     width: 100%;
     height: auto;
 }
+
+#page-projet .project-description {
+    color: #4C4C4C;
+}
+
+#page-projet .project-description p {
+    margin-bottom: .2rem;
+}
+
+#page-projet .project-tasks {
+    padding-left: .5rem;
+    list-style: " - ";
+}
+
+#page-projet .project-tasks .task {
+    color: #4C4C4C;
+}
+
+#page-projet .project-tasks .task::before {
+    content: "\200B";
+}

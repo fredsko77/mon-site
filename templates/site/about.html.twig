@@ -1,5 +1,35 @@
 {% extends "site/layout.html.twig" %}
 
 {% block main %}
-
+    <section class="section" id="page-about">
+        <section class="page-section">
+            <div class="container-fluid container-xl">
+                <div class="section-header">
+                    <h3 class="section-title">Qui suis-je ?</h3> 
+                    <small class="section-subtitle">Quelque mots à propos de moi... </small>
+                    <hr>
+                </div>
+                <div class="section-content">
+                    <div class="presentation mt-4">
+                        <p>Suite à une réorientation, j'ai souhaité me diriger vers un domaine qui m'intéressait depuis longtemps. J'ai donc suivi la formation Développeur d'application PHP - Symfony OpenClassRooms, débouchant sur un titre RNCP niveau 6 (Bac +3).</p>
+                        <p>Autonome de nature, je peux travailler seul ou en groupe, étant également capable de m’adapter à un environnement que je ne connais pas.</p>
+                        <p>Je suis capable d'utiliser différentes technologies comme HTML5 & CSS3, JavaScript, PHP, de même que d'utiliser des CMS comme Wordpress . Je suis aussi compétent dans l'utilisation de MVC comme Symfony.</p>
+                        <p>Vous trouverez sur mon site mon CV ainsi que des projets réalisés durant mes études ou durant mon temps libre.</p>
+                    </div>
+                    <div class="">
+                        <a 
+                            href="{{ path('website_download_resume') }}" 
+                            class="btn btn-primary mt-1"
+                            title="Télécharger mon CV"
+                        >Télécharger mon CV</a>
+                        <a 
+                            href="{{ path('website_contact') }}" 
+                            class="btn btn-success mt-1"
+                            title="Lien vers la page contact"
+                        >Me contacter</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
 {% endblock %}

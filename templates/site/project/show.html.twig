@@ -36,12 +36,12 @@
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
-                            <div class="badge badge-crm mb-3">{{ project.state }}</div>
-                            <h2 class="h5">Description</h2>
+                            <div class="badge badge-crm mb-2">{{ project.state }}</div>
+                            <h2 class="h5 mt-2 mb-1">Description</h2>
                             <div class="project-description">
                                 {{ project.description|raw }}
                             </div>
-                            <h2 class="h5">Les tâches</h2>
+                            <h2 class="h5 mt-2 mb-1">Les tâches</h2>
                             <ul class="project-tasks">
                                 {% for task in project.tasks %}                                    
                                     <li class="task">{{ task }}</li>
