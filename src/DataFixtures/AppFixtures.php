@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\GroupSkill;
 use App\Entity\Skill;
+use App\Entity\Social;
 use App\Entity\Stack;
 use App\Entity\User;
 use App\Utils\ServicesTrait;
@@ -95,6 +96,31 @@ class AppFixtures extends Fixture
             }
 
             $manager->persist($groupskill);
+        }
+
+        $socials = [
+            0 => [
+                'name' => 'Linkedin',
+                'link' => 'https://www.linkedin.com/in/frédérick-agathe-027553128/',
+                'icon' => 'linkedin',
+                'title' => 'Lien vers mon profil LinkedIn',
+            ],
+            1 => [
+                'name' => 'Github',
+                'link' => 'https://github.com/fredsko77',
+                'icon' => 'github',
+                'title' => 'Lien vers mon profil Github',
+            ],
+        ];
+
+        foreach ($socials as $social) {
+            $manager->persist(
+                (new Social)
+                    ->setName($social['name'])
+                    ->setLink($social['link'])
+                    ->setIcon($social['icon'])
+                    ->setTitle($social['title'])
+            );
         }
 
         $admin = new User;

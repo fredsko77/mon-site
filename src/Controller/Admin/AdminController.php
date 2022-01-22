@@ -12,12 +12,11 @@ class AdminController extends AbstractController
 {
 
     /**
-     * @Route("/profile", name="_profile", methods={"GET"})
      * @Route("", name="", methods={"GET"})
      */
     public function index(): Response
     {
-        return $this->render("/admin/profile/index.html.twig");
+        return $this->redirectToRoute('admin_project_list');
     }
 
 }
