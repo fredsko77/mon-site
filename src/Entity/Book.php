@@ -59,6 +59,11 @@ class Book
      */
     private $pages;
 
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $visibility;
+
     public function __construct()
     {
         $this->chapters = new ArrayCollection();
@@ -198,6 +203,18 @@ class Book
                 $page->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVisibility(): ?string
+    {
+        return $this->visibility;
+    }
+
+    public function setVisibility(string $visibility): self
+    {
+        $this->visibility = $visibility;
 
         return $this;
     }

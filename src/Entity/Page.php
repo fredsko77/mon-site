@@ -57,6 +57,11 @@ class Page
      */
     private $chapter;
 
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $visibility;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +159,18 @@ class Page
     public function setChapter(?Chapter $chapter): self
     {
         $this->chapter = $chapter;
+
+        return $this;
+    }
+
+    public function getVisibility(): ?string
+    {
+        return $this->visibility;
+    }
+
+    public function setVisibility(string $visibility): self
+    {
+        $this->visibility = $visibility;
 
         return $this;
     }

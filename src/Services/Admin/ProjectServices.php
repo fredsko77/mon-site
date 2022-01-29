@@ -96,6 +96,12 @@ class ProjectServices implements ProjectServicesInterface
         ];
     }
 
+    /**
+     * @param FormInterface $form
+     * @param Project $project
+     *
+     * @return [type]
+     */
     public function store(FormInterface $form, Project $project)
     {
         $image = $form->get('uploadedFile')->getData();
@@ -131,6 +137,11 @@ class ProjectServices implements ProjectServicesInterface
         $this->manager->flush();
     }
 
+    /**
+     * @param Project $project
+     *
+     * @return [type]
+     */
     public function delete(Project $project)
     {
         $this->deleteImage($project);
@@ -144,6 +155,11 @@ class ProjectServices implements ProjectServicesInterface
         );
     }
 
+    /**
+     * @param Project $project
+     *
+     * @return void
+     */
     private function deleteImage(Project $project): void
     {
         if ($project->getImage() !== null) {

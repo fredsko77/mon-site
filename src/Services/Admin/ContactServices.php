@@ -16,6 +16,9 @@ class ContactServices implements ContactServicesInterface
         $this->repository = $repository;
     }
 
+    /**
+     * @return array|null
+     */
     public function index(): ?array
     {
         return $this->repository->findAll();

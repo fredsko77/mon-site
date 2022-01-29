@@ -6,6 +6,7 @@
 parameters:
     root_directory: '%kernel.project_dir%/public'
     content_directory: '%kernel.project_dir%/public/uploads/content'
+    shelf_directory: '%kernel.project_dir%/public/uploads/shelf'
     project_directory: '%kernel.project_dir%/public/uploads/project'
     user_directory: '%kernel.project_dir%/public/uploads/user'
 
