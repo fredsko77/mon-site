@@ -1,4 +1,17 @@
 {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.description) }}
+    <img 
+        src="#" 
+        alt="Prévisualisation de l'image uploadé" 
+        srcset="#" 
+        id="preview-container" 
+        class="hidden"
+        title="Prévisualisation de l'image uploadé"
+    >
+    <span class="text-danger mb-1 hidden" id="preview-error"></span>
+    {{ form_row(form.uploadedFile) }}
     {{ form_widget(form) }}
+    {{ form_rest(form) }}
     <button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

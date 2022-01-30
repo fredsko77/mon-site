@@ -3,10 +3,14 @@
 
 {% block main %}
 
-    {% block content %}{% endblock %}
+    <section class="container-fluid my-5">
+        {% block content %}{% endblock %}
+    </section>
 
 {% endblock %}
 
-{% block css %}{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('css/docs./styles.css') }}">
+{% endblock %}
 
 {% block js %}{% endblock %}
