@@ -18,23 +18,29 @@
 
     {# store the prototype on the data-prototype attribute #}
     <div class="group-task-list mb-3">
-        <label for="#" class="form-label">
-            Les tâches
-            <span id="add-task" class="btn" data-list-selector="#tasks-field-list"><i class="bi bi-plus-square"></i></span>
-        </label>
+        <div class="d-flex ">
+            {{ form_label(form.tasks, 'Les tâches', {
+                'label_attr': {'style': 'width:auto !important;', 'class': 'mb-2'}
+            }) }}            
+            <span 
+                id="add-task"
+                class="btn" 
+                data-list-selector="#tasks-field-list"
+            ><i class="bi bi-plus-square"></i></span>            
+        </div>
         <div 
             id="tasks-field-list"
             data-prototype="{{ form_widget(form.tasks.vars.prototype)|e('html_attr') }}"
             data-widget-tags="{{ '<div></div>'|e }}"
             data-widget-counter="{{ form.tasks|length }}"
         >
-            {% for task in form.tasks %}
+            {% for key, task in form.tasks %}
                 <div class="row">
                     <div class="col-11">
                         {{ form_row(task) }}
                     </div>
                     <div class="col-1">
-                        <span class="btn btn-delete text-danger" onclick="deleteTask(event)"><i class="bi bi-x-square"></i></span>
+                        <span class="btn btn-delete text-danger" id="delete_task_{{ key }}" onclick="deleteTask(event)"><i class="bi bi-x-square"></i></span>
                     </div>
                 </div>
             {% endfor %}

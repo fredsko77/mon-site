@@ -3,6 +3,7 @@ namespace App\Controller\Docs;
 
 use App\Entity\Shelf;
 use App\Form\Docs\ShelfType;
+use App\Repository\ShelfRepository;
 use App\Services\Docs\ShelfServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,22 +21,20 @@ class ShelfController extends AbstractController
      */
     private $service;
 
-    public function __construct(ShelfServicesInterface $service)
+    /**
+     * @var ShelfRepository $repository
+     */
+    private $repository;
+
+    public function __construct(ShelfServicesInterface $service, ShelfRepository $repository)
     {
         $this->service = $service;
-    }
-
-    /**
-     * @Route("", name="index", methods={"GET"})
-     */
-    public function index(): Response
-    {
-        return $this->render('docs/shelf/index.html.twig');
+        $this->repository = $repository;
     }
 
     /**
      * @Route(
-     *  "/nouveau",
+     *  "/action/nouveau",
      *  name="new",
      *  methods={"GET", "POST"}
      * )
@@ -60,7 +59,7 @@ class ShelfController extends AbstractController
 
     /**
      * @Route(
-     *  "/{id}/edit",
+     *  "/action/{id}/edit",
      *  name="edit",
      *  methods={"GET", "POST"},
      *  requirements={"id": "\d+"}
@@ -83,6 +82,47 @@ class ShelfController extends AbstractController
         return $this->renderForm('docs/shelf/edit.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    /**
+     * @Route(
+     *  "/{slug}-{id}",
+     *  name="show",
+     *  requirements={
+     *      "id": "\d+",
+     *      "slug": "[a-z0-9\-]*"
+     *  },
+     *  methods={"GET"}
+     * )
+     */
+    public function show(int $id, string $slug): Response
+    {
+        $shelf = $this->repository->find((int) $id);
+        $user = $this->getUser();
+
+        if ($shelf === null) {
+
+            return $this->redirectToRoute('docs_shelf_index');
+        }
+
+        if (!$user && !in_array('ROLE_ADMIN', $user->getRoles()) && $shelf->getVisibility() === 'private') {
+
+            return $this->redirectToRoute('docs_shelf_index');
+        }
+
+        if ($slug !== $shelf->getSlug()) {
+
+            return $this->redirectToRoute(
+                'website_shelf_show',
+                [
+                    'slug' => $shelf->getSlug(),
+                    'id' => $shelf->getId(),
+                ],
+                Response::HTTP_FOUND
+            );
+        }
+
+        return $this->render('docs/shelf/show.html.twig', ['shelf' => $shelf]);
     }
 
 }

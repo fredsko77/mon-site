@@ -6,3 +6,37 @@
     height: auto;
     box-shadow: var(--app-shadow-light)
 }
+
+
+/* Docs Default Page CSS */
+
+main {
+    min-height: 45vh;
+}
+
+.card.shelf {
+    border-radius: .15rem;
+}
+
+.shelf-card-link {
+    width: 100%;
+    height: 100%;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    display: block;
+    z-index: 2!important;
+    border: 1px solid transparent;
+    transition: .3s;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.shelf .shelf-image {
+    width: 40px;
+    height: 40px;
+}
+
+.shelf .card-footer {
+    padding: .25rem;
+}

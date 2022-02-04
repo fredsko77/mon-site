@@ -138,3 +138,8 @@ a.sidebar-brand {
     height: auto;
     padding: .4rem 1rem;
 }
+
+#add-task:hover,
+[id^=delete_task] {
+    box-shadow: none;
+}

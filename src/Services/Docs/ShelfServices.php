@@ -7,12 +7,15 @@ use App\Services\Docs\ShelfServicesInterface;
 use App\Utils\ServicesTrait;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\Security;
 
 class ShelfServices implements ShelfServicesInterface
 {
@@ -49,11 +52,23 @@ class ShelfServices implements ShelfServicesInterface
      */
     private $session;
 
+    /**
+     * @var PaginatorInterface $paginator
+     */
+    private $paginator;
+
+    /**
+     * @var Security $security
+     */
+    private $security;
+
     public function __construct(
         ShelfRepository $repository,
         ContainerInterface $container,
         EntityManagerInterface $manager,
-        Filesystem $filesystem
+        Filesystem $filesystem,
+        PaginatorInterface $paginator,
+        Security $security
     ) {
         $this->repository = $repository;
         $this->container = $container;
@@ -61,6 +76,8 @@ class ShelfServices implements ShelfServicesInterface
         $this->filesystem = $filesystem;
         $this->slugger = new Slugify;
         $this->session = new Session;
+        $this->paginator = $paginator;
+        $this->security = $security;
     }
 
     /**
@@ -103,6 +120,18 @@ class ShelfServices implements ShelfServicesInterface
 
         $this->manager->persist($shelf);
         $this->manager->flush();
+    }
+
+    public function paginate(Request $request): PaginationInterface
+    {
+        $user = $this->security->getUser();
+        $data = $user !== null && in_array('ROLE_ADMIN', $user->getRoles(), true) ? $this->repository->findAll() : $this->repository->findBy(['visibility' => 'public']);
+
+        return $this->paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            15
+        );
     }
 
     /**

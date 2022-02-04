@@ -50,7 +50,9 @@ class ProjectController extends AbstractController
      *  requirements={
      *      "id": "\d+",
      *      "slug": "[a-z0-9\-]*"
-     * }, methods={"GET"})
+     *  },
+     *  methods={"GET"}
+     * )
      */
     public function show(int $id, string $slug): Response
     {
