@@ -86,6 +86,23 @@ class ShelfController extends AbstractController
 
     /**
      * @Route(
+     *  "/action/{slug}-{id}/nouveau-livre",
+     *  name="new_book",
+     *  requirements={
+     *      "id": "\d+",
+     *      "slug": "[a-z0-9\-]*"
+     *  },
+     *  methods={"GET", "POST"}
+     * )
+     */
+    public function createBook(Shelf $shelf): Response
+    {
+        // $form = $this
+        return $this->renderForm('docs/book/new.html.twig', ['shelf' => $shelf]);
+    }
+
+    /**
+     * @Route(
      *  "/{slug}-{id}",
      *  name="show",
      *  requirements={
@@ -105,7 +122,7 @@ class ShelfController extends AbstractController
             return $this->redirectToRoute('docs_shelf_index');
         }
 
-        if (!$user && !in_array('ROLE_ADMIN', $user->getRoles()) && $shelf->getVisibility() === 'private') {
+        if ($user && !in_array('ROLE_ADMIN', $user->getRoles()) && $shelf->getVisibility() === 'private') {
 
             return $this->redirectToRoute('docs_shelf_index');
         }

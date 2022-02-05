@@ -18,6 +18,11 @@ main {
     border-radius: .15rem;
 }
 
+.shelf .card-body {
+    height: 200px;
+}
+
+.book-card-link,
 .shelf-card-link {
     width: 100%;
     height: 100%;
@@ -39,4 +44,88 @@ main {
 
 .shelf .card-footer {
     padding: .25rem;
+}
+
+.shelf .card-text,
+.book .card-text {
+    color: var(--text-content-secondary);
+    font-size: .9rem;
+    margin-bottom: 0;
+}
+
+
+/* Docs Show Self */
+
+.shelf-description {
+    color: var(--text-content-secondary);
+}
+
+.docs-page {
+    background-color: var(--bs-light);
+}
+
+#page-show-shelf {
+    min-height: inherit;
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-row-gap: 0;
+    margin-top: 1rem;
+}
+
+#page-show-shelf .section {
+    background-color: var(--bs-white);
+    padding: 1rem 1.25rem;
+    box-shadow: 0 1px 6px -1px rgb(0, 0, 0, .1);
+}
+
+#page-show-shelf .shelf-image {
+    width: 50px;
+    height: 50px;
+}
+
+.docs-page aside {
+    padding: .5rem 1rem;
+}
+
+aside .action-container {
+    padding: .75rem .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.book .card-body {
+    height: 200px;
+}
+
+.actions {
+    width: 100%;
+    padding: .5rem 0;
+    margin-bottom: .8rem;
+}
+
+.actions .action-link {
+    display: block;
+    padding: .33rem 1rem;
+    background: transparent;
+    text-decoration: none;
+    color: inherit;
+    border-radius: .3rem;
+    transition: all .3s ease-in-out;
+}
+
+.action-link:hover {
+    background-color: var(--app-outline);
+    box-shadow: var(--app-shadow-light);
+}
+
+.book .card-footer {
+    padding: .15rem 1rem;
+}
+
+.book-content {
+    font-size: .85rem;
+    color: var(--text-content-secondary);
 }

@@ -62,6 +62,11 @@ class Page
      */
     private $visibility;
 
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $state;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +176,18 @@ class Page
     public function setVisibility(string $visibility): self
     {
         $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(?string $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

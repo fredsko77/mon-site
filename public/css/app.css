@@ -2,6 +2,7 @@
 :root {
     --text-color: #161728;
     --text-content-color: #25252c;
+    --text-content-secondary: #121c4299;
     --font-body: 'Quicksand', sans-serif !important;
     --app-shadow: 0px 2px 4px -1px rgb(0, 0, 0, .09), -1px 2px 4px 0px rgb(0, 0, 0, .05);
     --app-shadow-light: 0px 2px 8px 0px rgba(99, 99, 99, 0.2);

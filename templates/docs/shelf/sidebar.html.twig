@@ -1,0 +1,31 @@
+<aside>
+    <div class="action-container">
+        <h3 class="h4">Actions</h3>
+        <div class="actions">
+            <a 
+                href="{{ path('docs_shelf_new_book', {
+                    id: shelf.id,
+                    slug: shelf.slug
+                }) }}" 
+                id="new-book"
+                class="action-link" 
+                title="Lien pour créer un nouveau livre"
+            ><i class="bi bi-plus-lg"></i>&nbsp;Nouveau livre</a>
+            <hr>
+            <a 
+                href="{{ path('docs_shelf_edit', {
+                    id: shelf.id
+                }) }}"
+                id="edit-shelf" 
+                title="Lien pour éditer l'étagère" 
+                class="action-link"
+            ><i class="bi bi-pencil"></i>&nbsp;Éditer</a>
+            <a 
+                href="#" 
+                id="delete-shelf" 
+                title="Lien pour supprimer l'étagère" 
+                class="action-link"
+            ><i class="bi bi-trash"></i>&nbsp;Supprimer</a>
+        </div>
+    </div>
+</aside>

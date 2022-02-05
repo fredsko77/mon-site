@@ -1,0 +1,75 @@
+{% extends "docs/layouts/page.html.twig" %}
+
+{% block main %}
+    <section class="container-fluid" id="page-show-shelf">
+        {% include "docs/shelf/sidebar.html.twig" %}        
+        <section class="section">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('docs_shelf_index') }}">Étagères</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ shelf.title }}
+                    </li>
+                </ol>
+            </nav>
+            <img 
+                src="{{ asset(shelf.image) }}" 
+                alt="Image du shelf {{ shelf.title }}" 
+                srcset="{{ asset(shelf.image) }}" 
+                id="image_shelf_{{ shelf.id }}" 
+                class="shelf-image"
+                title="Image du shelf {{ shelf.title }}"
+            >
+            <h1 class="h3">{{ shelf.title }}</h1>
+            <p class="shelf-description">{{ shelf.description }}</p>
+
+            <div class="book-container">                
+                <div class="book-list mt-2 row g-1 g-md-2 g-lg-3 g-xxl-4{% if shelf.books|length > 0 %}{% endif %}">
+                    {# {% for book in shelf.books %} #}
+                        {% for i in range(1, random(8, 12)) %}
+                            <div class="col-12 col-md-6 col-lg-4 col-xxl-3 my-2">
+                                <div class="card book">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Book {{ i }}</h5>
+                                        <small class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit unde eum sed architecto commodi consequatur ab quis laborum eos perspiciatis.</small>
+                                        <a 
+                                            href="#" 
+                                            class="book-card-link" 
+                                            onclick="event.preventDefault()"
+                                            title="Lien vers le livre Book {{ i }}"
+                                            id="book_link_{{ i }}"
+                                        ></a>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex flex-row book-content">
+                                            <div class="book-chapters me-2">
+                                                {{ random(0, 20) }}
+                                                <i class="bi bi-files"></i>
+                                                Chapitres
+                                            </div>
+                                            <div class="book-pages ms-2">
+                                                {{ random(0, 20) }}
+                                                <i class="bi bi-card-text"></i>
+                                                Pages
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {# {% endfor %} #}
+                    {% else %}
+                        <div class="alert alert-info my-2">
+                            Pas de livres pour le moment. Des contenus seront disponibles bientôt.
+                        </div>
+                    {% endfor %} 
+                </div>
+            </div>
+        </section>
+    </section>
+{% endblock %}
+
+{% block css %}    
+    <link rel="stylesheet" href="{{ asset('css/docs/styles.css') }}">
+{% endblock %}
