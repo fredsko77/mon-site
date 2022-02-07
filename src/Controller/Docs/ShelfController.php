@@ -1,7 +1,9 @@
 <?php
 namespace App\Controller\Docs;
 
+use App\Entity\Book;
 use App\Entity\Shelf;
+use App\Form\Docs\NewBookType;
 use App\Form\Docs\ShelfType;
 use App\Repository\ShelfRepository;
 use App\Services\Docs\ShelfServicesInterface;
@@ -95,10 +97,22 @@ class ShelfController extends AbstractController
      *  methods={"GET", "POST"}
      * )
      */
-    public function createBook(Shelf $shelf): Response
+    public function createBook(Shelf $shelf, Request $request): Response
     {
-        // $form = $this
-        return $this->renderForm('docs/book/new.html.twig', ['shelf' => $shelf]);
+        $book = new Book;
+        $form = $this->createForm(NewBookType::class, $book);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->service->newBook($shelf, $book);
+
+            return $this->redirectToRoute('docs_shelf_show', [
+                'id' => $shelf->getId(),
+                'slug' => $shelf->getSlug(),
+            ]);
+        }
+
+        return $this->renderForm('docs/book/new.html.twig', compact('shelf', 'form'));
     }
 
     /**

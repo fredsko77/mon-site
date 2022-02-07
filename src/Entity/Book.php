@@ -6,9 +6,16 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
+ * @UniqueEntity(
+ *     fields={"title"},
+ *     errorPath="title",
+ *     message="Ce livre est déjà utilisée !"
+ * )
  */
 class Book
 {
@@ -21,6 +28,7 @@ class Book
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le titre du livre doit être renseigné !")
      */
     private $title;
 
@@ -63,6 +71,9 @@ class Book
      * @ORM\Column(type="string", length=20)
      */
     private $visibility;
+
+    public const VISIBILITY_PUBLIC = 'public';
+    public const VISIBILITY_PRIVATE = 'private';
 
     public function __construct()
     {
@@ -116,7 +127,7 @@ class Book
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface$createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -128,7 +139,7 @@ class Book
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface$updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -217,5 +228,16 @@ class Book
         $this->visibility = $visibility;
 
         return $this;
+    }
+
+    /**
+     *@return array
+     */
+    public static function visibilities(): array
+    {
+        return [
+            'Privée' => self::VISIBILITY_PRIVATE,
+            'Publique' => self::VISIBILITY_PUBLIC,
+        ];
     }
 }

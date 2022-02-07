@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Docs;
 
+use App\Entity\Book;
 use App\Entity\Shelf;
 use App\Repository\ShelfRepository;
 use App\Services\Docs\ShelfServicesInterface;
@@ -147,5 +148,29 @@ class ShelfServices implements ShelfServicesInterface
                 $this->filesystem->remove($file);
             }
         }
+    }
+
+    /**
+     * @param Shelf $shelf
+     * @param Book $book
+     *
+     * @return void
+     */
+    public function newBook(Shelf $shelf, Book $book): void
+    {
+        $book
+            ->setSlug(
+                $this->slugger->slugify(
+                    $book->getSlug() ?? $book->getTitle(),
+                    '-'
+                )
+            )
+            ->setCreatedAt(new \DateTime)
+        ;
+
+        $shelf->addBook($book);
+
+        $this->manager->persist($shelf);
+        $this->manager->flush();
     }
 }

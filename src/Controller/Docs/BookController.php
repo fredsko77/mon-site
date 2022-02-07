@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("docs/book", name="docs_book_")
+ * @Route("docs/livres", name="docs_book_")
  */
 class BookController extends AbstractController
 {
