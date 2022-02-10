@@ -30,13 +30,12 @@
                             {# {% for chapter in book.chapters %} #}
                             {% for chapter in range(1, random(3, 6)) %}
                                 <div class="content chapter">
-                                    <div class="chapter-container">
-                                        Chapter {{ chapter }}
+                                    <div class="chapter-container">                                        
                                         <a 
                                             id="chapter_link_{{ chapter }}"
                                             href="#" 
                                             class="chapter-link"
-                                        ></a>
+                                        >Chapter {{ chapter }}</a>
                                     </div>
                                     {% set pages = random(0, 5) %}
                                     {% if pages > 0 %}
@@ -56,7 +55,7 @@
                                                         href="#page-{{ page }}" 
                                                         class="link-page"
                                                         title="Lien vers la page Page {{ page }}"
-                                                        {# onclick="event.preventDefault()" #}
+                                                        onclick="event.preventDefault()"
                                                     >Lorem, ipsum dolor.</a>
                                                 {% endfor %}
                                             </div>
@@ -74,7 +73,7 @@
                                         href="#page-{{ page }}" 
                                         class="link-page"
                                         title="Lien vers la page Page {{ page }}"
-                                        {# onclick="event.preventDefault()" #}
+                                        onclick="event.preventDefault()"
                                     ></a>
                                 </div>
                             {% endfor %}

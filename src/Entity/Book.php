@@ -58,12 +58,12 @@ class Book
     private $shelf;
 
     /**
-     * @ORM\OneToMany(targetEntity=Chapter::class, mappedBy="book")
+     * @ORM\OneToMany(targetEntity=Chapter::class, mappedBy="book", cascade={"persist", "remove"})
      */
     private $chapters;
 
     /**
-     * @ORM\OneToMany(targetEntity=Page::class, mappedBy="book")
+     * @ORM\OneToMany(targetEntity=Page::class, mappedBy="book", cascade={"persist", "remove"})
      */
     private $pages;
 

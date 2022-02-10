@@ -3,12 +3,21 @@
 namespace App\Entity;
 
 use App\Repository\ChapterRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ChapterRepository::class)
+ * @UniqueEntity(
+ *     fields={"title"},
+ *     errorPath="title",
+ *     message="Ce chapitre existe déjà !"
+ * )
  */
 class Chapter
 {
@@ -21,6 +30,7 @@ class Chapter
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire !")
      */
     private $title;
 
@@ -37,7 +47,7 @@ class Chapter
     /**
      * @ORM\Column(type="datetime")
      */
-    private $cratedAt;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -68,6 +78,9 @@ class Chapter
      * @ORM\Column(type="string", length=20)
      */
     private $visibility;
+
+    public const VISIBILITY_PUBLIC = 'public';
+    public const VISIBILITY_PRIVATE = 'private';
 
     public function __construct()
     {
@@ -116,24 +129,24 @@ class Chapter
         return $this;
     }
 
-    public function getCratedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->cratedAt;
+        return $this->createdAt;
     }
 
-    public function setCratedAt(\DateTimeInterface$cratedAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
-        $this->cratedAt = $cratedAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface$updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -234,5 +247,16 @@ class Chapter
         $this->visibility = $visibility;
 
         return $this;
+    }
+
+    /**
+     *@return array
+     */
+    public static function visibilities(): array
+    {
+        return [
+            'Privée' => self::VISIBILITY_PRIVATE,
+            'Publique' => self::VISIBILITY_PUBLIC,
+        ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Form\Docs;
 
-use App\Entity\Book;
+use App\Entity\Chapter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NewBookType extends AbstractType
+class ChapterCreateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -31,14 +31,14 @@ class NewBookType extends AbstractType
                 'label' => 'Visibilité',
                 'multiple' => false,
                 'expanded' => false,
-                'choices' => Book::visibilities(),
+                'choices' => Chapter::visibilities(),
                 'preferred_choices' => function ($choice, $key, $value) {
                     // prefer options 'public'
-                    return $choice === Book::VISIBILITY_PUBLIC;
+                    return $choice === Chapter::VISIBILITY_PUBLIC;
                 },
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Créer',
+                'label' => 'Enregistrer',
                 'attr' => ['class' => 'btn-crm'],
             ])
         ;
@@ -47,7 +47,7 @@ class NewBookType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Book::class,
+            'data_class' => Chapter::class,
         ]);
     }
 }
