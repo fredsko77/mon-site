@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PageRepository::class)
@@ -19,6 +20,7 @@ class Page
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire !")
      */
     private $title;
 
@@ -67,6 +69,12 @@ class Page
      */
     private $state;
 
+    public const STATE_PENDING = "pending";
+    public const STATE_PUBLISHED = "published";
+
+    public const VISIBILITY_PUBLIC = 'public';
+    public const VISIBILITY_PRIVATE = 'private';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -113,7 +121,7 @@ class Page
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface$createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -125,7 +133,7 @@ class Page
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface$updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -190,5 +198,27 @@ class Page
         $this->state = $state;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public static function states(): array
+    {
+        return [
+            'En cours' => self::STATE_PENDING,
+            'Publié' => self::STATE_PUBLISHED,
+        ];
+    }
+
+    /**
+     *@return array
+     */
+    public static function visibilities(): array
+    {
+        return [
+            'Privée' => self::VISIBILITY_PRIVATE,
+            'Publique' => self::VISIBILITY_PUBLIC,
+        ];
     }
 }

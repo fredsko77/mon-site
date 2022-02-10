@@ -46,4 +46,6 @@ security:
         - { path: ^/signin, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/docs/etageres/action, roles: [ROLE_ADMIN] }
+        - { path: ^/docs/book/action, roles: [ROLE_ADMIN] }
+        - { path: ^/docs/shelf/action, roles: [ROLE_ADMIN] }
         - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }

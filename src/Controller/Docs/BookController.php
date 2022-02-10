@@ -3,8 +3,11 @@ namespace App\Controller\Docs;
 
 use App\Entity\Book;
 use App\Entity\Chapter;
+use App\Entity\Page;
 use App\Form\Docs\ChapterCreateType;
+use App\Form\Docs\PageCreateType;
 use App\Services\Docs\ChapterServicesInterface;
+use App\Services\Docs\PageServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +24,15 @@ class BookController extends AbstractController
      */
     private $chapterService;
 
-    public function __construct(ChapterServicesInterface $chapterService)
+    /**
+     * @var PageServicesInterface $pageService
+     */
+    private $pageService;
+
+    public function __construct(ChapterServicesInterface $chapterService, PageServicesInterface $pageService)
     {
         $this->chapterService = $chapterService;
+        $this->pageService = $pageService;
     }
 
     /**
@@ -44,7 +53,7 @@ class BookController extends AbstractController
 
     /**
      * @Route(
-     *  "/{slug}-{id}/nouveau-chapitre",
+     *  "/action/{slug}-{id}/nouveau-chapitre",
      *  name="new_chapter",
      *  methods={"GET", "POST"},
      *  requirements={
@@ -70,5 +79,32 @@ class BookController extends AbstractController
 
         return $this->renderForm('docs/book/new_chapter.html.twig', compact('book', 'form'));
     }
+    /**
+     * @Route(
+     *  "/action/{slug}-{id}/nouvelle-page",
+     *  name="new_page",
+     *  methods={"GET", "POST"},
+     *  requirements={
+     *      "id": "\d+",
+     *      "slug": "[a-z0-9\-]*"
+     *  }
+     * )
+     */
+    public function createPage(Book $book, Request $request): Response
+    {
+        $page = new Page;
+        $form = $this->createForm(PageCreateType::class, $page);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->pageService->createPage($page, $book);
+
+            return $this->redirectToRoute('docs_book_show', [
+                'id' => $book->getId(),
+                'slug' => $book->getSlug(),
+            ]);
+        }
+
+        return $this->renderForm('docs/book/new_page.html.twig', compact('book', 'form'));
+    }
 }

@@ -1,14 +1,14 @@
 <?php
 namespace App\Services\Docs;
 
-use App\Entity\Chapter;
-use App\Repository\ChapterRepository;
-use App\Services\Docs\ChapterServicesInterface;
+use App\Entity\Page;
+use App\Repository\PageRepository;
+use App\Services\Docs\PageServicesInterface;
 use Cocur\Slugify\Slugify;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ChapterServices implements ChapterServicesInterface
+class PageServices implements PageServicesInterface
 {
 
     /**
@@ -28,7 +28,7 @@ class ChapterServices implements ChapterServicesInterface
 
     public function __construct(
         EntityManagerInterface $manager,
-        ChapterRepository $repository
+        PageRepository $repository
     ) {
         $this->manager = $manager;
         $this->repository = $repository;
@@ -36,26 +36,26 @@ class ChapterServices implements ChapterServicesInterface
     }
 
     /**
-     * @param Chapter $chapter
+     * @param Page $page
      * @param object $instance
      *
      * @return void
      */
-    public function createChapter(Chapter $chapter, object $instance): void
+    public function createPage(Page $page, object $instance): void
     {
-        $chapter->getId() !== null ? $chapter->setUpdatedAt(new DateTime) : $chapter->setCreatedAt(new DateTime);
+        $page->getId() !== null ? $page->setUpdatedAt(new DateTime) : $page->setCreatedAt(new DateTime);
 
-        $chapter->setSlug(
+        $page->setSlug(
             $this->slugger->slugify(
-                $chapter->getSlug() ?? $chapter->getTitle(),
+                $page->getSlug() ?? $page->getTitle(),
                 '-'
             )
         );
 
-        $instance->addChapter($chapter);
+        $instance->addPage($page);
 
         $this->manager->persist($instance);
         $this->manager->flush();
-    }
 
+    }
 }

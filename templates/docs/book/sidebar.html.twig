@@ -17,13 +17,11 @@
                 class="action-link" 
                 title="Lien pour créer un nouveau chapitre"
             ><i class="bi bi-folder-plus"></i>&nbsp;Nouveau chapitre</a>
-            <a 
-                {# href="{{ path('docs_shelf_new_book', {
-                    id: shelf.id,
-                    slug: shelf.slug
-                }) }}"  #}
-                href="#"
-                onclick="event.preventDefault()"
+            <a                 
+                href="{{ path('docs_book_new_page', {
+                    id: book.id,
+                    slug: book.slug
+                }) }}" 
                 id="new-page"
                 class="action-link" 
                 title="Lien pour créer une nouvelle page"
