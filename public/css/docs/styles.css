@@ -56,8 +56,10 @@ main {
 
 /* Docs Show Self */
 
-.shelf-description {
+.shelf-description,
+.book-description {
     color: var(--text-content-secondary);
+    font-size: .95rem;
 }
 
 .docs-page {
@@ -108,12 +110,13 @@ aside .action-container {
 
 .actions .action-link {
     display: block;
-    padding: .33rem 1rem;
+    padding: .33rem .75rem;
     background: transparent;
     text-decoration: none;
     color: inherit;
     border-radius: .3rem;
     transition: all .3s ease-in-out;
+    font-size: .95rem;
 }
 
 .action-link:hover {
@@ -128,4 +131,127 @@ aside .action-container {
 .book-content {
     font-size: .85rem;
     color: var(--text-content-secondary);
+}
+
+
+/* Docs Book Show */
+
+#page-show-book {
+    min-height: inherit;
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-row-gap: 0;
+    margin-top: 1rem;
+}
+
+aside .detail-container {
+    padding: .75rem .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+#page-show-book .section {
+    background-color: var(--bs-white);
+    padding: 1rem 1.25rem;
+    box-shadow: 0 1px 6px -1px rgb(0, 0, 0, .1);
+}
+
+.docs-page .section .container {
+    max-width: 900px;
+    margin: 0 auto 0 0;
+}
+
+#page-show-book .content {
+    width: 100%;
+    height: auto;
+    padding: .6rem .5rem;
+    transition: .35s all ease-in-out;
+    margin-bottom: 1rem;
+    border-radius: .2rem;
+}
+
+#page-show-book .content:hover {
+    cursor: pointer;
+}
+
+#page-show-book .content.chapter {
+    border-left: 4px solid var(--app-red-100);
+}
+
+#page-show-book .content.page {
+    position: relative;
+    border-left: 4px solid var(--app-blue-100);
+}
+
+#page-show-book .content.chapter:hover {
+    border-left-color: var(--app-red-300);
+}
+
+#page-show-book .content.page:hover {
+    box-shadow: var(--app-shadow-light);
+    border-left-color: var(--app-blue-300);
+}
+
+.chapter .chapter-container {
+    padding: .6rem 1rem;
+    position: relative;
+    border-radius: .3rem;
+    background-color: transparent;
+}
+
+.chapter .chapter-container:hover,
+.chapter .page-container .dropdown-btn:hover {
+    background-color: rgba(30, 30, 30, 0.05);
+}
+
+.chapter .page-container .dropdown-btn {
+    padding: .2rem .4rem;
+    background-color: transparent;
+    margin-bottom: .2rem !important;
+    border-radius: .3rem;
+}
+
+.chapter .page-container .dropdown-btn i::before {
+    transition: .3s all ease-in-out;
+}
+
+.chapter .page-container .dropdown-btn[aria-expanded="true"] i::before {
+    transform: rotate(90deg);
+}
+
+.content.page .link-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.pages-dropdown {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.pages-dropdown .link-page {
+    padding: .2rem .8rem;
+    display: block;
+    text-decoration: none;
+    color: var(--text-content-secondary);
+    transition: .4s all ease-in-out;
+    background-color: transparent;
+    width: 100%;
+    border-radius: .3rem;
+}
+
+.pages-dropdown .link-page:hover {
+    color: inherit;
+    background-color: rgba(0, 0, 0, .04);
 }

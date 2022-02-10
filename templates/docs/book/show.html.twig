@@ -1,0 +1,124 @@
+{% extends "docs/layouts/page.html.twig" %}
+
+{% block main %}
+    <section class="container-fluid" id="page-show-book">
+        {% include "docs/book/sidebar.html.twig" %}        
+        <section class="section">
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('docs_shelf_index') }}">Étagères</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('docs_shelf_show', {
+                                id: book.shelf.id,
+                                slug: book.shelf.slug
+                            }) }}">{{ book.shelf.title }}</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            {{ book.title }}
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="h3">{{ book.title }}</h1>
+                <p class="book-description">{{ book.description }}</p>
+
+                <div class="book-container">                
+                    <div class="content-container">
+                        <div class="chapter-list">
+                            {# {% for chapter in book.chapters %} #}
+                            {% for chapter in range(1, random(3, 6)) %}
+                                <div class="content chapter">
+                                    <div class="chapter-container">
+                                        Chapter {{ chapter }}
+                                        <a 
+                                            id="chapter_link_{{ chapter }}"
+                                            href="#" 
+                                            class="chapter-link"
+                                        ></a>
+                                    </div>
+                                    {% set pages = random(0, 5) %}
+                                    {% if pages > 0 %}
+                                        <div class="page-container">
+                                            <p 
+                                                class="dropdown-btn" 
+                                                id="dropdownPage{{ chapter }}"
+                                                aria-target="#dropDownPageLink{{ chapter }}" 
+                                                aria-expanded="false"
+                                            >
+                                                <i class="bi bi-caret-right-fill"></i>
+                                                &nbsp;{{ pages }} Pages
+                                            </p>
+                                            <div class="pages-dropdown hidden" id="dropDownPageLink{{ chapter }}">
+                                                {% for page in range(1, pages) %}                                                
+                                                    <a 
+                                                        href="#page-{{ page }}" 
+                                                        class="link-page"
+                                                        title="Lien vers la page Page {{ page }}"
+                                                        {# onclick="event.preventDefault()" #}
+                                                    >Lorem, ipsum dolor.</a>
+                                                {% endfor %}
+                                            </div>
+                                        </div> 
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="page-list">
+                            {# {% for page in book.pages %} #}
+                            {% for page in range(1, random(3, 6)) %} 
+                                <div class="content page">
+                                    Page {{ page }}
+                                    <a 
+                                        href="#page-{{ page }}" 
+                                        class="link-page"
+                                        title="Lien vers la page Page {{ page }}"
+                                        {# onclick="event.preventDefault()" #}
+                                    ></a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+{% endblock %}
+
+{% block css %}    
+    <link rel="stylesheet" href="{{ asset('css/docs/styles.css') }}">
+{% endblock %}
+
+{% block js %}
+    <script>
+        window.onload = () => {
+            const dropDownButtonsContainer = document.querySelectorAll('.dropdown-btn');
+            const dropDownButtons = document.querySelectorAll('.dropdown-btn i');
+
+            const dropDown = (event) => {
+                const button = event.target;
+                const target = event.target.getAttribute('aria-target');
+                const dropDown = document.querySelector(target);
+                const alreadyOpen = document.querySelector('.dropdown-btn[aria-expanded="true"]');
+                
+                if (alreadyOpen && alreadyOpen !== button){
+                    alreadyOpen.setAttribute('aria-expanded', false);
+                    alreadyOpen.nextElementSibling.classList.add('hidden');
+                }
+
+                if (dropDown.classList.contains('hidden')) {
+                    button.setAttribute('aria-expanded', true);
+                    dropDown.classList.remove('hidden');
+                } else {
+                    button.setAttribute('aria-expanded', false);
+                    dropDown.classList.add('hidden');
+                }
+            }
+
+            dropDownButtonsContainer.forEach((button) => {
+                button.addEventListener('click', dropDown);
+            });
+        }
+    </script>
+{% endblock %}
