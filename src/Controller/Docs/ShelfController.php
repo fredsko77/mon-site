@@ -104,7 +104,7 @@ class ShelfController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->service->newBook($shelf, $book);
+            $this->service->newBook($book, $shelf);
 
             return $this->redirectToRoute('docs_shelf_show', [
                 'id' => $shelf->getId(),

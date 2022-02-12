@@ -151,12 +151,12 @@ class ShelfServices implements ShelfServicesInterface
     }
 
     /**
-     * @param Shelf $shelf
      * @param Book $book
+     * @param Shelf $shelf
      *
      * @return void
      */
-    public function newBook(Shelf $shelf, Book $book): void
+    public function newBook(Book $book, ?Shelf $shelf = null): void
     {
         $book
             ->setSlug(
@@ -173,4 +173,26 @@ class ShelfServices implements ShelfServicesInterface
         $this->manager->persist($shelf);
         $this->manager->flush();
     }
+
+    /**
+     * @param Book $book
+     *
+     * @return void
+     */
+    public function editBook(Book $book): void
+    {
+        $book
+            ->setSlug(
+                $this->slugger->slugify(
+                    $book->getSlug() ?? $book->getTitle(),
+                    '-'
+                )
+            )
+            ->setUpdatedAt(new \DateTime)
+        ;
+
+        $this->manager->persist($book);
+        $this->manager->flush();
+    }
+
 }

@@ -90,7 +90,7 @@ main {
 }
 
 aside .action-container {
-    padding: .75rem .5rem;
+    padding: .75rem 0rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -145,7 +145,7 @@ aside .action-container {
 }
 
 aside .detail-container {
-    padding: .75rem .5rem;
+    padding: .75rem 0rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -263,4 +263,9 @@ aside .detail-container {
 
 .chapter-container .chapter-link:hover {
     color: inherit;
+}
+
+.details {
+    font-size: .9rem;
+    color: var(--text-content-secondary);
 }

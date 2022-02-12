@@ -24,11 +24,18 @@ interface ShelfServicesInterface
     public function paginate(Request $request): PaginationInterface;
 
     /**
-     * @param Shelf $shelf
+     * @param Book $book
+     * @param null|Shelf $shelf
+     *
+     * @return void
+     */
+    public function newBook(Book $book, ?Shelf $shelf = null): void;
+
+    /**
      * @param Book $book
      *
      * @return void
      */
-    public function newBook(Shelf $shelf, Book $book): void;
+    public function editBook(Book $book): void;
 
 }

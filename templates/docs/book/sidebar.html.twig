@@ -2,7 +2,10 @@
     <div class="detail-container">
         <h3 class="h5">Détails</h3>
         <div class="details">
-
+            <small>Crée le {{ book.createdAt|format_datetime(locale='fr') }}</small>
+            {% if book.updatedAt != null %}
+                <small>Dernière mise à jour le {{ book.updatedAt|format_datetime(locale='fr') }} </small>
+            {% endif %}
         </div>
     </div>
     <div class="action-container">
@@ -28,18 +31,18 @@
             ><i class="bi bi-file-plus"></i>&nbsp;Nouvelle page</a>
             <hr>
             <a 
-                {# href="{{ path('docs_shelf_edit', {
-                    id: shelf.id
-                }) }}" #}
+                href="{{ path('docs_book_edit', {
+                    id: book.id,
+                    slug: book.slug
+                }) }}"
                 href="#"
-                onclick="event.preventDefault()"
-                id="edit-shelf" 
+                id="edit-book" 
                 title="Lien pour éditer le livre" 
                 class="action-link"
             ><i class="bi bi-pencil"></i>&nbsp;Éditer</a>
             <a 
                 href="#" 
-                id="delete-shelf" 
+                id="delete-book" 
                 title="Lien pour supprimer le livre" 
                 class="action-link"
             ><i class="bi bi-trash"></i>&nbsp;Supprimer</a>
