@@ -43,6 +43,29 @@ class ChapterServices implements ChapterServicesInterface
      */
     public function createChapter(Chapter $chapter, object $instance): void
     {
+        $chapter
+            ->setCreatedAt(new DateTime)
+            ->setSlug(
+                $this->slugger->slugify(
+                    $chapter->getSlug() ?? $chapter->getTitle(),
+                    '-'
+                )
+            );
+
+        $instance->addChapter($chapter);
+
+        $this->manager->persist($instance);
+        $this->manager->flush();
+    }
+
+    /**
+     * @param Chapter $chapter
+     * @param object $instance
+     *
+     * @return void
+     */
+    public function editChapter(Chapter $chapter): void
+    {
         $chapter->getId() !== null ? $chapter->setUpdatedAt(new DateTime) : $chapter->setCreatedAt(new DateTime);
 
         $chapter->setSlug(
@@ -52,9 +75,7 @@ class ChapterServices implements ChapterServicesInterface
             )
         );
 
-        $instance->addChapter($chapter);
-
-        $this->manager->persist($instance);
+        $this->manager->persist($chapter);
         $this->manager->flush();
     }
 
