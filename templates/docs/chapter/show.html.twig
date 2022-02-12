@@ -1,0 +1,61 @@
+{% extends "docs/layouts/page.html.twig" %}
+
+{% block main %}
+    <section class="container-fluid" id="page-show-book">
+        {% include "docs/chapter/sidebar.html.twig" %}        
+        <section class="section">
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('docs_shelf_index') }}">Étagères</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('docs_shelf_show', {
+                                id: chapter.book.shelf.id,
+                                slug: chapter.book.shelf.slug
+                            }) }}">{{ chapter.book.shelf.title }}</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="{{ path('docs_book_show', {
+                                id: chapter.book.id,
+                                slug: chapter.book.slug
+                            }) }}">{{ chapter.book.title }}</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            {{ chapter.title }}
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="h3">{{ chapter.title }}</h1>
+                <p class="chapter-description">{{ chapter.description }}</p>
+                <div class="chapter-container">                
+                    <div class="content-container">
+                        <div class="page-list">
+                            {% for page in range(1, random(4, 8)) %}
+                            {# {% for page in chapter.pages %} #}
+                                <div class="content page">
+                                    Page {{ page }}
+                                    {# {{ page.title|capitalize }} #}
+                                    <a 
+                                        href="#page-{{ page }}"
+                                        {# href="{{ path('docs_page_show', {
+                                            id: page.id,
+                                            slug: page.slug
+                                        }) }}" #}
+                                        class="link-page"
+                                        title="Lien vers la page Page {{ page }}"
+                                    ></a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+{% endblock %}
+
+{% block css %}    
+    <link rel="stylesheet" href="{{ asset('css/docs/styles.css') }}">
+{% endblock %}
