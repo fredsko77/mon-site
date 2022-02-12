@@ -60,7 +60,7 @@ class Chapter
     private $book;
 
     /**
-     * @ORM\OneToMany(targetEntity=Page::class, mappedBy="chapter")
+     * @ORM\OneToMany(targetEntity=Page::class, mappedBy="chapter", cascade={"persist", "remove"})
      */
     private $pages;
 

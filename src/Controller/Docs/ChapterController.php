@@ -2,8 +2,11 @@
 namespace App\Controller\Docs;
 
 use App\Entity\Chapter;
+use App\Entity\Page;
 use App\Form\Docs\ChapterCreateType;
+use App\Form\Docs\PageCreateType;
 use App\Services\Docs\ChapterServicesInterface;
+use App\Services\Docs\PageServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +23,15 @@ class ChapterController extends AbstractController
      */
     private $chapterService;
 
-    public function __construct(ChapterServicesInterface $chapterService)
+    /**
+     * @var PageServicesInterface $pageService
+     */
+    private $pageService;
+
+    public function __construct(ChapterServicesInterface $chapterService, PageServicesInterface $pageService)
     {
         $this->chapterService = $chapterService;
+        $this->pageService = $pageService;
     }
 
     /**
@@ -67,6 +76,35 @@ class ChapterController extends AbstractController
         }
 
         return $this->renderForm('docs/book/new_chapter.html.twig', compact('chapter', 'form'));
+    }
+
+    /**
+     * @Route(
+     *  "/action/{slug}-{id}/nouvelle-page",
+     *  name="new_page",
+     *  methods={"GET", "POST"},
+     *  requirements={
+     *      "id": "\d+",
+     *      "slug": "[a-z0-9\-]*"
+     *  }
+     * )
+     */
+    public function createPage(Chapter $chapter, Request $request): Response
+    {
+        $page = new Page;
+        $form = $this->createForm(PageCreateType::class, $page);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->pageService->createPage($page, $chapter);
+
+            return $this->redirectToRoute('docs_chapter_show', [
+                'id' => $chapter->getId(),
+                'slug' => $chapter->getSlug(),
+            ]);
+        }
+
+        return $this->renderForm('docs/book/new_page.html.twig', compact('chapter', 'form'));
     }
 
 }

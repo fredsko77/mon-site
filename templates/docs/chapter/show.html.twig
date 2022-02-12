@@ -36,13 +36,13 @@
                                 <div class="content page">
                                     {{ page.title|capitalize }}
                                     <a 
-                                        href="#page-{{ page }}"
+                                        href="#page-{{ page.id }}"
                                         {# href="{{ path('docs_page_show', {
                                             id: page.id,
                                             slug: page.slug
                                         }) }}" #}
                                         class="link-page"
-                                        title="Lien vers la page Page {{ page }}"
+                                        title="Lien vers la page {{ page.title }}"
                                     ></a>
                                 </div>
                             {% endfor %}

@@ -45,7 +45,7 @@
         "symfony/yaml": "5.3.*",
         "twig/extra-bundle": "^3.3",
         "twig/intl-extra": "^3.3",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^3.3"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
@@ -62,7 +62,11 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {

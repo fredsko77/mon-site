@@ -115,6 +115,7 @@ class BookController extends AbstractController
 
         return $this->renderForm('docs/book/new_chapter.html.twig', compact('book', 'form'));
     }
+
     /**
      * @Route(
      *  "/action/{slug}-{id}/nouvelle-page",
