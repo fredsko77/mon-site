@@ -1,0 +1,36 @@
+<aside>
+    <div class="detail-container">
+        <h3 class="h5">Détails</h3>
+        <div class="details">
+            <small>Crée le {{ page.createdAt|format_datetime(locale='fr') }}</small>
+            {% if page.updatedAt != null %}
+                <small>Dernière mise à jour le {{ page.updatedAt|format_datetime(locale='fr') }} </small>
+            {% endif %}
+        </div>
+    </div>
+    <div class="action-container">
+        <h3 class="h5">Actions</h3>
+        <div class="actions">
+            <a 
+                {# href="{{ path('docs_page_edit', {
+                    id: page.id,
+                    slug: page.slug
+                }) }}" #}
+                id="edit-page" 
+                title="Lien pour éditer le livre" 
+                class="action-link"
+            ><i class="bi bi-pencil"></i>&nbsp;Éditer</a>
+            <a 
+                {# href="{{ path('docs_page_delete', {
+                    id: page.id,
+                    slug: page.slug
+                }) }}"  #}
+                id="delete-page" 
+                title="Lien pour supprimer le livre" 
+                class="action-link"
+                onclick="event.preventDefault();"
+                {# onclick="deleteObject(event);" #}
+            ><i class="bi bi-trash"></i>&nbsp;Supprimer</a>
+        </div>
+    </div>
+</aside>

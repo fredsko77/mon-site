@@ -26,6 +26,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('socials', [$this, 'socials']),
+            new TwigFunction('getClass', [$this, 'getClass']),
         ];
     }
 
@@ -35,6 +36,16 @@ class AppExtension extends AbstractExtension
     public function socials(): array | null
     {
         return $this->socialRepository->findAll();
+    }
+
+    public function getClass(object $object): ?string
+    {
+        if (is_object($object)) {
+
+            return $object::class;
+        }
+
+        return null;
     }
 
 }
