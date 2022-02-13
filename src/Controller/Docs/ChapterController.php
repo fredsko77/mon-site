@@ -8,6 +8,7 @@ use App\Form\Docs\PageCreateType;
 use App\Services\Docs\ChapterServicesInterface;
 use App\Services\Docs\PageServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -105,6 +106,28 @@ class ChapterController extends AbstractController
         }
 
         return $this->renderForm('docs/book/new_page.html.twig', compact('chapter', 'form'));
+    }
+
+    /**
+     * @Route(
+     *  "/{slug}-{id}",
+     *  name="delete",
+     *  requirements={
+     *      "id": "\d+",
+     *      "slug": "[a-z0-9\-]*"
+     *  },
+     *  methods={"DELETE"}
+     * )
+     */
+    public function delete(Chapter $chapter): JsonResponse
+    {
+        $response = $this->chapterService->delete($chapter);
+
+        return $this->json(
+            $response->data,
+            $response->status,
+            $response->headers
+        );
     }
 
 }

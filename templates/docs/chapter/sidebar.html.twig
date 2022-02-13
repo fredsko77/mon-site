@@ -41,11 +41,14 @@
                 class="action-link"
             ><i class="bi bi-pencil"></i>&nbsp;Éditer</a>
             <a 
-                href="#" 
+                href="{{ path('docs_chapter_delete', {
+                    id: chapter.id,
+                    slug: chapter.slug
+                }) }}" 
                 id="delete-chapter" 
                 title="Lien pour supprimer le livre" 
                 class="action-link"
-                onclick="event.preventDefault();"
+                onclick="deleteObject(event);"
             ><i class="bi bi-trash"></i>&nbsp;Supprimer</a>
         </div>
     </div>

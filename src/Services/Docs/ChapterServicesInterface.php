@@ -21,4 +21,11 @@ interface ChapterServicesInterface
      */
     public function editChapter(Chapter $chapter): void;
 
+    /**
+     * @param Chapter $chapter
+     *
+     * @return object
+     */
+    public function delete(Chapter $chapter): object;
+
 }

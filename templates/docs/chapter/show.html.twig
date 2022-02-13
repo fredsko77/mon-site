@@ -57,3 +57,30 @@
 {% block css %}    
     <link rel="stylesheet" href="{{ asset('css/docs/styles.css') }}">
 {% endblock %}
+
+{% block js %}
+    <script>
+        const deleteObject = (event) => {
+            event.preventDefault();
+            const url = event.target.href;
+            const answer = confirm('Toutes les données supprimées seront perdues définitivement? Êtes-vous sûr de poursuivre cette action?');
+
+            if (answer === true) {
+                axios
+                    .delete(url)
+                    .then(({ status, headers }) => {
+                        if (status === 204) {
+                            if (headers.hasOwnProperty('location')) {
+                                flash('Supprimé avec succcès');
+                                setTimeout(() => window.location = headers.location, 3000);
+                            }
+                        }
+                    })
+                    .catch(({ response }) => {
+                        errorHTTPRequest();
+                        console.error(response);
+                    })
+            }
+        }
+    </script>
+{% endblock %}
