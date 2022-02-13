@@ -21,10 +21,14 @@
                 class="action-link"
             ><i class="bi bi-pencil"></i>&nbsp;Éditer</a>
             <a 
-                href="#" 
+                href="{{ path('docs_shelf_delete', {
+                    id: shelf.id,
+                    slug: shelf.slug
+                }) }}" 
                 id="delete-shelf" 
                 title="Lien pour supprimer l'étagère" 
                 class="action-link"
+                onclick="deleteObject(event);"
             ><i class="bi bi-trash"></i>&nbsp;Supprimer</a>
         </div>
     </div>

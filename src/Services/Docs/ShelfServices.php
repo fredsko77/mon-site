@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
 
 class ShelfServices implements ShelfServicesInterface
@@ -63,13 +64,19 @@ class ShelfServices implements ShelfServicesInterface
      */
     private $security;
 
+    /**
+     * @var UrlGeneratorInterface $router
+     */
+    private $router;
+
     public function __construct(
         ShelfRepository $repository,
         ContainerInterface $container,
         EntityManagerInterface $manager,
         Filesystem $filesystem,
         PaginatorInterface $paginator,
-        Security $security
+        Security $security,
+        UrlGeneratorInterface $router
     ) {
         $this->repository = $repository;
         $this->container = $container;
@@ -79,6 +86,7 @@ class ShelfServices implements ShelfServicesInterface
         $this->session = new Session;
         $this->paginator = $paginator;
         $this->security = $security;
+        $this->router = $router;
     }
 
     /**
@@ -123,6 +131,11 @@ class ShelfServices implements ShelfServicesInterface
         $this->manager->flush();
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return PaginationInterface
+     */
     public function paginate(Request $request): PaginationInterface
     {
         $user = $this->security->getUser();
@@ -133,6 +146,25 @@ class ShelfServices implements ShelfServicesInterface
             $request->query->getInt('page', 1),
             15
         );
+    }
+
+    /**
+     * @param Shelf $shelf
+     *
+     * @return object
+     */
+    public function delete(Shelf $shelf): object
+    {
+        $this->deleteImage($shelf);
+
+        $location = $this->router->generate('docs_shelf_index');
+
+        $this->manager->remove($shelf);
+        $this->manager->flush();
+
+        return $this->sendNoContent([
+            'Location' => $location,
+        ]);
     }
 
     /**

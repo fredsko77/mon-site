@@ -38,4 +38,11 @@ interface ShelfServicesInterface
      */
     public function editBook(Book $book): void;
 
+    /**
+     * @param Shelf $shelf
+     *
+     * @return object
+     */
+    public function delete(Shelf $shelf): object;
+
 }

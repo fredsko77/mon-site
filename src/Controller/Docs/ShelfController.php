@@ -8,6 +8,7 @@ use App\Form\Docs\ShelfType;
 use App\Repository\ShelfRepository;
 use App\Services\Docs\ShelfServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -154,6 +155,28 @@ class ShelfController extends AbstractController
         }
 
         return $this->render('docs/shelf/show.html.twig', ['shelf' => $shelf]);
+    }
+
+    /**
+     * @Route(
+     *  "/action/{slug}-{id}/supprimer",
+     *  name="delete",
+     *  requirements={
+     *      "id": "\d+",
+     *      "slug": "[a-z0-9\-]*"
+     *  },
+     *  methods={"DELETE"}
+     * )
+     */
+    public function delete(Shelf $shelf): JsonResponse
+    {
+        $response = $this->service->delete($shelf);
+
+        return $this->json(
+            $response->data,
+            $response->status,
+            $response->headers
+        );
     }
 
 }
