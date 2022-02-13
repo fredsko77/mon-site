@@ -140,9 +140,9 @@ class ProjectServices implements ProjectServicesInterface
     /**
      * @param Project $project
      *
-     * @return [type]
+     * @return object
      */
-    public function delete(Project $project)
+    public function delete(Project $project): object
     {
         $this->deleteImage($project);
 

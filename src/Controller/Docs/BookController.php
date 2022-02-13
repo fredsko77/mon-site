@@ -7,10 +7,12 @@ use App\Entity\Page;
 use App\Form\Docs\BookCreateType;
 use App\Form\Docs\ChapterCreateType;
 use App\Form\Docs\PageCreateType;
+use App\Services\Docs\BookServicesInterface;
 use App\Services\Docs\ChapterServicesInterface;
 use App\Services\Docs\PageServicesInterface;
 use App\Services\Docs\ShelfServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,11 +38,17 @@ class BookController extends AbstractController
      */
     private $shelfService;
 
-    public function __construct(ChapterServicesInterface $chapterService, PageServicesInterface $pageService, ShelfServicesInterface $shelfService)
+    /**
+     * @var BookServicesInterface $bookService
+     */
+    private $bookService;
+
+    public function __construct(ChapterServicesInterface $chapterService, PageServicesInterface $pageService, ShelfServicesInterface $shelfService, BookServicesInterface $bookService)
     {
         $this->chapterService = $chapterService;
         $this->pageService = $pageService;
         $this->shelfService = $shelfService;
+        $this->bookService = $bookService;
     }
 
     /**
@@ -144,4 +152,27 @@ class BookController extends AbstractController
 
         return $this->renderForm('docs/book/new_page.html.twig', compact('book', 'form'));
     }
+
+    /**
+     * @Route(
+     *  "/action/{slug}-{id}/supprimer",
+     *  name="delete",
+     *  requirements={
+     *      "id": "\d+",
+     *      "slug": "[a-z0-9\-]*"
+     *  },
+     *  methods={"DELETE"}
+     * )
+     */
+    public function delete(Book $book): JsonResponse
+    {
+        $response = $this->bookService->delete($book);
+
+        return $this->json(
+            $response->data,
+            $response->status,
+            $response->headers
+        );
+    }
+
 }

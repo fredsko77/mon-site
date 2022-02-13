@@ -26,6 +26,6 @@ interface ProjectServicesInterface
      *
      * @return object
      */
-    public function delete(Project $project);
+    public function delete(Project $project): object;
 
 }

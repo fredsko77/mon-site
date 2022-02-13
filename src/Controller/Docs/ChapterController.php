@@ -110,7 +110,7 @@ class ChapterController extends AbstractController
 
     /**
      * @Route(
-     *  "/{slug}-{id}",
+     *  "/action/{slug}-{id}/supprimer",
      *  name="delete",
      *  requirements={
      *      "id": "\d+",
