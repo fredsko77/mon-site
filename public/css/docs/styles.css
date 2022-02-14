@@ -270,3 +270,17 @@ aside .detail-container {
     font-size: .9rem;
     color: var(--text-content-secondary);
 }
+
+
+/* Page Show Page */
+
+.page-content {
+    margin: 1.5rem 0 .5rem;
+    line-height: 1.2;
+    text-align: justify;
+    color: var(--app-secondary-text);
+}
+
+.page-content p {
+    margin-bottom: .8rem;
+}

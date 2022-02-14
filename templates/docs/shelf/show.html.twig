@@ -6,12 +6,7 @@
         <section class="section">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{{ path('docs_shelf_index') }}">Étagères</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        {{ shelf.title }}
-                    </li>
+                    {% include "docs/partials/breadcrumb.html.twig" with {instance: shelf} %}
                 </ol>
             </nav>
             <img 

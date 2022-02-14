@@ -7,18 +7,7 @@
             <div class="container">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="{{ path('docs_shelf_index') }}">Étagères</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="{{ path('docs_shelf_show', {
-                                id: book.shelf.id,
-                                slug: book.shelf.slug
-                            }) }}">{{ book.shelf.title }}</a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            {{ book.title }}
-                        </li>
+                        {% include "docs/partials/breadcrumb.html.twig" with {instance: book} %}
                     </ol>
                 </nav>
                 <h1 class="h3">{{ book.title }}</h1>

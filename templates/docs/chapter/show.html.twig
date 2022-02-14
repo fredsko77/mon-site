@@ -7,24 +7,7 @@
             <div class="container">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="{{ path('docs_shelf_index') }}">Étagères</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="{{ path('docs_shelf_show', {
-                                id: chapter.book.shelf.id,
-                                slug: chapter.book.shelf.slug
-                            }) }}">{{ chapter.book.shelf.title }}</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            <a href="{{ path('docs_book_show', {
-                                id: chapter.book.id,
-                                slug: chapter.book.slug
-                            }) }}">{{ chapter.book.title }}</a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            {{ chapter.title }}
-                        </li>
+                        {% include "docs/partials/breadcrumb.html.twig" with {instance: chapter} %}
                     </ol>
                 </nav>
                 <h1 class="h3">{{ chapter.title }}</h1>
@@ -36,11 +19,10 @@
                                 <div class="content page">
                                     {{ page.title|capitalize }}
                                     <a 
-                                        href="#page-{{ page.id }}"
-                                        {# href="{{ path('docs_page_show', {
+                                        href="{{ path('docs_page_show', {
                                             id: page.id,
                                             slug: page.slug
-                                        }) }}" #}
+                                        }) }}"
                                         class="link-page"
                                         title="Lien vers la page {{ page.title }}"
                                     ></a>
