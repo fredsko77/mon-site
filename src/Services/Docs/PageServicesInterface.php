@@ -17,6 +17,13 @@ interface PageServicesInterface
     /**
      * @param Page $page
      *
+     * @return void
+     */
+    public function edit(Page $page): void;
+
+    /**
+     * @param Page $page
+     *
      * @return object
      */
     public function delete(Page $page): object;

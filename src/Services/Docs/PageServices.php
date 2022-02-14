@@ -54,14 +54,14 @@ class PageServices implements PageServicesInterface
      */
     public function createPage(Page $page, object $instance): void
     {
-        $page->getId() !== null ? $page->setUpdatedAt(new DateTime) : $page->setCreatedAt(new DateTime);
-
-        $page->setSlug(
-            $this->slugger->slugify(
-                $page->getSlug() ?? $page->getTitle(),
-                '-'
-            )
-        );
+        $page
+            ->setCreatedAt(new DateTime)
+            ->setSlug(
+                $this->slugger->slugify(
+                    $page->getSlug() ?? $page->getTitle(),
+                    '-'
+                )
+            );
 
         $instance->addPage($page);
 
@@ -96,5 +96,25 @@ class PageServices implements PageServicesInterface
         return $this->sendNoContent([
             'Location' => $location,
         ]);
+    }
+
+    /**
+     * @param Page $page
+     *
+     * @return void
+     */
+    public function edit(Page $page): void
+    {
+        $page
+            ->setUpdatedAt(new DateTime)
+            ->setSlug(
+                $this->slugger->slugify(
+                    $page->getSlug() ?? $page->getTitle(),
+                    '-'
+                )
+            );
+
+        $this->manager->persist($page);
+        $this->manager->flush();
     }
 }

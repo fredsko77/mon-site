@@ -2,8 +2,10 @@
 namespace App\Controller\Docs;
 
 use App\Entity\Page;
+use App\Form\Docs\PageCreateType;
 use App\Services\Docs\PageServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -57,6 +59,34 @@ class PageController extends AbstractController
             $response->status,
             $response->headers
         );
+    }
+
+    /**
+     * @Route(
+     *  "/action/{slug}-{id}/modifier",
+     *  name="edit",
+     *  requirements={
+     *      "id": "\d+",
+     *      "slug": "[a-z0-9\-]*"
+     *  },
+     *  methods={"GET", "POST"}
+     * )
+     */
+    public function edit(Page $page, Request $request): Response
+    {
+        $form = $this->createForm(PageCreateType::class, $page);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->service->edit($page);
+
+            return $this->redirectToRoute('docs_page_show', [
+                'id' => $page->getId(),
+                'slug' => $page->getSlug(),
+            ]);
+        }
+
+        return $this->renderForm('docs/book/new_page.html.twig', compact('page', 'form'));
     }
 
 }
