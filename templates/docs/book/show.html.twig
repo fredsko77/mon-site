@@ -125,7 +125,7 @@
                         if (status === 204) {
                             if (headers.hasOwnProperty('location')) {
                                 flash('Supprimé avec succcès');
-                                setTimeout(() => window.location = headers.location, 3000);
+                                setTimeout(() => window.location = headers.location, 1000);
                             }
                         }
                     })

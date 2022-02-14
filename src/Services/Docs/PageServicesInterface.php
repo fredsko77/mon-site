@@ -14,4 +14,11 @@ interface PageServicesInterface
      */
     public function createPage(Page $page, object $instance): void;
 
+    /**
+     * @param Page $page
+     *
+     * @return object
+     */
+    public function delete(Page $page): object;
+
 }
