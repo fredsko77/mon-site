@@ -4,7 +4,7 @@
 
     <div class="container-fluid" id="contents-list">
         <h1 class="mt-2 mb-3">
-            Mes contenus
+            Mes contacts
         </h1>
         <div class="my-3">
             {% include "flashes.html.twig" %}
@@ -28,13 +28,13 @@
                             <td><div class="badge badge-crm">{{ contact.state }}</div></td>
                             <td>{{ (contact.updatedAt ?? contact.createdAt)|format_datetime('full', locale='fr') }}</td>
                             <td>
-                                {# <a 
+                                <a 
                                     href="{{ path('admin_contact_edit', {id: contact.id}) }}" 
                                     class="btn btn-warning btn-sm"
                                     title="Editer le contenu"
                                     aria-label="Editer le contenu"
                                 >Modifier</a>
-                                <a 
+                                {# <a 
                                     class="btn btn-danger btn-sm"
                                     data-role="delete" 
                                     href="{{ path('admin_contact_delete', {id: contact.id}) }}"

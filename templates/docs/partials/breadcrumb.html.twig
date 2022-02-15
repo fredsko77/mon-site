@@ -4,11 +4,11 @@
         <li class="breadcrumb-item">
             <a href="{{ path('docs_shelf_index') }}">Étagères</a>
         </li>
-        {% if getClass(instance) == setClass("AppEntityShelf") %} 
+        {% if getClass(instance) == "App\\Entity\\Shelf" %} 
             <li class="breadcrumb-item active" aria-current="page">
                 {{ shelf.title }}
             </li>
-        {% elseif getClass(instance) == setClass("AppEntityBook") %}
+        {% elseif getClass(instance) == "App\\Entity\\Book" %}
             <li class="breadcrumb-item">
                 <a href="{{ path('docs_shelf_show', {
                     id: book.shelf.id,
@@ -18,7 +18,7 @@
             <li class="breadcrumb-item active" aria-current="page">
                 {{ book.title }}
             </li>
-        {% elseif getClass(instance) == setClass("AppEntityChapter") %}
+        {% elseif getClass(instance) == "App\\Entity\\Chapter" %}
             <li class="breadcrumb-item">
                 <a href="{{ path('docs_shelf_show', {
                     id: chapter.book.shelf.id,
@@ -34,7 +34,7 @@
             <li class="breadcrumb-item active" aria-current="page">
                 {{ chapter.title }}
             </li>
-        {% elseif getClass(instance) == setClass("AppEntityPage") %}
+        {% elseif getClass(instance) == "App\\Entity\\Page" %}
             {% if instance.book is not null %}
                 <li class="breadcrumb-item">
                     <a href="{{ path('docs_shelf_show', {

@@ -40,6 +40,7 @@ class ContactController extends AbstractController
      *  name="_mark_read",
      *  methods={}
      * )
+     * TODO: Faire une requête Ajax pour marquer le contact comme lu
      */
     public function read(Contact $contact): Response
     {
@@ -53,9 +54,12 @@ class ContactController extends AbstractController
      *  methods={"GET", "POST"},
      *  requirements={"id": "\d+"}
      * )
+     * TODO: Faire un formulaire pour modifier le statut du contact
      */
-    public function edit(): Response
+    public function edit(Contact $contact): Response
     {
-        return new Response();
+        return $this->render('admin/contact/show.html.twig', [
+            'contact' => $contact,
+        ]);
     }
 }
