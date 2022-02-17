@@ -143,3 +143,27 @@ a.sidebar-brand {
 [id^=delete_task] {
     box-shadow: none;
 }
+
+form #project_stacks {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+form #project_stacks .form-check {
+    margin-right: .8rem;
+}
+
+form[name=project] fieldset>.form-check {
+    padding-left: 0;
+}
+
+.cke_reset {
+    min-height: 40vh;
+}
+
+form[name=project] #preview-container {
+    width: 100%;
+    height: auto;
+    box-shadow: var(--app-shadow-light);
+    margin-bottom: .5rem;
+}

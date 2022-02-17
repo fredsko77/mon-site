@@ -1,8 +1,6 @@
 {% extends "admin/layout.html.twig" %}
 
 {% block main %}
-    <h1>Modifier le projet #{{ project.id }}</h1>
-
     {% include "admin/project/_form.html.twig" with {button_label:"Modifier"} %}
 
 {% endblock %}
@@ -10,5 +8,6 @@
 {% block js %}
 
     <script src="{{ asset('js/admin/project/collection-type.js') }}"></script>
+    <script src="{{ asset('js/admin/project/form.js') }}"></script>
 
 {% endblock %}
