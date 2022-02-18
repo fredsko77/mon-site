@@ -4,9 +4,9 @@ namespace App\Controller\Docs;
 use App\Entity\Book;
 use App\Entity\Chapter;
 use App\Entity\Page;
-use App\Form\Docs\BookCreateType;
-use App\Form\Docs\ChapterCreateType;
-use App\Form\Docs\PageCreateType;
+use App\Form\Docs\BookType;
+use App\Form\Docs\ChapterType;
+use App\Form\Docs\PageType;
 use App\Services\Docs\BookServicesInterface;
 use App\Services\Docs\ChapterServicesInterface;
 use App\Services\Docs\PageServicesInterface;
@@ -80,7 +80,7 @@ class BookController extends AbstractController
      */
     public function editBook(Book $book, Request $request): Response
     {
-        $form = $this->createForm(BookCreateType::class, $book);
+        $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -109,7 +109,7 @@ class BookController extends AbstractController
     public function createChapter(Book $book, Request $request): Response
     {
         $chapter = new Chapter;
-        $form = $this->createForm(ChapterCreateType::class, $chapter);
+        $form = $this->createForm(ChapterType::class, $chapter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -121,7 +121,7 @@ class BookController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('docs/book/new_chapter.html.twig', compact('book', 'form'));
+        return $this->renderForm('docs/chapter/new.html.twig', compact('book', 'form'));
     }
 
     /**
@@ -138,7 +138,7 @@ class BookController extends AbstractController
     public function createPage(Book $book, Request $request): Response
     {
         $page = new Page;
-        $form = $this->createForm(PageCreateType::class, $page);
+        $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -150,7 +150,7 @@ class BookController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('docs/book/new_page.html.twig', compact('book', 'form'));
+        return $this->renderForm('docs/page/new.html.twig', compact('book', 'form'));
     }
 
     /**

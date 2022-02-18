@@ -2,7 +2,7 @@
 namespace App\Controller\Docs;
 
 use App\Entity\Page;
-use App\Form\Docs\PageCreateType;
+use App\Form\Docs\PageType;
 use App\Services\Docs\PageServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,7 +74,7 @@ class PageController extends AbstractController
      */
     public function edit(Page $page, Request $request): Response
     {
-        $form = $this->createForm(PageCreateType::class, $page);
+        $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -86,7 +86,7 @@ class PageController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('docs/book/new_page.html.twig', compact('page', 'form'));
+        return $this->renderForm('docs/page/edit.html.twig', compact('page', 'form'));
     }
 
 }

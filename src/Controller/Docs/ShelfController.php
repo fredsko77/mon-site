@@ -3,7 +3,7 @@ namespace App\Controller\Docs;
 
 use App\Entity\Book;
 use App\Entity\Shelf;
-use App\Form\Docs\BookCreateType;
+use App\Form\Docs\BookType;
 use App\Form\Docs\ShelfType;
 use App\Repository\ShelfRepository;
 use App\Services\Docs\ShelfServicesInterface;
@@ -101,7 +101,7 @@ class ShelfController extends AbstractController
     public function createBook(Shelf $shelf, Request $request): Response
     {
         $book = new Book;
-        $form = $this->createForm(BookCreateType::class, $book);
+        $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

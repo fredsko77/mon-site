@@ -3,7 +3,7 @@
 {% block body %}
     <div id="app" class="wrapper docs-page">
         {% include "site/template-parts/navbar.html.twig" %}
-        <main>
+        <main class="container-fluid py-3">
             {% block main %}{% endblock %}
         </main>
         {% include "site/template-parts/footer.html.twig" %}
@@ -12,6 +12,7 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/website/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/docs/styles.css') }}">
     {% block css %}{% endblock %}
 {% endblock %}
 

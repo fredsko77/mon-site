@@ -38,23 +38,23 @@
         </div>
         <div class="col-xxl-3 col-lg-4">
             <button class="btn btn-primary mb-3">{{ button_label|default('Enregistrer') }}</button>
-            <div class="accordion" id="accordionExample">
+            <div class="accordion" id="accordionProject">
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
+                    <h2 class="accordion-header" id="headingInformations">
                         <button 
                             class="accordion-button" 
                             type="button" 
                             data-bs-toggle="collapse" 
-                            data-bs-target="#collapseOne" 
+                            data-bs-target="#accordionInformations" 
                             aria-expanded="true" 
-                            aria-controls="collapseOne"
+                            aria-controls="accordionInformations"
                         >Informations</button>
                     </h2>
                     <div 
-                        id="collapseOne" 
+                        id="accordionInformations" 
                         class="accordion-collapse collapse show" 
-                        aria-labelledby="headingOne" 
-                        data-bs-parent="#accordionExample"
+                        aria-labelledby="headingInformations" 
+                        data-bs-parent="#accordionProject"
                     >
                         <div class="accordion-body">
                             {{ form_row(form.state) }}  
@@ -73,21 +73,21 @@
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
+                    <h2 class="accordion-header" id="headingURL">
                         <button 
                             class="accordion-button collapsed" 
                             type="button" 
                             data-bs-toggle="collapse" 
-                            data-bs-target="#collapseTwo" 
+                            data-bs-target="#accordionURL" 
                             aria-expanded="false" 
-                            aria-controls="collapseTwo"
+                            aria-controls="accordionURL"
                         >URL</button>
                     </h2>
                     <div 
-                        id="collapseTwo" 
+                        id="accordionURL" 
                         class="accordion-collapse collapse" 
-                        aria-labelledby="headingTwo" 
-                        data-bs-parent="#accordionExample"
+                        aria-labelledby="headingURL" 
+                        data-bs-parent="#accordionProject"
                     >
                         <div class="accordion-body">
                             {{ form_row(form.link) }}
@@ -96,26 +96,42 @@
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
+                    <h2 class="accordion-header" id="headingImage">
                         <button 
                             class="accordion-button collapsed" 
                             type="button" 
                             data-bs-toggle="collapse" 
-                            data-bs-target="#collapseThree" 
+                            data-bs-target="#accordionImage" 
                             aria-expanded="false" 
-                            aria-controls="collapseThree"
+                            aria-controls="accordionImage"
                         >Image</button>
                     </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">                     
-                            <img 
-                                src="#" 
-                                alt="Prévisualisation de l'image uploadé" 
-                                srcset="#" 
-                                id="preview-container" 
-                                class="hidden"
-                                title="Prévisualisation de l'image uploadé"
-                            >
+                    <div 
+                        id="accordionImage" 
+                        class="accordion-collapse collapse" 
+                        aria-labelledby="headingImage" 
+                        data-bs-parent="#accordionProject"
+                    >
+                        <div class="accordion-body">  
+                            {% if project.image != null %}
+                                <img 
+                                    src="{{ asset(project.image) }}" 
+                                    alt="Prévisualisation de l'image uploadé" 
+                                    srcset="{{ asset(project.image) }}" 
+                                    id="preview-container" 
+                                    class=""
+                                    title="Prévisualisation de l'image uploadé"
+                                >  
+                            {% else %}
+                                <img 
+                                    src="#" 
+                                    alt="Prévisualisation de l'image uploadé" 
+                                    srcset="#" 
+                                    id="preview-container" 
+                                    class="hidden"
+                                    title="Prévisualisation de l'image uploadé"
+                                >                                
+                            {% endif %}                   
                             <span class="text-danger mb-1 hidden" id="preview-error"></span>
                             {{ form_row(form.uploadedFile) }}
                         </div>

@@ -2,39 +2,50 @@
 
 namespace App\Form\Docs;
 
-use App\Entity\Book;
+use App\Entity\Page;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BookCreateType extends AbstractType
+class PageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Titre',
+                'label' => 'Titre de la page',
                 'required' => false,
             ])
             ->add('slug', TextType::class, [
                 'label' => 'Permalien',
                 'required' => false,
             ])
-            ->add('description', TextareaType::class, [
-                'required' => false,
-            ])
             ->add('visibility', ChoiceType::class, [
                 'label' => 'Visibilité',
                 'multiple' => false,
                 'expanded' => false,
-                'choices' => Book::visibilities(),
+                'choices' => Page::visibilities(),
                 'preferred_choices' => function ($choice, $key, $value) {
                     // prefer options 'public'
-                    return $choice === Book::VISIBILITY_PUBLIC;
+                    return $choice === Page::VISIBILITY_PUBLIC;
+                },
+            ])
+            ->add('content', CKEditorType::class, [
+                'label' => false,
+            ])
+            ->add('sources')
+            ->add('state', ChoiceType::class, [
+                'label' => 'État de la page',
+                'multiple' => false,
+                'expanded' => false,
+                'choices' => Page::states(),
+                'preferred_choices' => function ($choice, $key, $value) {
+                    // prefer options 'public'
+                    return $choice === Page::STATE_PENDING;
                 },
             ])
             ->add('submit', SubmitType::class, [
@@ -47,7 +58,7 @@ class BookCreateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Book::class,
+            'data_class' => Page::class,
         ]);
     }
 }

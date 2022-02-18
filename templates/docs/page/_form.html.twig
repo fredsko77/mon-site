@@ -1,0 +1,28 @@
+{% set instance = book is defined ? 'book' : 'chapter' %}
+
+{{ form_start(form) }}
+
+    <div class="row mb-5">
+        <div class="col-9 col-xxl-8">
+            {{ form_row(form.title) }}
+            {{ form_row(form.content) }}
+        </div>
+        <div class="col-3 col-xxl-4">
+            <div class="d-flex ">
+                <button type="submit" class="btn btn-crm">Enregistrer</button>
+                <a 
+                    href="" 
+                    class="btn btn-muted ms-3"
+                    title="Revenir en arrière"
+                    onclick="event.preventDefault();window.history.back();"
+                >
+                    <i class="bi bi-chevron-left"></i>
+                    Revenir en arrière
+                </a>
+            </div>
+            {{ form_rest(form) }}
+        </div>
+    </div>
+
+
+{{ form_end(form) }}

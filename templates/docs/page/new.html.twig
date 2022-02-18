@@ -1,0 +1,10 @@
+{% extends "docs/layouts/page.html.twig" %}
+
+{% block main %}
+    <h1 class="h3 mb-4">Créer une page</h1>
+    {% include "docs/page/_form.html.twig" with {form: form} %}
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/docs/form.js') }}"></script> 
+{% endblock %}

@@ -284,3 +284,7 @@ aside .detail-container {
 .page-content p {
     margin-bottom: .8rem;
 }
+
+form[name=page] .cke_reset {
+    min-height: 65vh;
+}
