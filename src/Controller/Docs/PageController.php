@@ -36,6 +36,8 @@ class PageController extends AbstractController
      */
     public function show(Page $page): Response
     {
+        $this->denyAccessUnlessGranted('page_view', $page);
+
         return $this->render('/docs/page/show.html.twig', compact('page'));
     }
 
@@ -52,6 +54,8 @@ class PageController extends AbstractController
      */
     public function delete(Page $page): Response
     {
+        $this->denyAccessUnlessGranted('page_delete');
+
         $response = $this->service->delete($page);
 
         return $this->json(
@@ -74,6 +78,8 @@ class PageController extends AbstractController
      */
     public function edit(Page $page, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('page_update');
+
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
 

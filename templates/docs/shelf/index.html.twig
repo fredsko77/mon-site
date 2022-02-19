@@ -11,9 +11,9 @@
                         <div class="card shelf">
                             <div class="card-body">
                                 <img 
-                                    src="{{ asset(shelf.image) }}" 
+                                    src="{{ asset(shelf.image ?? 'images/default/project-default.jpg') }}" 
                                     alt="Image du shelf {{ shelf.title }}" 
-                                    srcset="{{ asset(shelf.image) }}" 
+                                    srcset="{{ asset(shelf.image ?? 'images/default/project-default.jpg') }}" 
                                     id="image_shelf_{{ shelf.id }}" 
                                     class="shelf-image"
                                     title="Image du shelf {{ shelf.title }}"

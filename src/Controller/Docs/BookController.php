@@ -137,9 +137,11 @@ class BookController extends AbstractController
      */
     public function createPage(Book $book, Request $request): Response
     {
+
         $page = new Page;
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
+        $this->denyAccessUnlessGranted('page_create', $page);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->pageService->createPage($page, $book);

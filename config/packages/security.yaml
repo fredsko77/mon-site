@@ -48,5 +48,5 @@ security:
         - { path: ^/docs/etageres/action, roles: [ROLE_ADMIN] }
         - { path: ^/docs/livres/action, roles: [ROLE_ADMIN] }
         - { path: ^/docs/chapitres/action, roles: [ROLE_ADMIN] }
-        - { path: ^/docs/pages/action, roles: [ROLE_ADMIN] }
+        - { path: ^/docs/pages/action, roles: [ROLE_ADMIN], methods: [GET, POST, PUT] }
         - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }

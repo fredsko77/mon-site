@@ -5,6 +5,7 @@ namespace App\Form\Docs;
 use App\Entity\Book;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,6 +36,10 @@ class BookType extends AbstractType
                     // prefer options 'public'
                     return $choice === Book::VISIBILITY_PUBLIC;
                 },
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr' => ['class' => 'btn-crm'],
             ])
         ;
     }
