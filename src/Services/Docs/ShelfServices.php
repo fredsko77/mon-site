@@ -138,8 +138,7 @@ class ShelfServices implements ShelfServicesInterface
      */
     public function paginate(Request $request): PaginationInterface
     {
-        $user = $this->security->getUser();
-        $data = $user !== null && in_array('ROLE_ADMIN', $user->getRoles(), true) ? $this->repository->findAll() : $this->repository->findBy(['visibility' => 'public']);
+        $data = $this->security->isGranted('ROLE_ADMIN') ? $this->repository->findAll() : $this->repository->findBy(['visibility' => 'public']);
 
         return $this->paginator->paginate(
             $data,

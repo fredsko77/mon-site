@@ -48,6 +48,8 @@ class ShelfController extends AbstractController
         $form = $this->createForm(ShelfType::class, $shelf);
         $form->handleRequest($request);
 
+        $this->denyAccessUnlessGranted('shelf_create', $shelf);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $this->service->store($form, $shelf, $request);
@@ -70,6 +72,8 @@ class ShelfController extends AbstractController
      */
     public function edit(Shelf $shelf, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('shelf_edit', $shelf);
+
         $form = $this->createForm(ShelfType::class, $shelf);
         $form->handleRequest($request);
 
@@ -104,6 +108,8 @@ class ShelfController extends AbstractController
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
+        $this->denyAccessUnlessGranted('shelf_action', $shelf);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->service->newBook($book, $shelf);
 
@@ -137,10 +143,7 @@ class ShelfController extends AbstractController
             return $this->redirectToRoute('docs_shelf_index');
         }
 
-        if ($user && !in_array('ROLE_ADMIN', $user->getRoles()) && $shelf->getVisibility() === 'private') {
-
-            return $this->redirectToRoute('docs_shelf_index');
-        }
+        $this->denyAccessUnlessGranted('shelf_view', $shelf);
 
         if ($slug !== $shelf->getSlug()) {
 
@@ -170,6 +173,8 @@ class ShelfController extends AbstractController
      */
     public function delete(Shelf $shelf): JsonResponse
     {
+        $this->denyAccessUnlessGranted('shelf_delete', $shelf);
+
         $response = $this->service->delete($shelf);
 
         return $this->json(

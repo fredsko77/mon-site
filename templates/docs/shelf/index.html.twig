@@ -4,7 +4,16 @@
 
     <section id="page-list-shelf" class="page-section">
         <main class="main-container ms-4">
-            <h1 class="h3 mb-4">Étagères</h1>
+            <h1 class="h3 mb-4">
+                Étagères  
+                {% if is_granted('shelf_create') %}
+                    <a 
+                        href="{{ path('docs_shelf_new') }}" 
+                        class="btn btn-crm btn-sm"
+                        title="Ajouter une nouvelle étagère"
+                    >Nouvelle étagère</a>
+                {% endif %}
+            </h1>
             <div class="shelf-list row g-1 g-md-2 g-lg-3 g-xxl-4">
                 {% for shelf in shelves %}
                     <div class="col-12 col-md-6 col-lg-4 col-xxl-3 my-2">
