@@ -6,11 +6,11 @@ use App\Entity\Page;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class PageVoter extends Voter
 {
 
+    /** Voter Constants */
     private const PAGE_UPDATE = 'page_edit';
     private const PAGE_VIEW = 'page_view';
     private const PAGE_DELETE = 'page_edit';
@@ -53,22 +53,22 @@ class PageVoter extends Voter
             case self::PAGE_CREATE:
                 // logic to determine if the user can CREATE
                 // return true or false
-                return $this->canCreate($user);
+                return $this->canCreate();
                 break;
             case self::PAGE_UPDATE:
                 // logic to determine if the user can UPDATE
                 // return true or false
-                return $this->canUpdate($user);
+                return $this->canUpdate();
                 break;
             case self::PAGE_DELETE:
                 // logic to determine if the user can CREATE
                 // return true or false
-                return $this->canDelete($user);
+                return $this->canDelete();
                 break;
             case self::PAGE_VIEW:
                 // logic to determine if the user can VIEW
                 // return true or false
-                return $this->canView($user, $page);
+                return $this->canView($page);
                 break;
             case self::PAGE_ACTION:
                 // logic to determine if the user can VIEW
@@ -81,78 +81,50 @@ class PageVoter extends Voter
     }
 
     /**
-     * @param mixed $user
-     *
      * @return bool
      */
     private function canAction($user): bool
     {
-        // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 
     /**
-     * @param mixed $user
-     *
      * @return bool
      */
-    private function canCreate($user): bool
+    private function canCreate(): bool
     {
-        // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 
     /**
-     * @param mixed $user
-     *
      * @return bool
      */
-    private function canDelete($user): bool
+    private function canDelete(): bool
     {
-        // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 
     /**
-     * @param mixed $user
-     *
      * @return bool
      */
-    private function canUpdate($user): bool
+    private function canUpdate(): bool
     {
-        // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 
     /**
-     * @param mixed $user
      * @param Page $page
      *
      * @return bool
      */
-    private function canView($user, Page $page): bool
+    private function canView(Page $page): bool
     {
-        if ($page->getVisibility() === 'public') {
-            return true;
-        }
-        if ($page->getVisibility() === 'private' && $user instanceof UserInterface) {
+        if ($page->getVisibility() === 'private') {
 
-            return in_array('ROLE_ADMIN', $user->getRoles());
+            return $this->security->isGranted('ROLE_ADMIN');
         }
 
-        return false;
+        return true;
     }
 
 }

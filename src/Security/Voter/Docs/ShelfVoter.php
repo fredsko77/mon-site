@@ -6,7 +6,6 @@ use App\Entity\Shelf;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class ShelfVoter extends Voter
 {
@@ -57,98 +56,75 @@ class ShelfVoter extends Voter
             case self::SHELF_VIEW:
                 // logic to determine if the user can EDIT
                 // return true or false
-                return $this->canView($user, $shelf);
+                return $this->canView($shelf);
                 break;
             case self::SHELF_CREATE:
                 // logic to determine if the user can CREATE
                 // return true or false
-                return $this->canCreate($user);
+                return $this->canCreate();
                 break;
             case self::SHELF_DELETE:
                 // logic to determine if the user can DELETE
                 // return true or false
-                return $this->canDelete($user);
+                return $this->canDelete();
                 break;
             case self::SHELF_UPDATE:
                 // logic to determine if the user can UPDATE
                 // return true or false
-                return $this->canUpdate($user);
+                return $this->canUpdate();
                 break;
             case self::SHELF_ACTION:
                 // logic to determine if the user can ACTION
                 // return true or false
-                return $this->canAction($user);
+                return $this->canAction();
                 break;
         }
 
         return false;
     }
 
-    private function canAction($user): bool
+    private function canAction(): bool
     {
-        // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 
     /**
-     * @param mixed $user
-     *
      * @return bool
      */
-    private function canCreate($user): bool
+    private function canCreate(): bool
     {
-        // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 
     /**
-     * @param mixed $user
-     *
      * @return bool
      */
-    private function canDelete($user): bool
+    private function canDelete(): bool
     {
-        // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 
     /**
-     * @param mixed $user
-     *
      * @return bool
      */
-    private function canUpdate($user): bool
+    private function canUpdate(): bool
     {
-        // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 
     /**
-     * @param mixed $user
      * @param Shelf $shelf
      *
      * @return bool
      */
-    private function canView($user, Shelf $shelf): bool
+    private function canView(Shelf $shelf): bool
     {
         if ($shelf->getVisibility() === 'public') {
             return true;
         }
-        if ($shelf->getVisibility() === 'private' && $user instanceof UserInterface) {
+        if ($shelf->getVisibility() === 'private') {
 
-            return in_array('ROLE_ADMIN', $user->getRoles());
+            return $this->security->isGranted('ROLE_ADMIN');
         }
 
         return false;

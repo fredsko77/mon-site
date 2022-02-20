@@ -7,7 +7,9 @@
         {% include "site/home-sections/masthead.html.twig" with {image: image} %}   
         <main>  
             {% include "site/home-sections/skills.html.twig" %}
-            {% include "site/home-sections/projects.html.twig" %}
+            {% if projects|length > 0 %}
+                {% include "site/home-sections/projects.html.twig" %}
+            {% endif %}
             {% include "site/home-sections/contact.html.twig" %}
         </main>
         {% include "site/template-parts/footer.html.twig" %}

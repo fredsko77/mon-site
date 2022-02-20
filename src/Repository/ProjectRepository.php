@@ -32,8 +32,14 @@ class ProjectRepository extends ServiceEntityRepository
      */
     public function findHomePageProjects()
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.visibility = \'public\'')
+        $query = $this->createQueryBuilder('p');
+
+        if (!$this->security->isGranted('ROLE_ADMIN')) {
+            $query->andWhere('p.visibility = \'public\'');
+        }
+
+        return $query
+            ->orderBy('p.created_at', 'desc')
             ->setMaxResults(5)
             ->getQuery()
             ->getResult()

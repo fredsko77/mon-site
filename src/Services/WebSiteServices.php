@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use App\Services\WebSiteServicesInterface;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
 
 class WebSiteServices implements WebSiteServicesInterface
 {
@@ -45,13 +46,19 @@ class WebSiteServices implements WebSiteServicesInterface
      */
     private $mailing;
 
+    /**
+     * @var Security $security
+     */
+    private $security;
+
     public function __construct(
         UserRepository $userRepository,
         ProjectRepository $projectRepository,
         SocialRepository $socialRepository,
         GroupSkillRepository $groupSkillRepository,
         EntityManagerInterface $manager,
-        ContactMailing $mailing
+        ContactMailing $mailing,
+        Security $security
     ) {
         $this->userRepository = $userRepository;
         $this->projectRepository = $projectRepository;
@@ -59,6 +66,7 @@ class WebSiteServices implements WebSiteServicesInterface
         $this->groupSkillRepository = $groupSkillRepository;
         $this->manager = $manager;
         $this->mailing = $mailing;
+        $this->security = $security;
     }
 
     public function index(): array
@@ -93,7 +101,7 @@ class WebSiteServices implements WebSiteServicesInterface
      */
     public function projects(): ?array
     {
-        return $this->projectRepository->findBy(['visibility' => 'public']);
+        return $this->security->isGranted('ROLE_ADMIN') ? $this->projectRepository->findAll() : $this->projectRepository->findBy(['visibility' => 'public']);
     }
 
 }

@@ -49,11 +49,11 @@ class ProjectController extends AbstractController
     public function create(Request $request): Response
     {
         $project = new Project;
+        $project->setTasks(['']);
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->service->store($form, $project);
 
             return $this->redirectToRoute('admin_project_edit', [
@@ -61,7 +61,7 @@ class ProjectController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('admin/project/new.html.twig', [
+        return $this->renderForm("admin/project/edit.html.twig", [
             'form' => $form,
             'project' => $project,
         ]);

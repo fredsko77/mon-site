@@ -429,7 +429,6 @@ body {
 .footer {
     height: auto;
     width: 100%;
-    margin-top: 1rem;
     padding: .75rem 1rem 1.5rem;
     background-color: var(--bs-white);
     border-top: 1px solid rgba(0, 0, 0, .1);

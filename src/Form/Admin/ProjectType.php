@@ -48,6 +48,10 @@ class ProjectType extends AbstractType
             ])
             ->add('tasks', CollectionType::class, [
                 'label' => 'Les tâches',
+                'label_attr' => [
+                    'style' => 'width:auto !important;',
+                    'class' => 'mb-2 me-3',
+                ],
                 'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

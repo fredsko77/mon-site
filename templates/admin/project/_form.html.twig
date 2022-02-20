@@ -8,9 +8,7 @@
             {# store the prototype on the data-prototype attribute #}
             <div class="group-task-list mb-3">
                 <div class="d-flex ">
-                    {{ form_label(form.tasks, 'Les tâches', {
-                        'label_attr': {'style': 'width:auto !important;', 'class': 'mb-2'}
-                    }) }}            
+                    {{ form_label(form.tasks, 'Les tâches',) }}            
                     <span 
                         id="add-task"
                         class="btn" 
@@ -37,22 +35,46 @@
             </div>
         </div>
         <div class="col-xxl-3 col-lg-4">
-            <button class="btn btn-primary mb-3">{{ button_label|default('Enregistrer') }}</button>
+            <button 
+                type="submit" 
+                class="btn btn-primary mb-3"
+            >{{ button_label|default('Enregistrer') }}</button>
             <div class="accordion" id="accordionProject">
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingInformations">
-                        <button 
+                    <h2 class="accordion-header" id="headingURL">
+                        <span 
                             class="accordion-button" 
-                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#accordionURL" 
+                            aria-expanded="true" 
+                            aria-controls="accordionURL"
+                        >URL</span>
+                    </h2>
+                    <div 
+                        id="accordionURL" 
+                        class="accordion-collapse collapse show" 
+                        aria-labelledby="headingURL" 
+                        data-bs-parent="#accordionProject"
+                    >
+                        <div class="accordion-body">
+                            {{ form_row(form.link) }}
+                            {{ form_row(form.slug) }}                            
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingInformations">
+                        <span 
+                            class="accordion-button collapsed" 
                             data-bs-toggle="collapse" 
                             data-bs-target="#accordionInformations" 
-                            aria-expanded="true" 
+                            aria-expanded="false" 
                             aria-controls="accordionInformations"
-                        >Informations</button>
+                        >Informations</span>
                     </h2>
                     <div 
                         id="accordionInformations" 
-                        class="accordion-collapse collapse show" 
+                        class="accordion-collapse collapse" 
                         aria-labelledby="headingInformations" 
                         data-bs-parent="#accordionProject"
                     >
@@ -73,38 +95,14 @@
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingURL">
-                        <button 
-                            class="accordion-button collapsed" 
-                            type="button" 
-                            data-bs-toggle="collapse" 
-                            data-bs-target="#accordionURL" 
-                            aria-expanded="false" 
-                            aria-controls="accordionURL"
-                        >URL</button>
-                    </h2>
-                    <div 
-                        id="accordionURL" 
-                        class="accordion-collapse collapse" 
-                        aria-labelledby="headingURL" 
-                        data-bs-parent="#accordionProject"
-                    >
-                        <div class="accordion-body">
-                            {{ form_row(form.link) }}
-                            {{ form_row(form.slug) }}                            
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
                     <h2 class="accordion-header" id="headingImage">
-                        <button 
+                        <span 
                             class="accordion-button collapsed" 
-                            type="button" 
                             data-bs-toggle="collapse" 
                             data-bs-target="#accordionImage" 
                             aria-expanded="false" 
                             aria-controls="accordionImage"
-                        >Image</button>
+                        >Image</span>
                     </h2>
                     <div 
                         id="accordionImage" 
@@ -140,5 +138,4 @@
             </div>
         </div>
     </div>
-
 {{ form_end(form) }}
