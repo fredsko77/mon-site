@@ -64,6 +64,7 @@ class BookController extends AbstractController
      */
     public function show(Book $book): Response
     {
+        $this->denyAccessUnlessGranted('book_view', $book);
         return $this->render('docs/book/show.html.twig', compact('book'));
     }
 
@@ -80,6 +81,8 @@ class BookController extends AbstractController
      */
     public function editBook(Book $book, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('book_update', $book);
+
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
@@ -111,6 +114,7 @@ class BookController extends AbstractController
         $chapter = new Chapter;
         $form = $this->createForm(ChapterType::class, $chapter);
         $form->handleRequest($request);
+        $this->denyAccessUnlessGranted('book_create', $book);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->chapterService->createChapter($chapter, $book);
@@ -168,6 +172,7 @@ class BookController extends AbstractController
      */
     public function delete(Book $book): JsonResponse
     {
+        $this->denyAccessUnlessGranted('book_delete', $book);
         $response = $this->bookService->delete($book);
 
         return $this->json(

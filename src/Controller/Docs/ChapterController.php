@@ -92,6 +92,7 @@ class ChapterController extends AbstractController
      */
     public function createPage(Chapter $chapter, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('page_create', $chapter);
         $page = new Page;
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);

@@ -108,7 +108,7 @@ class ShelfController extends AbstractController
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
-        $this->denyAccessUnlessGranted('shelf_action', $shelf);
+        $this->denyAccessUnlessGranted('book_create', $book);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->service->newBook($book, $shelf);
