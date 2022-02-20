@@ -17,58 +17,62 @@
                     <div class="content-container">
                         <div class="chapter-list">
                             {% for chapter in book.chapters %}
-                                <div class="content chapter">
-                                    <div class="chapter-container">                                        
-                                        <a 
-                                            id="chapter_link_{{ chapter.id }}"
-                                            href="{{ path('docs_chapter_show', {
-                                                id: chapter.id,
-                                                slug: chapter.slug
-                                            }) }}" 
-                                            class="chapter-link"
-                                        >{{ chapter.title|capitalize }}</a>
+                                {% if is_granted('chapter_view', chapter) %}
+                                    <div class="content chapter">
+                                        <div class="chapter-container">                                        
+                                            <a 
+                                                id="chapter_link_{{ chapter.id }}"
+                                                href="{{ path('docs_chapter_show', {
+                                                    id: chapter.id,
+                                                    slug: chapter.slug
+                                                }) }}" 
+                                                class="chapter-link"
+                                            >{{ chapter.title|capitalize }}</a>
+                                        </div>
+                                        {% if chapter.pages|length > 0 %}
+                                            <div class="page-container">
+                                                <p 
+                                                    class="dropdown-btn" 
+                                                    id="dropdownPage{{ chapter.id }}"
+                                                    aria-target="#dropDownPageLink{{ chapter.id }}" 
+                                                    aria-expanded="false"
+                                                >
+                                                    <i class="bi bi-caret-right-fill"></i>
+                                                    &nbsp;{{ chapter.pages|length }} Pages
+                                                </p>
+                                                <div class="pages-dropdown hidden" id="dropDownPageLink{{ chapter.id }}">
+                                                    {% for page in chapter.pages %}                                                
+                                                        <a 
+                                                            href="{{ path('docs_page_show', {
+                                                                id: page.id,
+                                                                slug: page.slug
+                                                            }) }}" 
+                                                            class="link-page"
+                                                            title="Lien vers la page {{ page.title|capitalize }}"
+                                                        >{{ page.title|capitalize }}</a>
+                                                    {% endfor %}
+                                                </div>
+                                            </div> 
+                                        {% endif %}
                                     </div>
-                                    {% if chapter.pages|length > 0 %}
-                                        <div class="page-container">
-                                            <p 
-                                                class="dropdown-btn" 
-                                                id="dropdownPage{{ chapter.id }}"
-                                                aria-target="#dropDownPageLink{{ chapter.id }}" 
-                                                aria-expanded="false"
-                                            >
-                                                <i class="bi bi-caret-right-fill"></i>
-                                                &nbsp;{{ chapter.pages|length }} Pages
-                                            </p>
-                                            <div class="pages-dropdown hidden" id="dropDownPageLink{{ chapter.id }}">
-                                                {% for page in chapter.pages %}                                                
-                                                    <a 
-                                                        href="{{ path('docs_page_show', {
-                                                            id: page.id,
-                                                            slug: page.slug
-                                                        }) }}" 
-                                                        class="link-page"
-                                                        title="Lien vers la page {{ page.title|capitalize }}"
-                                                    >{{ page.title|capitalize }}</a>
-                                                {% endfor %}
-                                            </div>
-                                        </div> 
-                                    {% endif %}
-                                </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                         <div class="page-list">
                             {% for page in book.pages %}
-                                <div class="content page">
-                                    {{ page.title|capitalize }}
-                                    <a 
-                                        href="{{ path('docs_page_show', {
-                                            id: page.id,
-                                            slug: page.slug
-                                        }) }}"
-                                        class="link-page"
-                                        title="Lien vers la page {{ page.title }}"
-                                    ></a>
-                                </div>
+                                {% if is_granted('page_view', page) %}
+                                    <div class="content page">
+                                        {{ page.title|capitalize }}
+                                        <a 
+                                            href="{{ path('docs_page_show', {
+                                                id: page.id,
+                                                slug: page.slug
+                                            }) }}"
+                                            class="link-page"
+                                            title="Lien vers la page {{ page.title }}"
+                                        ></a>
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </div>

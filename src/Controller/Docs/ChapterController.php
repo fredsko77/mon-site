@@ -48,6 +48,7 @@ class ChapterController extends AbstractController
      */
     public function show(Chapter $chapter): Response
     {
+        $this->denyAccessUnlessGranted('chapter_view', $chapter);
         return $this->render('/docs/chapter/show.html.twig', compact('chapter'));
     }
 
@@ -64,6 +65,7 @@ class ChapterController extends AbstractController
      */
     public function editChapter(Chapter $chapter, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('chapter_update', $chapter);
         $form = $this->createForm(ChapterType::class, $chapter);
         $form->handleRequest($request);
 
@@ -122,6 +124,7 @@ class ChapterController extends AbstractController
      */
     public function delete(Chapter $chapter): JsonResponse
     {
+        $this->denyAccessUnlessGranted('chapter_delete', $chapter);
         $response = $this->chapterService->delete($chapter);
 
         return $this->json(

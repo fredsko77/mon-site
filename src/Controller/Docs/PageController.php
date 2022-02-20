@@ -54,7 +54,7 @@ class PageController extends AbstractController
      */
     public function delete(Page $page): Response
     {
-        $this->denyAccessUnlessGranted('page_delete');
+        $this->denyAccessUnlessGranted('page_delete', $page);
 
         $response = $this->service->delete($page);
 
@@ -78,7 +78,7 @@ class PageController extends AbstractController
      */
     public function edit(Page $page, Request $request): Response
     {
-        $this->denyAccessUnlessGranted('page_update');
+        $this->denyAccessUnlessGranted('page_update', $page);
 
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);

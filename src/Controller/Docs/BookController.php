@@ -114,7 +114,7 @@ class BookController extends AbstractController
         $chapter = new Chapter;
         $form = $this->createForm(ChapterType::class, $chapter);
         $form->handleRequest($request);
-        $this->denyAccessUnlessGranted('book_create', $book);
+        $this->denyAccessUnlessGranted('chapter_create', $chapter);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->chapterService->createChapter($chapter, $book);

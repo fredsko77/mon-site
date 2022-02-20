@@ -16,17 +16,19 @@
                     <div class="content-container">
                         <div class="page-list">
                             {% for page in chapter.pages %}
-                                <div class="content page">
-                                    {{ page.title|capitalize }}
-                                    <a 
-                                        href="{{ path('docs_page_show', {
-                                            id: page.id,
-                                            slug: page.slug
-                                        }) }}"
-                                        class="link-page"
-                                        title="Lien vers la page {{ page.title }}"
-                                    ></a>
-                                </div>
+                                {% if is_granted('page_view', page) %}
+                                    <div class="content page">
+                                        {{ page.title|capitalize }}
+                                        <a 
+                                            href="{{ path('docs_page_show', {
+                                                id: page.id,
+                                                slug: page.slug
+                                            }) }}"
+                                            class="link-page"
+                                            title="Lien vers la page {{ page.title }}"
+                                        ></a>
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </div>

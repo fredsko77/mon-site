@@ -8,48 +8,50 @@
             {% endif %}
         </div>
     </div>
-    <div class="action-container">
-        <h3 class="h5">Actions</h3>
-        <div class="actions">
-            <a 
-                {# href="{{ path('docs_chapter_new_chapter', {
-                    id: chapter.id,
-                    slug: chapter.slug
-                }) }}"  #}
-                id="new-chapter"
-                class="action-link" 
-                title="Lien pour créer un nouveau chapitre"
-                onclick="event.preventDefault();"
-            ><i class="bi bi-folder-plus"></i>&nbsp;Nouveau chapitre</a>
-            <a                 
-                href="{{ path('docs_chapter_new_page', {
-                    id: chapter.id,
-                    slug: chapter.slug
-                }) }}" 
-                id="new-page"
-                class="action-link" 
-                title="Lien pour créer une nouvelle page"
-            ><i class="bi bi-file-plus"></i>&nbsp;Nouvelle page</a>
-            <hr>
-            <a 
-                href="{{ path('docs_chapter_edit', {
-                    id: chapter.id,
-                    slug: chapter.slug
-                }) }}"
-                id="edit-chapter" 
-                title="Lien pour éditer le livre" 
-                class="action-link"
-            ><i class="bi bi-pencil"></i>&nbsp;Éditer</a>
-            <a 
-                href="{{ path('docs_chapter_delete', {
-                    id: chapter.id,
-                    slug: chapter.slug
-                }) }}" 
-                id="delete-chapter" 
-                title="Lien pour supprimer le livre" 
-                class="action-link"
-                onclick="deleteObject(event);"
-            ><i class="bi bi-trash"></i>&nbsp;Supprimer</a>
+    {% if is_granted('chapter_action', chapter) %}
+        <div class="action-container">
+            <h3 class="h5">Actions</h3>
+            <div class="actions">
+                <a 
+                    {# href="{{ path('docs_chapter_new_chapter', {
+                        id: chapter.id,
+                        slug: chapter.slug
+                    }) }}"  #}
+                    id="new-chapter"
+                    class="action-link" 
+                    title="Lien pour créer un nouveau chapitre"
+                    onclick="event.preventDefault();"
+                ><i class="bi bi-folder-plus"></i>&nbsp;Nouveau chapitre</a>
+                <a                 
+                    href="{{ path('docs_chapter_new_page', {
+                        id: chapter.id,
+                        slug: chapter.slug
+                    }) }}" 
+                    id="new-page"
+                    class="action-link" 
+                    title="Lien pour créer une nouvelle page"
+                ><i class="bi bi-file-plus"></i>&nbsp;Nouvelle page</a>
+                <hr>
+                <a 
+                    href="{{ path('docs_chapter_edit', {
+                        id: chapter.id,
+                        slug: chapter.slug
+                    }) }}"
+                    id="edit-chapter" 
+                    title="Lien pour éditer le livre" 
+                    class="action-link"
+                ><i class="bi bi-pencil"></i>&nbsp;Éditer</a>
+                <a 
+                    href="{{ path('docs_chapter_delete', {
+                        id: chapter.id,
+                        slug: chapter.slug
+                    }) }}" 
+                    id="delete-chapter" 
+                    title="Lien pour supprimer le livre" 
+                    class="action-link"
+                    onclick="deleteObject(event);"
+                ><i class="bi bi-trash"></i>&nbsp;Supprimer</a>
+            </div>
         </div>
-    </div>
+    {% endif %}
 </aside>

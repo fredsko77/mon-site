@@ -11,9 +11,9 @@ class PageVoter extends Voter
 {
 
     /** Voter Constants */
-    private const PAGE_UPDATE = 'page_edit';
     private const PAGE_VIEW = 'page_view';
-    private const PAGE_DELETE = 'page_edit';
+    private const PAGE_UPDATE = 'page_update';
+    private const PAGE_DELETE = 'page_delete';
     private const PAGE_CREATE = 'page_create';
     private const PAGE_ACTION = 'page_action';
 
@@ -48,6 +48,7 @@ class PageVoter extends Voter
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
             return true;
         }
+
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::PAGE_CREATE:

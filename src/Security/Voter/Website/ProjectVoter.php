@@ -35,11 +35,12 @@ class ProjectVoter extends Voter
     {
         $user = $token->getUser();
 
+        $project = $subject;
+
         // ROLE_SUPER_ADMIN can do anything! The power!
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
             return true;
         }
-        $project = $subject;
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
