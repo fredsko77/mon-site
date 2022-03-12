@@ -43,7 +43,9 @@ main {
 }
 
 .shelf .card-footer {
-    padding: .25rem;
+    padding: .15rem 1rem;
+    font-size: .85rem;
+    color: var(--text-content-secondary);
 }
 
 .shelf .card-text,

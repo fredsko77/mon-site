@@ -38,7 +38,12 @@
                                     }) }}"
                                 ></a>
                             </div>
-                            <div class="card-footer"></div>
+                            <div class="card-footer">
+                                <span>
+                                    {{ shelf.books|length }}
+                                    <i class="bi bi-book"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}

@@ -41,15 +41,17 @@
                                                     &nbsp;{{ chapter.pages|length }} Pages
                                                 </p>
                                                 <div class="pages-dropdown hidden" id="dropDownPageLink{{ chapter.id }}">
-                                                    {% for page in chapter.pages %}                                                
-                                                        <a 
-                                                            href="{{ path('docs_page_show', {
-                                                                id: page.id,
-                                                                slug: page.slug
-                                                            }) }}" 
-                                                            class="link-page"
-                                                            title="Lien vers la page {{ page.title|capitalize }}"
-                                                        >{{ page.title|capitalize }}</a>
+                                                    {% for page in chapter.pages %}      
+                                                        {% if is_granted('page_view', page) %}
+                                                            <a 
+                                                                href="{{ path('docs_page_show', {
+                                                                    id: page.id,
+                                                                    slug: page.slug
+                                                                }) }}" 
+                                                                class="link-page"
+                                                                title="Lien vers la page {{ page.title|capitalize }}"
+                                                            >{{ page.title|capitalize }}</a>
+                                                        {% endif %}                                          
                                                     {% endfor %}
                                                 </div>
                                             </div> 

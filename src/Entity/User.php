@@ -322,15 +322,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->slug;
     }
 
-    public function setSlug(): self
+    public function setSlug(?string $slug): self
     {
-        if ($this->firstname !== null && $this->lastname !== null) {
-            $identifier = $this->firstname . '-' . $this->lastname;
-        } else {
-            $identifier = $this->username;
-        }
-
-        $this->identifier = strtolower($this->skipAccents($identifier) . '-' . (string) random_int(1000, 5000000));
+        $this->slug = $slug;
 
         return $this;
     }
