@@ -9,33 +9,38 @@
             <div class="container-fluid container-xl">  
                 <h1 class="h3 mb-4">Mes réalisations</h1>             
                 <div class="section-content">
-                    <div class="project-list row g-1 g-md-2 g-lg-3 g-xxl-4">
+                    <div class="project-list row g-1 g-md-2 g-lg-3 g-xxl-4 mb-5">
                         {% for project in projects %}                            
                             <div class="col-12 col-md-6 col-lg-4 col-xxl-3 my-2">
                                 <div class="card card-project">
-                                    <img 
-                                        src="{{ asset(project.image ?? 'images/default/project-default.jpg') }}" 
-                                        srcset="{{ asset(project.image ?? 'images/default/project-default.jpg') }}"
-                                        class="card-img-top" 
-                                        alt="Image du projet {{ project.name|capitalize }}"
-                                        title="Image du projet {{ project.name|capitalize }}"
-                                    >
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ project.name|capitalize }}</h5>
+                                        <img 
+                                            src="{{ asset(project.image ?? 'images/default/project-default.jpg') }}" 
+                                            srcset="{{ asset(project.image ?? 'images/default/project-default.jpg') }}"
+                                            class="card-img-top" 
+                                            alt="Image du projet {{ project.name|capitalize }}"
+                                            title="Image du projet {{ project.name|capitalize }}"
+                                        >
                                         <a 
                                             href="{{ path('website_project_show', {
                                                 'id': project.id,
                                                 'slug': project.slug
                                             }) }}" 
-                                            class="btn btn-primary"
+                                            class="project-card-link"
                                             title="Consulter les informations sur le projet {{ project.name|capitalize }}"
-                                        >En savoir plus</a>
+                                        ></a>
+                                    </div>
+                                    <div class="card-footer">
+                                        <span>{{ project.name|capitalize }}</span>
                                     </div>
                                 </div>
                             </div>
                         {% else %}
                             <div class="alert alert-info">Pas de projet à afficher</div>
                         {% endfor %}
+                    </div>
+                    <div class="navigation">
+                        {{ knp_pagination_render(projects) }}
                     </div>
                 </div>
             </div>

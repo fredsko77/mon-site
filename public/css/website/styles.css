@@ -504,20 +504,37 @@ body {
 
 /* Page Mes réalisations */
 
+.card-project .card-body,
 .card-project .card-img-top {
-    height: 235px;
+    height: 200px;
+}
+
+.card-project .card-body {
+    padding: 0;
 }
 
 .card.card-project {
-    border: none;
-    margin-bottom: .75rem;
-    box-shadow: 0px 0 8px -1px rgba(0, 0, 0, .1), 0px 0 2px 0 rgba(0, 0, 0, .15);
-    transition: all .4s ease-in-out;
+    border-radius: .15rem;
 }
 
-.card-project:hover {
-    box-shadow: var(--app-shadow-light);
+.card-project .project-card-link {
+    width: 100%;
+    height: 100%;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    display: block;
+    z-index: 2!important;
+    border: 1px solid transparent;
+    transition: .3s;
+    border-radius: 3px;
     cursor: pointer;
+}
+
+.card-project .card-footer {
+    padding: .15rem 1rem;
+    font-size: 1.05rem;
+    color: var(--text-content-secondary);
 }
 
 

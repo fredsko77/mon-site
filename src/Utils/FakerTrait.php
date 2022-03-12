@@ -62,7 +62,7 @@ trait FakerTrait
         return array_slice(
             $array,
             1,
-            random_int(0, $array_limit)
+            random_int(1, $array_limit)
         );
     }
 

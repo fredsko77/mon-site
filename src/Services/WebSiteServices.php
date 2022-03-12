@@ -11,6 +11,9 @@ use App\Repository\UserRepository;
 use App\Services\WebSiteServicesInterface;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 
 class WebSiteServices implements WebSiteServicesInterface
@@ -51,6 +54,11 @@ class WebSiteServices implements WebSiteServicesInterface
      */
     private $security;
 
+    /**
+     * @var PaginatorInterface $paginator
+     */
+    private $paginator;
+
     public function __construct(
         UserRepository $userRepository,
         ProjectRepository $projectRepository,
@@ -58,7 +66,8 @@ class WebSiteServices implements WebSiteServicesInterface
         GroupSkillRepository $groupSkillRepository,
         EntityManagerInterface $manager,
         ContactMailing $mailing,
-        Security $security
+        Security $security,
+        PaginatorInterface $paginator
     ) {
         $this->userRepository = $userRepository;
         $this->projectRepository = $projectRepository;
@@ -67,6 +76,7 @@ class WebSiteServices implements WebSiteServicesInterface
         $this->manager = $manager;
         $this->mailing = $mailing;
         $this->security = $security;
+        $this->paginator = $paginator;
     }
 
     public function index(): array
@@ -97,11 +107,19 @@ class WebSiteServices implements WebSiteServicesInterface
     }
 
     /**
-     * @return Project[]|null
+     * @param Request $request
+     *
+     * @return PaginationInterface
      */
-    public function projects(): ?array
+    public function paginatedProjects(Request $request): PaginationInterface
     {
-        return $this->security->isGranted('ROLE_ADMIN') ? $this->projectRepository->findAll() : $this->projectRepository->findBy(['visibility' => 'public']);
+        $data = $this->security->isGranted('ROLE_ADMIN') ? $this->projectRepository->findAll() : $this->projectRepository->findBy(['visibility' => 'public']);
+
+        return $this->paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            15
+        );
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Controller\Website;
 use App\Repository\ProjectRepository;
 use App\Services\WebSiteServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -36,10 +37,10 @@ class ProjectController extends AbstractController
      *  methods={"GET"}
      * )
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         return $this->render('site/project/index.html.twig', [
-            'projects' => $this->service->projects(),
+            'projects' => $this->service->paginatedProjects($request),
         ]);
     }
 
