@@ -133,7 +133,7 @@ class ShelfController extends AbstractController
      *  methods={"GET"}
      * )
      */
-    public function show(int $id, string $slug): Response
+    public function show(int $id, string $slug, Request $request): Response
     {
         $shelf = $this->repository->find((int) $id);
         $user = $this->getUser();
@@ -157,7 +157,7 @@ class ShelfController extends AbstractController
             );
         }
 
-        return $this->render('docs/shelf/show.html.twig', ['shelf' => $shelf]);
+        return $this->render('docs/shelf/show.html.twig', $this->service->show($shelf, $request));
     }
 
     /**

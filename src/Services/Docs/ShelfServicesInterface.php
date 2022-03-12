@@ -45,4 +45,11 @@ interface ShelfServicesInterface
      */
     public function delete(Shelf $shelf): object;
 
+    /**
+     * @param Shelf $shelf
+     *
+     * @return array
+     */
+    public function show(Shelf $shelf, Request $request): array;
+
 }

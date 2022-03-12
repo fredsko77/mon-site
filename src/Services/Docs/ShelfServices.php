@@ -3,6 +3,7 @@ namespace App\Services\Docs;
 
 use App\Entity\Book;
 use App\Entity\Shelf;
+use App\Repository\BookRepository;
 use App\Repository\ShelfRepository;
 use App\Services\Docs\ShelfServicesInterface;
 use App\Utils\ServicesTrait;
@@ -69,6 +70,11 @@ class ShelfServices implements ShelfServicesInterface
      */
     private $router;
 
+    /**
+     * @var BookRepository $bookRepository
+     */
+    private $bookRepository;
+
     public function __construct(
         ShelfRepository $repository,
         ContainerInterface $container,
@@ -76,7 +82,8 @@ class ShelfServices implements ShelfServicesInterface
         Filesystem $filesystem,
         PaginatorInterface $paginator,
         Security $security,
-        UrlGeneratorInterface $router
+        UrlGeneratorInterface $router,
+        BookRepository $bookRepository
     ) {
         $this->repository = $repository;
         $this->container = $container;
@@ -87,6 +94,7 @@ class ShelfServices implements ShelfServicesInterface
         $this->paginator = $paginator;
         $this->security = $security;
         $this->router = $router;
+        $this->bookRepository = $bookRepository;
     }
 
     /**
@@ -145,6 +153,24 @@ class ShelfServices implements ShelfServicesInterface
             $request->query->getInt('page', 1),
             15
         );
+    }
+
+    /**
+     * @param Shelf $shelf
+     *
+     * @return array
+     */
+    public function show(Shelf $shelf, Request $request): array
+    {
+        $data = $this->security->isGranted('ROLE_ADMIN') ? $this->projectRepository->findAll() : $this->bookRepository->findPublicShelfBooks($shelf);
+
+        $books = $this->paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            12
+        );
+
+        return compact('shelf', 'books');
     }
 
     /**

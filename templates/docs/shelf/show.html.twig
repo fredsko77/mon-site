@@ -21,47 +21,48 @@
             <p class="shelf-description">{{ shelf.description }}</p>
 
             <div class="book-container">                
-                <div class="book-list mt-2 row g-1 g-md-2 g-lg-3 g-xxl-4{% if shelf.books|length > 0 %}{% endif %}">
-                    {% for book in shelf.books %}
-                        {% if is_granted('book_view', book) %}
-                            <div class="col-12 col-md-6 col-lg-4 col-xxl-3 my-2">
-                                <div class="card book">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ book.title }}</h5>
-                                        <small class="card-text">{{ book.description }}</small>
-                                        <a 
-                                            href="{{ path('docs_book_show', {
-                                                id: book.id,
-                                                slug: book.slug
-                                            }) }}" 
-                                            class="book-card-link" 
-                                            {# onclick="event.preventDefault()" #}
-                                            title="Lien vers le livre {{ book.title }}"
-                                            id="book_link_{{ book.id }}"
-                                        ></a>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="d-flex flex-row book-content">
-                                            <div class="book-chapters me-2">
-                                                {{ book.chapters|length }}
-                                                <i class="bi bi-folder"></i>
-                                                Chapitres
-                                            </div>
-                                            <div class="book-pages ms-2">
-                                                {{ book.pages|length }}
-                                                <i class="bi bi-file-text"></i>
-                                                Pages
-                                            </div>
+                <div class="book-list mt-2 mb-4 row g-1 g-md-2 g-lg-3 g-xxl-4">
+                    {% for book in books %}
+                        <div class="col-12 col-md-6 col-lg-4 col-xxl-3 my-2">
+                            <div class="card book">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ book.title }}</h5>
+                                    <small class="card-text">{{ book.description }}</small>
+                                    <a 
+                                        href="{{ path('docs_book_show', {
+                                            id: book.id,
+                                            slug: book.slug
+                                        }) }}" 
+                                        class="book-card-link" 
+                                        {# onclick="event.preventDefault()" #}
+                                        title="Lien vers le livre {{ book.title }}"
+                                        id="book_link_{{ book.id }}"
+                                    ></a>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex flex-row book-content">
+                                        <div class="book-chapters me-2">
+                                            {{ book.chapters|length }}
+                                            <i class="bi bi-folder"></i>
+                                            Chapitres
+                                        </div>
+                                        <div class="book-pages ms-2">
+                                            {{ book.pages|length }}
+                                            <i class="bi bi-file-text"></i>
+                                            Pages
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        {% endif %}
+                        </div>
                     {% else %}
                         <div class="alert alert-info my-2">
                             Pas de livres pour le moment. Des contenus seront disponibles bientôt.
                         </div>
                     {% endfor %} 
+                </div>
+                <div class="navigation">
+                    {{ knp_pagination_render(books) }}
                 </div>
             </div>
         </section>
