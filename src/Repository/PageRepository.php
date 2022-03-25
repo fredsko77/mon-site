@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Book;
 use App\Entity\Page;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Page|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,21 @@ class PageRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Page::class);
+    }
+
+    public function findBookPages(Book $book)
+    {
+        $query = $this->createQueryBuilder('p');
+        if (!$this->security->isGranted('ROLE_ADMIN')) {
+            $query->where('p.visibility = :visibility')
+            ->setParameter('visibility', Page::VISIBILITY_PUBLIC);
+        }
+        
+        return $query->andWhere('p.book = :book')
+            ->setParameter('boob', $book)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     // /**

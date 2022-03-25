@@ -162,7 +162,7 @@ class ShelfServices implements ShelfServicesInterface
      */
     public function show(Shelf $shelf, Request $request): array
     {
-        $data = $this->security->isGranted('ROLE_ADMIN') ? $this->projectRepository->findAll() : $this->bookRepository->findPublicShelfBooks($shelf);
+        $data = $this->bookRepository->findShelfBooks($shelf);
 
         $books = $this->paginator->paginate(
             $data,

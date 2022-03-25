@@ -110,7 +110,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
 
-        for ($u = 0; $u < random_int(150, 500); $u++) {
+        for ($u = 0; $u < random_int(25, 100); $u++) {
             $user = new User;
             $user->setUsername($faker->userName())
                 ->setImage($faker->imageUrl())
@@ -118,7 +118,7 @@ class AppFixtures extends Fixture
                 ->setFirstname($faker->firstName())
                 ->setLastname($faker->lastName())
                 ->setPassword($this->hasher->hashPassword($user, 'Password123!'))
-                ->setRoles($u % 150 ? ['ROLE_ADMIN'] : ['ROLE_USER'])
+                ->setRoles($u % 50 ? ['ROLE_ADMIN'] : ['ROLE_USER'])
                 ->setCreatedAt($faker->dateTimeBetween('-4 years', '-1 year'))
                 ->setUpdatedAt($this->setDateTimeAfter($user->getCreatedAt()))
                 ->setToken(null)
@@ -130,7 +130,7 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
 
-        for ($i = 0; $i <= random_int(75, 150); $i++) {
+        for ($i = 0; $i <= random_int(20, 35); $i++) {
             $shelf = new Shelf;
 
             $shelf->setTitle($faker->words(random_int(1, 3), true))
@@ -142,7 +142,7 @@ class AppFixtures extends Fixture
                 ->setVisibility($i % 19 === 0 ? Shelf::VISIBILITY_PRIVATE : Shelf::VISIBILITY_PUBLIC)
             ;
 
-            for ($b = 0; $b <= random_int(30, 45); $b++) {
+            for ($b = 0; $b <= random_int(10, 20); $b++) {
                 $book = new Book;
 
                 $book->setTitle($faker->words(random_int(1, 3), true))
@@ -153,7 +153,7 @@ class AppFixtures extends Fixture
                     ->setVisibility($b % 8 === 0 ? Book::VISIBILITY_PRIVATE : Book::VISIBILITY_PUBLIC)
                 ;
 
-                for ($c = 0; $c <= random_int(8, 15); $c++) {
+                for ($c = 0; $c <= random_int(5, 12); $c++) {
                     $chapter = new Chapter;
 
                     $chapter->setTitle($faker->words(random_int(1, 3), true))
@@ -164,7 +164,7 @@ class AppFixtures extends Fixture
                         ->setVisibility($c % 15 === 0 ? Chapter::VISIBILITY_PRIVATE : Chapter::VISIBILITY_PUBLIC)
                     ;
 
-                    for ($p = 0; $p <= random_int(8, 15); $p++) {
+                    for ($p = 0; $p <= random_int(5, 12); $p++) {
                         $page = new Page;
                         $page->setTitle($faker->words(random_int(1, 6), true))
                             ->setSlug($this->slugger->slugify($page->getTitle()))
@@ -181,7 +181,7 @@ class AppFixtures extends Fixture
                     $book->addChapter($chapter);
                 }
 
-                for ($p = 0; $p <= random_int(5, 15); $p++) {
+                for ($p = 0; $p <= random_int(5, 8); $p++) {
                     $page = new Page;
                     $page->setTitle($faker->words(random_int(1, 6), true))
                         ->setSlug($this->slugger->slugify($page->getTitle()))
@@ -201,7 +201,7 @@ class AppFixtures extends Fixture
             $manager->persist($shelf);
         }
 
-        for ($p = 0; $p <= random_int(150, 300); $p++) {
+        for ($p = 0; $p <= random_int(10, 50); $p++) {
             $project = new Project;
             $projectStacks = $this->selectRandomArrayElements($stacks);
 
@@ -228,7 +228,7 @@ class AppFixtures extends Fixture
             $manager->persist($project);
         }
 
-        for ($c = 0; $c < random_int(150, 300); $c++) {
+        for ($c = 0; $c < random_int(50, 100); $c++) {
             $contact = new Contact;
 
             $contact->setAbout($faker->words(random_int(3, 6), true))
@@ -332,6 +332,7 @@ class AppFixtures extends Fixture
 
     private function getProjectTasks(): array
     {
+        // Project Tasks
         return [
             'Rédiger une documentation à l\'intention d\'utilisateurs non spécialistes',
             'Sélectionner un thème Wordpress adapté aux besoins du client',

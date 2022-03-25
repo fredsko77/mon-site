@@ -4,8 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use App\Entity\Shelf;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Book|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,9 +16,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var Security $security
+     */
+    private $security;
+    
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Book::class);
+        $this->security = $security;
     }
 
     /**
@@ -25,13 +32,16 @@ class BookRepository extends ServiceEntityRepository
      *
      * @return Book[]
      */
-    public function findPublicShelfBooks(Shelf $shelf)
+    public function findShelfBooks(Shelf $shelf)
     {
-        return $this->createQueryBuilder('c')
-            ->where('c.visibility = :visibility')
-            ->andWhere('c.shelf = :shelf')
+        $query = $this->createQueryBuilder('s');
+        if (!$this->security->isGranted('ROLE_ADMIN')) {
+            $query->where('s.visibility = :visibility')
+            ->setParameter('visibility', Book::VISIBILITY_PUBLIC);
+        }
+        
+        return $query->andWhere('s.shelf = :shelf')
             ->setParameter('shelf', $shelf)
-            ->setParameter('visibility', Book::VISIBILITY_PUBLIC)
             ->getQuery()
             ->getResult()
         ;

@@ -13,4 +13,13 @@ interface BookServicesInterface
      */
     public function delete(Book $book): object;
 
+    /**
+     * @param Book $book
+     * 
+     * @return array
+     * 
+     */
+    public function show(Book $book):array;
+
+
 }
