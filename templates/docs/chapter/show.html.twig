@@ -15,7 +15,7 @@
                 <div class="chapter-container">                
                     <div class="content-container">
                         <div class="page-list">
-                            {% for page in chapter.pages %}
+                            {% for page in pages %}
                                 {% if is_granted('page_view', page) %}
                                     <div class="content page">
                                         {{ page.title|capitalize }}

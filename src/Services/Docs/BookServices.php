@@ -82,8 +82,8 @@ class BookServices implements BookServicesInterface
      */
     public function show(Book $book): array
     {
-        $chapters = $this->chapterRepository->findBookChapters(['book' => $book]);
-        $pages = $this->pageRepository->findBookPages(['book' => $book]);
+        $chapters = $this->chapterRepository->findBookChapters($book);
+        $pages = $this->pageRepository->findBookPages($book);
 
         return compact('book', 'chapters', 'pages');
     }

@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Book;
 use App\Entity\Chapter;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Chapter|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +16,39 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ChapterRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    /**
+     * @var Security $security
+     */
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Chapter::class);
+        $this->security = $security;
+    }
+
+    
+    /**
+     * Find Book Chapters
+     *
+     * @param Book $book
+     * 
+     * @return Chapter[]|null
+     */
+    public function findBookChapters(Book $book)
+    {
+        $query = $this->createQueryBuilder('c');
+        if (!$this->security->isGranted('ROLE_ADMIN')) {
+            $query->where('c.visibility = :visibility')
+            ->setParameter('visibility', Chapter::VISIBILITY_PUBLIC);
+        }
+        
+        return $query->andWhere('c.book = :book')
+            ->setParameter('book', $book)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     // /**

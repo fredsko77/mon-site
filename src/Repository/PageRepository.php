@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use App\Entity\Page;
+use App\Entity\Chapter;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -15,11 +17,47 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class PageRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    
+    /**
+     * @var Security $security
+     */
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Page::class);
+        $this->security = $security;
     }
 
+    /**
+     * Find Chapter Pages
+     *
+     * @param Chapter $chapter
+     * 
+     * @return Page[]|null
+     */
+    public function findChapterPages(Chapter $chapter)
+    {
+        $query = $this->createQueryBuilder('p');
+        if (!$this->security->isGranted('ROLE_ADMIN')) {
+            $query->where('p.visibility = :visibility')
+            ->setParameter('visibility', Page::VISIBILITY_PUBLIC);
+        }
+        
+        return $query->andWhere('p.chapter = :chapter')
+            ->setParameter('chapter', $chapter)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * Find Book Pages
+     *
+     * @param Book $book
+     * 
+     * @return Page[]|null
+     */
     public function findBookPages(Book $book)
     {
         $query = $this->createQueryBuilder('p');
@@ -29,7 +67,7 @@ class PageRepository extends ServiceEntityRepository
         }
         
         return $query->andWhere('p.book = :book')
-            ->setParameter('boob', $book)
+            ->setParameter('book', $book)
             ->getQuery()
             ->getResult()
         ;

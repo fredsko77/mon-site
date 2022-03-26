@@ -28,4 +28,11 @@ interface ChapterServicesInterface
      */
     public function delete(Chapter $chapter): object;
 
+    /**
+     * @param Chapter $chapter
+     * 
+     * @return array
+     */
+    public function show(Chapter $chapter):array;
+
 }

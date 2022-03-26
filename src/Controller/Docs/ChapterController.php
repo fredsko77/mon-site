@@ -49,7 +49,7 @@ class ChapterController extends AbstractController
     public function show(Chapter $chapter): Response
     {
         $this->denyAccessUnlessGranted('chapter_view', $chapter);
-        return $this->render('/docs/chapter/show.html.twig', compact('chapter'));
+        return $this->render('/docs/chapter/show.html.twig', $this->chapterService->show($chapter));
     }
 
     /**

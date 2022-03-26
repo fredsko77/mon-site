@@ -65,7 +65,7 @@ class BookController extends AbstractController
     public function show(Book $book): Response
     {
         $this->denyAccessUnlessGranted('book_view', $book);
-        return $this->render('docs/book/show.html.twig', compact('book'));
+        return $this->render('docs/book/show.html.twig', $this->bookService->show($book));
     }
 
     /**

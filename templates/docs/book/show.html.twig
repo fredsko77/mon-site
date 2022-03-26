@@ -16,7 +16,7 @@
                 <div class="book-container">                
                     <div class="content-container">
                         <div class="chapter-list">
-                            {% for chapter in book.chapters %}
+                            {% for chapter in chapters %}
                                 {% if is_granted('chapter_view', chapter) %}
                                     <div class="content chapter">
                                         <div class="chapter-container">                                        
@@ -61,7 +61,7 @@
                             {% endfor %}
                         </div>
                         <div class="page-list">
-                            {% for page in book.pages %}
+                            {% for page in pages %}
                                 {% if is_granted('page_view', page) %}
                                     <div class="content page">
                                         {{ page.title|capitalize }}

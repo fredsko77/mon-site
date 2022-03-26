@@ -3,6 +3,7 @@ namespace App\Services\Docs;
 
 use App\Entity\Chapter;
 use App\Repository\ChapterRepository;
+use App\Repository\PageRepository;
 use App\Services\Docs\ChapterServicesInterface;
 use App\Utils\ServicesTrait;
 use Cocur\Slugify\Slugify;
@@ -35,15 +36,22 @@ class ChapterServices implements ChapterServicesInterface
      */
     private $router;
 
+    /**
+     * @var PageRepository $pageRepository
+     */
+    private $pageRepository;
+
     public function __construct(
         EntityManagerInterface $manager,
         ChapterRepository $repository,
-        UrlGeneratorInterface $router
+        UrlGeneratorInterface $router,
+        PageRepository $pageRepository
     ) {
         $this->manager = $manager;
         $this->repository = $repository;
         $this->slugger = new Slugify;
         $this->router = $router;
+        $this->pageRepository = $pageRepository;
     }
 
     /**
@@ -108,6 +116,18 @@ class ChapterServices implements ChapterServicesInterface
         return $this->sendNoContent([
             'Location' => $location,
         ]);
+    }
+
+    /**
+     * @param Chapter $chapter
+     * 
+     * @return array
+     */
+    public function show(Chapter $chapter): array
+    {
+        $pages = $this->pageRepository->findChapterPages($chapter);
+
+        return compact('pages', 'chapter');
     }
 
 }
