@@ -26,6 +26,7 @@ class ProjectType extends AbstractType
             ])
             ->add('link', UrlType::class, [
                 'label' => 'Url du projet',
+                'required' => false
             ])
             ->add('description', CKEditorType::class, [
                 'label' => 'Description du projet',

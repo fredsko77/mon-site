@@ -31,6 +31,7 @@ class Project
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Ce champs est obligatoire !", allowNull=true)
      * @Assert\Url(message="Cette url n'est pas valide !")
      * @Groups({"project:read"})
      */
