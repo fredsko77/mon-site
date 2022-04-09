@@ -29,11 +29,13 @@ composer dump-env dev
 ```
 
 4. Configurer les variables d'environnement dans le fichier .env 
+``` 
     APP_ENV=dev
     APP_DEBUG=true
     DATABASE_URL=
     MAILER_DSN=  
-    <br>
+```
+    
 
 5. Générer la base de données et les migrations 
 
