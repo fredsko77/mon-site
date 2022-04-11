@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
+use App\Repository\CardTaskRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\CardSourceRepository;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=CardSourceRepository::class)
+ * @ORM\Entity(repositoryClass=CardTaskRepository::class)
  */
-class CardSource
+class CardTask
 {
     /**
      * @ORM\Id
@@ -19,16 +18,14 @@ class CardSource
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=60)
-     * @Assert\NotBlank
+     * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $task;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(allowNull=true)
+     * @ORM\Column(type="boolean")
      */
-    private $url;
+    private $isDone;
 
     /**
      * @ORM\Column(type="datetime")
@@ -41,7 +38,7 @@ class CardSource
     private $updatedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Card::class, inversedBy="sources")
+     * @ORM\ManyToOne(targetEntity=Card::class, inversedBy="tasks")
      */
     private $card;
 
@@ -50,26 +47,26 @@ class CardSource
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getTask(): ?string
     {
-        return $this->name;
+        return $this->task;
     }
 
-    public function setName(string $name): self
+    public function setTask(string $task): self
     {
-        $this->name = $name;
+        $this->task = $task;
 
         return $this;
     }
 
-    public function getUrl(): ?string
+    public function getIsDone(): ?bool
     {
-        return $this->url;
+        return $this->isDone;
     }
 
-    public function setUrl(?string $url): self
+    public function setIsDone(bool $isDone): self
     {
-        $this->url = $url;
+        $this->isDone = $isDone;
 
         return $this;
     }

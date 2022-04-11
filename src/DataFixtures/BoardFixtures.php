@@ -2,21 +2,19 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
-use Faker\Factory;
 use App\Entity\Board;
 use App\Entity\BoardTag;
-use App\Entity\FileType;
 use App\Entity\BoardType;
 use App\Entity\Card;
 use App\Entity\CardFile;
 use App\Entity\CardNote;
-use App\Entity\CardSource;
-use App\Entity\Checklist;
-use App\Utils\FakerTrait;
+use App\Entity\CardTask;
 use App\Entity\FileExtension;
-use Doctrine\Persistence\ObjectManager;
+use App\Entity\FileType;
+use App\Utils\FakerTrait;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class BoardFixtures extends Fixture
 {
@@ -25,7 +23,7 @@ class BoardFixtures extends Fixture
 
     /**
      * @param ObjectManager $manager
-     * 
+     *
      * @return void
      */
     public function load(ObjectManager $manager): void
@@ -39,15 +37,15 @@ class BoardFixtures extends Fixture
             $fileType
                 ->setName($file_type['name'])
                 ->setIcon($file_type['icon'])
-                ;
+            ;
             foreach ($file_type['extensions'] as $extensions) {
                 $fileType->addFileExtension(
                     (new FileExtension)->setExtension($extensions)
                 );
             }
-            
+
             $manager->persist($fileType);
-            
+
             $fileTypes[$key] = $fileType;
         }
 
@@ -59,11 +57,11 @@ class BoardFixtures extends Fixture
                 ->setDescription($board_type['description'])
                 ->setCreatedAt($faker->dateTimeBetween('-4 years', '-1 year'))
                 ->setUpdatedAt($this->setDateTimeAfter($boardType->getCreatedAt()))
-                ; 
-                
-            for ($b=0; $b < random_int(20, 50); $b++) { 
+            ;
+
+            for ($b = 0; $b < random_int(20, 50); $b++) {
                 $board = new Board;
-                
+
                 $board
                     ->setName($faker->words(random_int(1, 3), true))
                     ->setDescription($faker->sentences(random_int(2, 6), true))
@@ -73,7 +71,7 @@ class BoardFixtures extends Fixture
                     ->setState($b % 4 ? Board::STATE_CLOSED : Board::STATE_OPEN)
                 ;
 
-                for ($bt=0; $bt < random_int(9, 20); $bt++) { 
+                for ($bt = 0; $bt < random_int(9, 20); $bt++) {
                     $tag = new BoardTag;
 
                     $tag
@@ -87,7 +85,7 @@ class BoardFixtures extends Fixture
 
                 $tags = $board->getTags()->toArray();
 
-                for ($c=0; $c < random_int(40, 80); $c++) { 
+                for ($c = 0; $c < random_int(40, 80); $c++) {
                     $card = new Card;
 
                     $card
@@ -99,11 +97,11 @@ class BoardFixtures extends Fixture
                         ->setUpdatedAt($this->setDateTimeAfter($card->getCreatedAt()))
                     ;
 
-                    for ($ct=0; $ct < random_int(1, 3); $ct++) { 
+                    for ($ct = 0; $ct < random_int(1, 3); $ct++) {
                         $card->addTag($faker->randomElement($tags));
                     }
 
-                    for ($cn=0; $cn < random_int(4, 8); $cn++) { 
+                    for ($cn = 0; $cn < random_int(4, 8); $cn++) {
                         $note = new CardNote;
 
                         $note
@@ -115,8 +113,8 @@ class BoardFixtures extends Fixture
                         $card->addNote($note);
                     }
 
-                    for ($cc=0; $cc < random_int(2, 10); $cc++) { 
-                        $task = new Checklist;
+                    for ($cc = 0; $cc < random_int(2, 10); $cc++) {
+                        $task = new CardTask;
 
                         $task
                             ->setTask($faker->words(random_int(1, 3), true))
@@ -127,7 +125,7 @@ class BoardFixtures extends Fixture
                         $card->addTask($task);
                     }
 
-                    for ($cf=0; $cf < random_int(0, 2); $cf++) { 
+                    for ($cf = 0; $cf < random_int(0, 2); $cf++) {
                         $file = new CardFile;
 
                         $file
@@ -140,25 +138,11 @@ class BoardFixtures extends Fixture
                         $card->addFile($file);
                     }
 
-                    for ($cs=0; $cs < random_int(1, 5); $cs++) { 
-                        $source = new CardSource;
-
-                        $source 
-                            ->setName('openclassrooms')
-                            ->setUrl('https://openclassrooms.com/fr/courses/6175841-apprenez-a-programmer-avec-javascript')
-                            ->setCreatedAt($this->setDateTimeAfter($card->getCreatedAt()))
-                            ->setUpdatedAt($this->setDateTimeAfter($source->getCreatedAt()))
-                        ;
-
-                        $card->addSource($source);
-                    }
-
                     $board->addCard($card);
                 }
 
                 $boardType->addBoard($board);
             }
-
 
             $manager->persist($boardType);
         }
@@ -167,12 +151,12 @@ class BoardFixtures extends Fixture
     }
 
     /**
-     * Return an array of board types 
+     * Return an array of board types
      *
      * @return array
-     * 
+     *
      */
-    private function getBoardTypes ():array
+    private function getBoardTypes(): array
     {
         return [
             [
@@ -208,7 +192,7 @@ class BoardFixtures extends Fixture
      *
      * @return array
      */
-    private function getFileTypes ():array 
+    private function getFileTypes(): array
     {
         return [
             [
@@ -225,7 +209,7 @@ class BoardFixtures extends Fixture
                 'name' => 'Code',
                 'icon' => 'file-code',
                 'extensions' => ['log', 'xml', 'twig', 'html', 'php', 'js', 'md', 'yaml', 'yml', 'json', '.env', 'css', 'sql', 'sh', 'py', 'htaccess'],
-            ],     
+            ],
             [
                 'name' => 'Images',
                 'icon' => 'file-image',
@@ -235,17 +219,17 @@ class BoardFixtures extends Fixture
                 'name' => 'Pdf',
                 'icon' => 'file-pdf',
                 'extensions' => ['pdf'],
-            ],      
+            ],
             [
                 'name' => 'Zip',
                 'icon' => 'file-zip',
                 'extensions' => ['zip'],
-            ],    
+            ],
             [
                 'name' => 'Présentation',
                 'icon' => 'file-slides',
                 'extensions' => ['odp', 'ppt', 'pptx'],
-            ],    
+            ],
         ];
     }
 }

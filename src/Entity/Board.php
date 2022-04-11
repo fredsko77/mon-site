@@ -67,6 +67,11 @@ class Board
     private $tags;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default":"0"})
+     */
+    private $isBookmarked;
+
+    /**
      * Board states 
      */
     public const STATE_OPEN = 'open';
@@ -223,6 +228,18 @@ class Board
                 $tag->setBoard(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsBookmarked(): ?bool
+    {
+        return $this->isBookmarked;
+    }
+
+    public function setIsBookmarked(bool $isBookmarked): self
+    {
+        $this->isBookmarked = $isBookmarked;
 
         return $this;
     }

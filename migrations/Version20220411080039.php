@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220408225224 extends AbstractMigration
+final class Version20220411080039 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20220408225224 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE board (id INT AUTO_INCREMENT NOT NULL, type_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, state VARCHAR(30) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, deadline DATETIME DEFAULT NULL, INDEX IDX_58562B47C54C8C93 (type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE board (id INT AUTO_INCREMENT NOT NULL, type_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, state VARCHAR(30) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, deadline DATETIME DEFAULT NULL, is_bookmarked TINYINT(1) DEFAULT 0, INDEX IDX_58562B47C54C8C93 (type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE board_tag (id INT AUTO_INCREMENT NOT NULL, board_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, color VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, INDEX IDX_F56844E8E7EC5785 (board_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE board_tag_card (board_tag_id INT NOT NULL, card_id INT NOT NULL, INDEX IDX_68EC24DC16CC27B6 (board_tag_id), INDEX IDX_68EC24DC4ACC9A20 (card_id), PRIMARY KEY(board_tag_id, card_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE board_type (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(60) NOT NULL, icon VARCHAR(60) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, description LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -28,9 +28,8 @@ final class Version20220408225224 extends AbstractMigration
         $this->addSql('CREATE TABLE card (id INT AUTO_INCREMENT NOT NULL, board_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, state VARCHAR(60) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, deadline DATETIME DEFAULT NULL, INDEX IDX_161498D3E7EC5785 (board_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE card_file (id INT AUTO_INCREMENT NOT NULL, card_id INT DEFAULT NULL, file_type_id INT DEFAULT NULL, original_name VARCHAR(255) NOT NULL, path VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, INDEX IDX_60AC34B24ACC9A20 (card_id), INDEX IDX_60AC34B29E2A35A8 (file_type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE card_note (id INT AUTO_INCREMENT NOT NULL, card_id INT DEFAULT NULL, content LONGTEXT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX IDX_238EF8B64ACC9A20 (card_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE card_source (id INT AUTO_INCREMENT NOT NULL, card_id INT DEFAULT NULL, name VARCHAR(60) NOT NULL, url VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, INDEX IDX_2DB52C074ACC9A20 (card_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE card_task (id INT AUTO_INCREMENT NOT NULL, task VARCHAR(255) NOT NULL, is_done TINYINT(1) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE chapter (id INT AUTO_INCREMENT NOT NULL, book_id INT DEFAULT NULL, parent_chapter_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, slug VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, visibility VARCHAR(20) NOT NULL, INDEX IDX_F981B52E16A2B381 (book_id), INDEX IDX_F981B52E10DCC338 (parent_chapter_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE checklist (id INT AUTO_INCREMENT NOT NULL, card_id INT DEFAULT NULL, task VARCHAR(255) NOT NULL, is_done TINYINT(1) NOT NULL, created_at DATETIME NOT NULL, INDEX IDX_5C696D2F4ACC9A20 (card_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE contact (id INT AUTO_INCREMENT NOT NULL, fullname VARCHAR(100) NOT NULL, about VARCHAR(255) NOT NULL, message LONGTEXT NOT NULL, created_at DATETIME NOT NULL, state VARCHAR(20) NOT NULL, telephone VARCHAR(15) DEFAULT NULL, email VARCHAR(255) NOT NULL, company_name VARCHAR(255) DEFAULT NULL, updated_at DATETIME DEFAULT NULL, replied_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE file_extension (id INT AUTO_INCREMENT NOT NULL, file_type_id INT DEFAULT NULL, extension VARCHAR(60) NOT NULL, INDEX IDX_11B882019E2A35A8 (file_type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE file_type (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(60) NOT NULL, icon VARCHAR(60) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -52,10 +51,8 @@ final class Version20220408225224 extends AbstractMigration
         $this->addSql('ALTER TABLE card_file ADD CONSTRAINT FK_60AC34B24ACC9A20 FOREIGN KEY (card_id) REFERENCES card (id)');
         $this->addSql('ALTER TABLE card_file ADD CONSTRAINT FK_60AC34B29E2A35A8 FOREIGN KEY (file_type_id) REFERENCES file_type (id)');
         $this->addSql('ALTER TABLE card_note ADD CONSTRAINT FK_238EF8B64ACC9A20 FOREIGN KEY (card_id) REFERENCES card (id)');
-        $this->addSql('ALTER TABLE card_source ADD CONSTRAINT FK_2DB52C074ACC9A20 FOREIGN KEY (card_id) REFERENCES card (id)');
         $this->addSql('ALTER TABLE chapter ADD CONSTRAINT FK_F981B52E16A2B381 FOREIGN KEY (book_id) REFERENCES book (id)');
         $this->addSql('ALTER TABLE chapter ADD CONSTRAINT FK_F981B52E10DCC338 FOREIGN KEY (parent_chapter_id) REFERENCES chapter (id)');
-        $this->addSql('ALTER TABLE checklist ADD CONSTRAINT FK_5C696D2F4ACC9A20 FOREIGN KEY (card_id) REFERENCES card (id)');
         $this->addSql('ALTER TABLE file_extension ADD CONSTRAINT FK_11B882019E2A35A8 FOREIGN KEY (file_type_id) REFERENCES file_type (id)');
         $this->addSql('ALTER TABLE page ADD CONSTRAINT FK_140AB62016A2B381 FOREIGN KEY (book_id) REFERENCES book (id)');
         $this->addSql('ALTER TABLE page ADD CONSTRAINT FK_140AB620579F4768 FOREIGN KEY (chapter_id) REFERENCES chapter (id)');
@@ -76,8 +73,6 @@ final class Version20220408225224 extends AbstractMigration
         $this->addSql('ALTER TABLE board_tag_card DROP FOREIGN KEY FK_68EC24DC4ACC9A20');
         $this->addSql('ALTER TABLE card_file DROP FOREIGN KEY FK_60AC34B24ACC9A20');
         $this->addSql('ALTER TABLE card_note DROP FOREIGN KEY FK_238EF8B64ACC9A20');
-        $this->addSql('ALTER TABLE card_source DROP FOREIGN KEY FK_2DB52C074ACC9A20');
-        $this->addSql('ALTER TABLE checklist DROP FOREIGN KEY FK_5C696D2F4ACC9A20');
         $this->addSql('ALTER TABLE chapter DROP FOREIGN KEY FK_F981B52E10DCC338');
         $this->addSql('ALTER TABLE page DROP FOREIGN KEY FK_140AB620579F4768');
         $this->addSql('ALTER TABLE card_file DROP FOREIGN KEY FK_60AC34B29E2A35A8');
@@ -94,9 +89,8 @@ final class Version20220408225224 extends AbstractMigration
         $this->addSql('DROP TABLE card');
         $this->addSql('DROP TABLE card_file');
         $this->addSql('DROP TABLE card_note');
-        $this->addSql('DROP TABLE card_source');
+        $this->addSql('DROP TABLE card_task');
         $this->addSql('DROP TABLE chapter');
-        $this->addSql('DROP TABLE checklist');
         $this->addSql('DROP TABLE contact');
         $this->addSql('DROP TABLE file_extension');
         $this->addSql('DROP TABLE file_type');

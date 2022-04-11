@@ -65,19 +65,14 @@ class Card
     private $notes;
 
     /**
-     * @ORM\OneToMany(targetEntity=Checklist::class, mappedBy="card", cascade={"persist", "remove"})
-     */
-    private $tasks;
-
-    /**
-     * @ORM\OneToMany(targetEntity=CardSource::class, mappedBy="card", cascade={"persist", "remove"})
-     */
-    private $sources;
-
-    /**
      * @ORM\ManyToMany(targetEntity=BoardTag::class, mappedBy="cards", cascade={"persist", "remove"})
      */
     private $tags;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CardTask::class, mappedBy="card", cascade={"persist", "remove"})
+     */
+    private $tasks;
 
     /**
      * Card states
@@ -93,9 +88,8 @@ class Card
     {
         $this->files = new ArrayCollection();
         $this->notes = new ArrayCollection();
-        $this->tasks = new ArrayCollection();
-        $this->sources = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,7 +138,7 @@ class Card
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface$createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -156,7 +150,7 @@ class Card
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface$updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -168,7 +162,7 @@ class Card
         return $this->deadline;
     }
 
-    public function setDeadline(?\DateTimeInterface $deadline): self
+    public function setDeadline(?\DateTimeInterface$deadline): self
     {
         $this->deadline = $deadline;
 
@@ -248,66 +242,6 @@ class Card
     }
 
     /**
-     * @return Collection|Checklist[]
-     */
-    public function getTasks(): Collection
-    {
-        return $this->tasks;
-    }
-
-    public function addTask(Checklist $task): self
-    {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->setCard($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTask(Checklist $task): self
-    {
-        if ($this->tasks->removeElement($task)) {
-            // set the owning side to null (unless already changed)
-            if ($task->getCard() === $this) {
-                $task->setCard(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CardSource[]
-     */
-    public function getSources(): Collection
-    {
-        return $this->sources;
-    }
-
-    public function addSource(CardSource $source): self
-    {
-        if (!$this->sources->contains($source)) {
-            $this->sources[] = $source;
-            $source->setCard($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSource(CardSource $source): self
-    {
-        if ($this->sources->removeElement($source)) {
-            // set the owning side to null (unless already changed)
-            if ($source->getCard() === $this) {
-                $source->setCard(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|BoardTag[]
      */
     public function getTags(): Collection
@@ -339,7 +273,8 @@ class Card
      *
      * @return array
      */
-    public static function getStates():array {
+    public static function getStates(): array
+    {
         return [
             self::STATE_NEW,
             self::STATE_TODO,
@@ -348,5 +283,35 @@ class Card
             self::STATE_DONE,
             self::STATE_CLOSED,
         ];
+    }
+
+    /**
+     * @return Collection|CardTask[]
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(CardTask $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
+            $task->setCard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(CardTask $task): self
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getCard() === $this) {
+                $task->setCard(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Checklist;
+use App\Entity\CardTask;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Checklist|null find($id, $lockMode = null, $lockVersion = null)
- * @method Checklist|null findOneBy(array $criteria, array $orderBy = null)
- * @method Checklist[]    findAll()
- * @method Checklist[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CardTask|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CardTask|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CardTask[]    findAll()
+ * @method CardTask[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ChecklistRepository extends ServiceEntityRepository
+class CardTaskRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Checklist::class);
+        parent::__construct($registry, CardTask::class);
     }
 
     // /**
-    //  * @return Checklist[] Returns an array of Checklist objects
+    //  * @return CardTask[] Returns an array of CardTask objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ChecklistRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Checklist
+    public function findOneBySomeField($value): ?CardTask
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

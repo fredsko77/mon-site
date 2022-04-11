@@ -2,30 +2,20 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
-use Faker\Factory;
-use App\Entity\Card;
-use App\Entity\User;
-use App\Entity\Board;
-use App\Entity\Skill;
-use App\Entity\Stack;
-use App\Entity\Social;
 use App\Entity\Contact;
-use App\Entity\Project;
-use App\Entity\BoardTag;
-use App\Entity\CardFile;
-use App\Entity\CardNote;
-use App\Entity\FileType;
-use App\Entity\BoardType;
-use App\Entity\Checklist;
-use App\Utils\FakerTrait;
-use App\Entity\CardSource;
 use App\Entity\GroupSkill;
-use Cocur\Slugify\Slugify;
+use App\Entity\Project;
+use App\Entity\Skill;
+use App\Entity\Social;
+use App\Entity\Stack;
+use App\Entity\User;
+use App\Utils\FakerTrait;
 use App\Utils\ServicesTrait;
-use App\Entity\FileExtension;
-use Doctrine\Persistence\ObjectManager;
+use Cocur\Slugify\Slugify;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdminFixtures extends Fixture
@@ -45,13 +35,13 @@ class AdminFixtures extends Fixture
 
     public function __construct(UserPasswordHasherInterface $hasher)
     {
-        $this->hasher = $hasher;    
-        $this->slugger = new Slugify;    
+        $this->hasher = $hasher;
+        $this->slugger = new Slugify;
     }
 
     /**
      * @param ObjectManager $manager
-     * 
+     *
      * @return void
      */
     public function load(ObjectManager $manager): void
@@ -190,7 +180,6 @@ class AdminFixtures extends Fixture
             $manager->persist($contact);
         }
 
-
         $manager->flush();
     }
 
@@ -242,7 +231,7 @@ class AdminFixtures extends Fixture
             'Proposer une série d\'améliorations',
         ];
     }
-    
+
     /**
      * @return array
      */
