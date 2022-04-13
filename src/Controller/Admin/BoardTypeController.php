@@ -2,9 +2,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\BoardType;
+use App\Form\Admin\BoardTypeCreateType;
 use App\Services\Admin\BoardTypeServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -43,9 +45,22 @@ class BoardTypeController extends AbstractController
      *  methods={"GET", "POST"}
      * )
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        return $this->render('', []);
+        $boardType = new BoardType;
+        $form = $this->createForm(BoardTypeCreateType::class, $boardType);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->service->store($boardType);
+
+            return $this->redirectToRoute('admin_boardType_edit', [
+                'id' => $boardType->getId(),
+            ]);
+        }
+
+        return $this->renderForm('admin/task-manager/type/new.html.twig', compact('form'));
     }
 
     /**

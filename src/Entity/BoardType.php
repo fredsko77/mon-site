@@ -2,19 +2,19 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BoardTypeRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BoardTypeRepository::class)
- * @UniqueEntity
- *  fields={"name"},
- *  errorPath="name",
- *  message="Ce type existe déjà !"
+ * @UniqueEntity(
+ *     fields={"name"},
+ *     errorPath="name",
+ *     message="Ce BoardType existe déjà!"
  * )
  */
 class BoardType
@@ -97,7 +97,7 @@ class BoardType
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface$createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -109,7 +109,7 @@ class BoardType
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface$updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

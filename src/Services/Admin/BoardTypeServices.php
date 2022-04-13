@@ -4,9 +4,13 @@ namespace App\Services\Admin;
 use App\Entity\BoardType;
 use App\Repository\BoardTypeRepository;
 use App\Services\Admin\BoardTypeServicesInterface;
+use App\Utils\ServicesTrait;
+use Doctrine\ORM\EntityManagerInterface;
 
 class BoardTypeServices implements BoardTypeServicesInterface
 {
+
+    use ServicesTrait;
 
     /**
      * @var EntityManagerInterface $manager
@@ -18,9 +22,10 @@ class BoardTypeServices implements BoardTypeServicesInterface
      */
     private $repository;
 
-    public function __construct(BoardTypeRepository $repository)
+    public function __construct(BoardTypeRepository $repository, EntityManagerInterface $manager)
     {
         $this->repository = $repository;
+        $this->manager = $manager;
     }
 
     /**
@@ -40,6 +45,10 @@ class BoardTypeServices implements BoardTypeServicesInterface
      */
     public function store(BoardType $boardType): void
     {
+        $boardType->getId() !== null ? $boardType->setUpdatedAt($this->now()) : $boardType->setCreatedAt($this->now());
+
+        $this->manager->persist($boardType);
+        $this->manager->flush();
     }
 
 }
