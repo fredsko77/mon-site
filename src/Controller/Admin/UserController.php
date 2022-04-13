@@ -1,13 +1,13 @@
 <?php
+
 namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/board", name="admin_board_")
+ * @Route("/admin/user", name="admin_user_")
  */
-class BoardController extends AbstractController
+class UserController extends AbstractController
 {
-
 }

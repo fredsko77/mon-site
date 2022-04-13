@@ -20,7 +20,7 @@ class ApiCardController extends AbstractController
     /**
      * @Route(
      *  "/{id}/file/new",
-     *  name="file_new"
+     *  name="file_new",
      *  methods={"POST"},
      *  requirements={"id": "\d+"}
      * )
@@ -33,7 +33,7 @@ class ApiCardController extends AbstractController
     /**
      * @Route(
      *  "/file/{id}",
-     *  name="file_delete"
+     *  name="file_delete",
      *  methods={"DELETE"},
      *  requirements={"id": "\d+"}
      * )

@@ -1,0 +1,88 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block main %}
+
+    <div class="container-fluid" id="projects-list">
+        <h1 class="mt-2 mb-3">
+            Mes types 
+        </h1>
+        <div class="d-flex justify-content-end">
+            <a 
+                class="btn btn-crm btn-sm" 
+                href="{{ path('admin_boardType_new') }}"
+            >Ajouter un type</a>
+        </div>
+        <div class="mt-2" id="project-table">
+            <table class="table table-hover table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="row">#</th>
+                        <th scope="row">Nom</th>
+                        <th scope="row">Icone</th>
+                        <th scope="row">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, boardType in boardTypes %}
+                        <tr data-project-index="{{ key }}">
+                            <th scope="col">{{ boardType.id }}</th>
+                            <td>{{ boardType.name }}</td>
+                            <td><i class="bi bi-{{ boardType.icon }}"></i></td>
+                            <td>
+                                <a 
+                                    href="{{ path('admin_boardType_edit', {id: boardType.id}) }}" 
+                                    class="btn btn-warning btn-sm"
+                                >Modifier</a>
+                                <a                                 
+                                    id="peoject_{{ key }}" 
+                                    data-role="delete"
+                                    data-project-index="{{ key }}"
+                                    href="{{ path('admin_boardType_delete', {id: boardType.id}) }}" 
+                                    class="btn btn-danger btn-sm project-delete"
+                                >Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+
+        const deleteButtons = document.querySelectorAll('.project-delete');
+
+        deleteButtons.forEach((button, index, value) => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                
+                const url = button.href;
+                const row = button.closest(`tr[data-project-index="${button.dataset.projectIndex}"]`);
+                const confirmation = confirm('Voulez-vous vraiment supprimer ce projet ? ');
+
+                if (confirmation === true) {
+                    axios
+                        .delete(url)
+                        .then(({headers, status}) => {
+                            console.error({headers, status})
+                            if (status === 204) {
+                                row.remove();
+                                flash('Le projet a bien été supprimé ! 🚀', 'info');
+                            }
+                        })
+                        .catch(({response}) => {
+                            console.error(response);
+                        })
+                }
+
+            });
+        });
+
+    </script>
+
+{% endblock %}
