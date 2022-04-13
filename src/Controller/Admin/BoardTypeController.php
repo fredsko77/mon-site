@@ -84,9 +84,21 @@ class BoardTypeController extends AbstractController
      *  requirements={"id": "\d+"}
      * )
      */
-    public function edit(BoardType $boardType): Response
+    public function edit(BoardType $boardType, Request $request): Response
     {
-        return $this->render('', []);
+        $form = $this->createForm(BoardTypeCreateType::class, $boardType);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->service->store($boardType);
+
+            return $this->redirectToRoute('admin_boardType_edit', [
+                'id' => $boardType->getId(),
+            ]);
+        }
+
+        return $this->renderForm('admin/task-manager/type/edit.html.twig', compact('form'));
     }
 
     /**
