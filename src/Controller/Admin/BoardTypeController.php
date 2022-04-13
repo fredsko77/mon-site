@@ -103,7 +103,7 @@ class BoardTypeController extends AbstractController
 
     /**
      * @Route(
-     *  "/{id}/delete",
+     *  "/{id}",
      *  name="delete",
      *  methods={"DELETE"},
      *  requirements={"id": "\d+"}
@@ -111,7 +111,13 @@ class BoardTypeController extends AbstractController
      */
     public function delete(BoardType $boardType): JsonResponse
     {
-        return $this->json([]);
+        $response = $this->service->delete($boardType);
+
+        return $this->json(
+            $response->data,
+            $response->status,
+            $response->headers
+        );
     }
 
     /**

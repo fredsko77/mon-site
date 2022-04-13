@@ -18,4 +18,11 @@ interface BoardTypeServicesInterface
      */
     public function store(BoardType $boardType): void;
 
+    /**
+     * @param BoardType $boardType
+     *
+     * @return object
+     */
+    public function delete(BoardType $boardType): object;
+
 }

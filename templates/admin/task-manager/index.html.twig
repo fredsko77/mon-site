@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     {% for key, boardType in boardTypes %}
-                        <tr data-project-index="{{ key }}">
+                        <tr data-boardType-index="{{ key }}">
                             <th scope="col">{{ boardType.id }}</th>
                             <td>{{ boardType.name }}</td>
                             <td><i class="bi bi-{{ boardType.icon }}"></i></td>
@@ -34,11 +34,11 @@
                                     class="btn btn-warning btn-sm"
                                 >Modifier</a>
                                 <a                                 
-                                    id="peoject_{{ key }}" 
+                                    id="project_{{ key }}" 
                                     data-role="delete"
-                                    data-project-index="{{ key }}"
+                                    data-boardType-index="{{ key }}"
                                     href="{{ path('admin_boardType_delete', {id: boardType.id}) }}" 
-                                    class="btn btn-danger btn-sm project-delete"
+                                    class="btn btn-danger btn-sm boardType-delete"
                                 >Supprimer</a>
                             </td>
                         </tr>
@@ -55,24 +55,24 @@
 
     <script>
 
-        const deleteButtons = document.querySelectorAll('.project-delete');
+        const deleteButtons = document.querySelectorAll('.boardType-delete');
 
         deleteButtons.forEach((button, index, value) => {
             button.addEventListener('click', (event) => {
                 event.preventDefault();
                 
                 const url = button.href;
-                const row = button.closest(`tr[data-project-index="${button.dataset.projectIndex}"]`);
+                const row = button.closest(`tr[data-boardType-index="${button.dataset.boardtypeIndex}"]`);
                 const confirmation = confirm('Voulez-vous vraiment supprimer ce projet ? ');
 
                 if (confirmation === true) {
                     axios
                         .delete(url)
                         .then(({headers, status}) => {
-                            console.error({headers, status})
+                                console.error({headers, status})
                             if (status === 204) {
                                 row.remove();
-                                flash('Le projet a bien été supprimé ! 🚀', 'info');
+                                flash('Le boardType a bien été supprimé ! 🚀', 'info');
                             }
                         })
                         .catch(({response}) => {

@@ -51,4 +51,17 @@ class BoardTypeServices implements BoardTypeServicesInterface
         $this->manager->flush();
     }
 
+    /**
+     * @param BoardType $boardType
+     *
+     * @return object
+     */
+    public function delete(BoardType $boardType): object
+    {
+        $this->manager->remove($boardType);
+        $this->manager->flush();
+
+        return $this->sendNoContent();
+    }
+
 }
