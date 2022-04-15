@@ -75,18 +75,17 @@ class Card
     private $list;
 
     /**
-     * @ORM\Column(type="boolean", nullable="false", options={"default": "0"})
+     * @ORM\Column(type="boolean", nullable="false", options={"default": "1"})
      */
     private $isOpen;
 
     /**
      * Card states
      */
-    public const STATE_NEW = 'new';
-    public const STATE_TODO = 'to-do';
-    public const STATE_INPROGRESS = 'in-progress';
-    public const STATE_TOVALIDATE = 'to-validate';
-    public const STATE_DONE = 'done';
+    public const STATE_TODO = 'A faire';
+    public const STATE_INPROGRESS = 'En cours';
+    public const STATE_TOVALIDATE = 'A valider';
+    public const STATE_DONE = 'Terminé';
 
     public function __construct()
     {
@@ -268,7 +267,6 @@ class Card
     public static function getStates(): array
     {
         return [
-            self::STATE_NEW,
             self::STATE_TODO,
             self::STATE_INPROGRESS,
             self::STATE_TOVALIDATE,

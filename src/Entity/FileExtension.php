@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FileExtensionRepository;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FileExtensionRepository::class)
@@ -35,6 +35,16 @@ class FileExtension
      */
     private $fileType;
 
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $icon;
+
+    /**
+     * @ORM\Column(type="boolean", nullable="false", options={"default": "0"})
+     */
+    private $hasIcon;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +70,30 @@ class FileExtension
     public function setFileType(?FileType $fileType): self
     {
         $this->fileType = $fileType;
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?string $icon): self
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getHasIcon(): ?bool
+    {
+        return $this->hasIcon;
+    }
+
+    public function setHasIcon(bool $hasIcon): self
+    {
+        $this->hasIcon = $hasIcon;
 
         return $this;
     }

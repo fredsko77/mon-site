@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Board;
+use App\Entity\BoardList;
 use App\Entity\BoardTag;
 use App\Entity\BoardType;
 use App\Entity\Card;
@@ -22,6 +23,16 @@ class BoardFixtures extends Fixture
     use FakerTrait;
 
     /**
+     * @var FileType[] $fileTypes
+     */
+    private $fileTypes = [];
+
+    /**
+     * @var BoardTag[] $tags
+     */
+    private $tags = [];
+
+    /**
      * @param ObjectManager $manager
      *
      * @return void
@@ -30,7 +41,6 @@ class BoardFixtures extends Fixture
     {
 
         $faker = Factory::create('fr_FR');
-        $fileTypes = [];
 
         foreach ($this->getFileTypes() as $key => $file_type) {
             $fileType = new FileType;
@@ -38,15 +48,22 @@ class BoardFixtures extends Fixture
                 ->setName($file_type['name'])
                 ->setIcon($file_type['icon'])
             ;
-            foreach ($file_type['extensions'] as $extensions) {
-                $fileType->addFileExtension(
-                    (new FileExtension)->setExtension($extensions)
-                );
+            foreach ($file_type['extensions'] as $extension) {
+                $fileExtension = new FileExtension;
+
+                $fileExtension
+
+                    ->setExtension($extension['extension'])
+                    ->setHasIcon(array_key_exists('hasIcon', $extension) ? $extension['hasIcon'] : false)
+                    ->setIcon($fileExtension->getHasIcon() ? 'filetype-' . $fileExtension->getExtension() : null)
+                ;
+
+                $fileType->addFileExtension($fileExtension);
             }
 
             $manager->persist($fileType);
 
-            $fileTypes[$key] = $fileType;
+            $this->fileTypes[$key] = $fileType;
         }
 
         foreach ($this->getBoardTypes() as $key => $board_type) {
@@ -59,7 +76,7 @@ class BoardFixtures extends Fixture
                 ->setUpdatedAt($this->setDateTimeAfter($boardType->getCreatedAt()))
             ;
 
-            for ($b = 0; $b < random_int(20, 50); $b++) {
+            for ($b = 0; $b < random_int(30, 50); $b++) {
                 $board = new Board;
 
                 $board
@@ -83,66 +100,28 @@ class BoardFixtures extends Fixture
                     $board->addTag($tag);
                 }
 
-                for ($bl = 0; $bl < random_int(3, 5); $bl++) {
-                    # Ajouter des cartes ...
-                }
+                $this->tags = $board->getTags()->toArray();
 
-                $tags = $board->getTags()->toArray();
+                $position = 1;
 
-                for ($c = 0; $c < random_int(40, 80); $c++) {
-                    $card = new Card;
+                foreach (Card::getStates() as $state) {
+                    $list = new BoardList;
 
-                    $card
-                        ->setName($faker->words(random_int(1, 3), true))
-                        ->setDescription($faker->sentences(random_int(2, 6), true))
+                    $list
+                        ->setName($state)
+                        ->setPosition((int) $position)
                         ->setCreatedAt($this->setDateTimeAfter($board->getCreatedAt()))
-                        ->setDeadline($this->setDateTimeAfter($card->getCreatedAt()))
-                        ->setUpdatedAt($this->setDateTimeAfter($card->getCreatedAt()))
+                        ->setUpdatedAt($this->setDateTimeAfter($list->getCreatedAt()))
+                        ->setIsOpen(true)
                     ;
 
-                    for ($ct = 0; $ct < random_int(1, 3); $ct++) {
-                        $card->addTag($faker->randomElement($tags));
-                    }
+                    $this->generateCards($board, $faker, $list);
 
-                    for ($cn = 0; $cn < random_int(4, 8); $cn++) {
-                        $note = new CardNote;
-
-                        $note
-                            ->setContent($faker->sentences(random_int(2, 6), true))
-                            ->setCreatedAt($this->setDateTimeAfter($board->getCreatedAt()))
-                            ->setUpdatedAt($this->setDateTimeAfter($note->getCreatedAt()))
-                        ;
-
-                        $card->addNote($note);
-                    }
-
-                    for ($cc = 0; $cc < random_int(2, 10); $cc++) {
-                        $task = new CardTask;
-
-                        $task
-                            ->setTask($faker->words(random_int(1, 3), true))
-                            ->setIsDone($cc % random_int(3, 6) ? false : true)
-                            ->setCreatedAt($this->setDateTimeAfter($board->getCreatedAt()))
-                        ;
-
-                        $card->addTask($task);
-                    }
-
-                    for ($cf = 0; $cf < random_int(0, 2); $cf++) {
-                        $file = new CardFile;
-
-                        $file
-                            ->setPath($faker->imageUrl(640, 480, 'animals', true, 'cats', true))
-                            ->setOriginalName('image-' . $c . '-' . $cf . '.png')
-                            ->setFileType($fileTypes[3])
-                            ->setCreatedAt($this->setDateTimeAfter($card->getCreatedAt()))
-                        ;
-
-                        $card->addFile($file);
-                    }
-
-                    $board->addCard($card);
+                    $board->addList($list);
+                    $position++;
                 }
+
+                $this->generateCards($board, $faker);
 
                 $boardType->addBoard($board);
             }
@@ -151,6 +130,71 @@ class BoardFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    private function generateCards(Board $board, $faker, ?BoardList $list = null): Board
+    {
+        for ($c = 0; $c < random_int(5, 18); $c++) {
+            $card = new Card;
+
+            $card
+                ->setName($faker->words(random_int(1, 3), true))
+                ->setDescription($faker->sentences(random_int(2, 6), true))
+                ->setCreatedAt($this->setDateTimeAfter($board->getCreatedAt()))
+                ->setDeadline($this->setDateTimeAfter($card->getCreatedAt()))
+                ->setUpdatedAt($this->setDateTimeAfter($card->getCreatedAt()))
+                ->setIsOpen($c % 8 === 0 ? false : true)
+            ;
+
+            for ($ct = 0; $ct < random_int(1, 3); $ct++) {
+                $card->addTag($faker->randomElement($this->tags));
+            }
+
+            for ($cn = 0; $cn < random_int(4, 8); $cn++) {
+                $note = new CardNote;
+
+                $note
+                    ->setContent($faker->sentences(random_int(2, 6), true))
+                    ->setCreatedAt($this->setDateTimeAfter($board->getCreatedAt()))
+                    ->setUpdatedAt($this->setDateTimeAfter($note->getCreatedAt()))
+                ;
+
+                $card->addNote($note);
+            }
+
+            for ($cc = 0; $cc < random_int(2, 10); $cc++) {
+                $task = new CardTask;
+
+                $task
+                    ->setTask($faker->words(random_int(1, 3), true))
+                    ->setIsDone($cc % random_int(3, 6) ? false : true)
+                    ->setCreatedAt($this->setDateTimeAfter($board->getCreatedAt()))
+                ;
+
+                $card->addTask($task);
+            }
+
+            for ($cf = 0; $cf < random_int(0, 2); $cf++) {
+                $file = new CardFile;
+
+                $file
+                    ->setPath($faker->imageUrl(640, 480, 'animals', true, 'cats', true))
+                    ->setOriginalName('image-' . $c . '-' . $cf . '.png')
+                    ->setFileType($this->fileTypes[3])
+                    ->setCreatedAt($this->setDateTimeAfter($card->getCreatedAt()))
+                ;
+
+                $card->addFile($file);
+            }
+
+            if ($list instanceof BoardList) {
+                $list->addCard($card);
+            }
+
+            $board->addCard($card);
+        }
+
+        return $board;
     }
 
     /**
@@ -183,9 +227,24 @@ class BoardFixtures extends Fixture
                 'description' => 'Autres',
             ],
             [
-                'name' => 'Softia',
+                'name' => 'Pro',
                 'icon' => 'building',
                 'description' => 'Contenu à ajouter sur la partie docs',
+            ],
+            [
+                'name' => 'Daily',
+                'icon' => 'stickies',
+                'description' => 'Les tâches du quotidien',
+            ],
+            [
+                'name' => 'Formation',
+                'icon' => 'mortarboard',
+                'description' => 'Les tâches du quotidien',
+            ],
+            [
+                'name' => 'Veille',
+                'icon' => 'newspaper',
+                'description' => 'Faire de la documentation',
             ],
         ];
     }
@@ -201,37 +260,174 @@ class BoardFixtures extends Fixture
             [
                 'name' => 'Tableur',
                 'icon' => 'file-spreadsheet',
-                'extensions' => ['ods', 'xls', 'xlsx'],
+                'extensions' => [
+                    [
+                        'extension' => 'ods',
+                    ],
+                    [
+                        'extension' => 'xls',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'xlsx',
+                        'hasIcon' => true,
+                    ],
+                ],
             ],
             [
                 'name' => 'Texte',
                 'icon' => 'file-text',
-                'extensions' => ['odt', 'doc', 'docx', 'txt'],
+                'extensions' => [
+                    [
+                        'extension' => 'odt',
+                    ],
+                    [
+                        'extension' => 'doc',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'docx',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'txt',
+                        'hasIcon' => true,
+                    ],
+                ],
             ],
             [
                 'name' => 'Code',
                 'icon' => 'file-code',
-                'extensions' => ['log', 'xml', 'twig', 'html', 'php', 'js', 'md', 'yaml', 'yml', 'json', '.env', 'css', 'sql', 'sh', 'py', 'htaccess'],
+                'extensions' => [
+                    [
+                        'extension' => 'log',
+                    ],
+                    [
+                        'extension' => 'xml',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'twig',
+                    ],
+                    [
+                        'extension' => 'html',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'php',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'js',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'md',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'yaml',
+                    ],
+                    [
+                        'extension' => 'yml',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'json',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'env',
+                    ],
+                    [
+                        'extension' => 'css',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'scss',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'sass',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'sql',
+                    ],
+                    [
+                        'extension' => 'sh',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'py',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'htaccess',
+                    ],
+                    [
+                        'extension' => 'conf',
+                    ],
+                ],
             ],
             [
                 'name' => 'Images',
                 'icon' => 'file-image',
-                'extensions' => ['jpg', 'jpeg', 'png', 'svg', 'gif'],
+                'extensions' => [
+                    [
+                        'extension' => 'jpg',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'jpeg',
+                    ],
+                    [
+                        'extension' => 'png',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'svg',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'gif',
+                        'hasIcon' => true,
+                    ],
+                ],
             ],
             [
                 'name' => 'Pdf',
                 'icon' => 'file-pdf',
-                'extensions' => ['pdf'],
+                'extensions' => [
+                    [
+                        'extension' => 'pdf',
+                        'hasIcon' => true,
+                    ],
+                ],
             ],
             [
                 'name' => 'Zip',
                 'icon' => 'file-zip',
-                'extensions' => ['zip'],
+                'extensions' => [
+                    ['extension' => 'zip'],
+                ],
             ],
             [
                 'name' => 'Présentation',
                 'icon' => 'file-slides',
-                'extensions' => ['odp', 'ppt', 'pptx'],
+                'extensions' => [
+                    [
+                        'extension' => 'odp',
+                    ],
+                    [
+                        'extension' => 'ppt',
+                        'hasIcon' => true,
+                    ],
+                    [
+                        'extension' => 'pptx',
+                        'hasIcon' => true,
+                    ],
+                ],
             ],
         ];
     }
