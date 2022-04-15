@@ -32,9 +32,9 @@ class Board
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=BoardType::class, inversedBy="boards")
+     * @ORM\ManyToOne(targetEntity=Room::class, inversedBy="boards")
      */
-    private $type;
+    private $room;
 
     /**
      * @ORM\Column(type="datetime")
@@ -76,12 +76,6 @@ class Board
      */
     private $isOpen;
 
-    /**
-     * Board states
-     */
-    public const STATE_OPEN = 'open';
-    public const STATE_CLOSED = 'closed';
-
     public function __construct()
     {
         $this->cards = new ArrayCollection();
@@ -118,14 +112,14 @@ class Board
         return $this;
     }
 
-    public function getType(): ?BoardType
+    public function getType(): ?Room
     {
-        return $this->type;
+        return $this->room;
     }
 
-    public function setType(?BoardType $type): self
+    public function setType(?Room $room): self
     {
-        $this->type = $type;
+        $this->room = $room;
 
         return $this;
     }

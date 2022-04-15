@@ -5,13 +5,13 @@ namespace App\DataFixtures;
 use App\Entity\Board;
 use App\Entity\BoardList;
 use App\Entity\BoardTag;
-use App\Entity\BoardType;
 use App\Entity\Card;
 use App\Entity\CardFile;
 use App\Entity\CardNote;
 use App\Entity\CardTask;
 use App\Entity\FileExtension;
 use App\Entity\FileType;
+use App\Entity\Room;
 use App\Utils\FakerTrait;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -66,14 +66,14 @@ class BoardFixtures extends Fixture
             $this->fileTypes[$key] = $fileType;
         }
 
-        foreach ($this->getBoardTypes() as $key => $board_type) {
-            $boardType = new BoardType();
-            $boardType
+        foreach ($this->getRooms() as $key => $board_type) {
+            $room = new Room();
+            $room
                 ->setName($board_type['name'])
                 ->setIcon($board_type['icon'])
                 ->setDescription($board_type['description'])
                 ->setCreatedAt($faker->dateTimeBetween('-4 years', '-1 year'))
-                ->setUpdatedAt($this->setDateTimeAfter($boardType->getCreatedAt()))
+                ->setUpdatedAt($this->setDateTimeAfter($room->getCreatedAt()))
             ;
 
             for ($b = 0; $b < random_int(30, 50); $b++) {
@@ -82,10 +82,10 @@ class BoardFixtures extends Fixture
                 $board
                     ->setName($faker->words(random_int(1, 3), true))
                     ->setDescription($faker->sentences(random_int(2, 6), true))
-                    ->setCreatedAt($this->setDateTimeAfter($boardType->getCreatedAt()))
+                    ->setCreatedAt($this->setDateTimeAfter($room->getCreatedAt()))
                     ->setUpdatedAt($this->setDateTimeAfter($board->getCreatedAt()))
                     ->setDeadline($this->setDateTimeAfter($board->getCreatedAt()))
-                    ->setState($b % 4 ? Board::STATE_CLOSED : Board::STATE_OPEN)
+                    ->setIsOpen($b % 7 ? false : true)
                 ;
 
                 for ($bt = 0; $bt < random_int(9, 20); $bt++) {
@@ -123,10 +123,10 @@ class BoardFixtures extends Fixture
 
                 $this->generateCards($board, $faker);
 
-                $boardType->addBoard($board);
+                $room->addBoard($board);
             }
 
-            $manager->persist($boardType);
+            $manager->persist($room);
         }
 
         $manager->flush();
@@ -203,7 +203,7 @@ class BoardFixtures extends Fixture
      * @return array
      *
      */
-    private function getBoardTypes(): array
+    private function getRooms(): array
     {
         return [
             [

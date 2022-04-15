@@ -1,9 +1,9 @@
 <?php
 namespace App\Controller\Admin;
 
-use App\Entity\BoardType;
-use App\Form\Admin\BoardTypeCreateType;
-use App\Services\Admin\BoardTypeServicesInterface;
+use App\Entity\Room;
+use App\Form\Admin\RoomType;
+use App\Services\Admin\RoomServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,17 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/boardType", name="admin_boardType_")
+ * @Route("/admin/room", name="admin_room_")
  */
-class BoardTypeController extends AbstractController
+class RoomController extends AbstractController
 {
 
     /**
-     * @var BoardTypeServicesInterface $service
+     * @var RoomServicesInterface $service
      */
     private $service;
 
-    public function __construct(BoardTypeServicesInterface $service)
+    public function __construct(RoomServicesInterface $service)
     {
         $this->service = $service;
     }
@@ -47,20 +47,20 @@ class BoardTypeController extends AbstractController
      */
     public function create(Request $request): Response
     {
-        $boardType = new BoardType;
-        $form = $this->createForm(BoardTypeCreateType::class, $boardType);
+        $room = new Room;
+        $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->service->store($boardType);
+            $this->service->store($room);
 
-            return $this->redirectToRoute('admin_boardType_edit', [
-                'id' => $boardType->getId(),
+            return $this->redirectToRoute('admin_room_edit', [
+                'id' => $room->getId(),
             ]);
         }
 
-        return $this->renderForm('admin/task-manager/type/new.html.twig', compact('form'));
+        return $this->renderForm('admin/task-manager/room/new.html.twig', compact('form'));
     }
 
     /**
@@ -71,9 +71,9 @@ class BoardTypeController extends AbstractController
      *  requirements={"id": "\d+"}
      * )
      */
-    public function show(BoardType $boardType): Response
+    public function show(Room $room): Response
     {
-        return $this->render('', []);
+        return $this->render('admin/task-manager/room/show.html.twig', compact('room'));
     }
 
     /**
@@ -84,21 +84,21 @@ class BoardTypeController extends AbstractController
      *  requirements={"id": "\d+"}
      * )
      */
-    public function edit(BoardType $boardType, Request $request): Response
+    public function edit(Room $room, Request $request): Response
     {
-        $form = $this->createForm(BoardTypeCreateType::class, $boardType);
+        $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->service->store($boardType);
+            $this->service->store($room);
 
-            return $this->redirectToRoute('admin_boardType_edit', [
-                'id' => $boardType->getId(),
+            return $this->redirectToRoute('admin_room_edit', [
+                'id' => $room->getId(),
             ]);
         }
 
-        return $this->renderForm('admin/task-manager/type/edit.html.twig', compact('form'));
+        return $this->renderForm('admin/task-manager/room/edit.html.twig', compact('form'));
     }
 
     /**
@@ -109,9 +109,9 @@ class BoardTypeController extends AbstractController
      *  requirements={"id": "\d+"}
      * )
      */
-    public function delete(BoardType $boardType): JsonResponse
+    public function delete(Room $room): JsonResponse
     {
-        $response = $this->service->delete($boardType);
+        $response = $this->service->delete($room);
 
         return $this->json(
             $response->data,
@@ -122,12 +122,12 @@ class BoardTypeController extends AbstractController
 
     /**
      * @Route(
-     *  "/board/new",
+     *  "/{id}/board/new",
      *  name="new_board",
      *  methods={"GET", "POST"}
      * )
      */
-    public function newBoard(BoardType $boardType): Response
+    public function newBoard(Room $room): Response
     {
         return $this->render('', []);
     }

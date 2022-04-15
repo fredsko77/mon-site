@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\BoardTypeRepository;
+use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,14 +10,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=BoardTypeRepository::class)
+ * @ORM\Entity(repositoryClass=RoomRepository::class)
  * @UniqueEntity(
  *     fields={"name"},
  *     errorPath="name",
- *     message="Ce BoardType existe déjà!"
+ *     message="Ce Room existe déjà!"
  * )
  */
-class BoardType
+class Room
 {
     /**
      * @ORM\Id

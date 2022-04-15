@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-end">
             <a 
                 class="btn btn-crm btn-sm" 
-                href="{{ path('admin_boardType_new') }}"
+                href="{{ path('admin_room_new') }}"
             >Ajouter un type</a>
         </div>
         <div class="mt-2" id="project-table">
@@ -23,23 +23,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for key, boardType in boardTypes %}
-                        <tr data-boardType-index="{{ key }}">
-                            <th scope="col">{{ boardType.id }}</th>
-                            <td>{{ boardType.name }}</td>
-                            <td><i class="bi bi-{{ boardType.icon }}"></i></td>
+                    {% for key, room in rooms %}
+                        <tr>
+                            <th scope="col">{{ room.id }}</th>
+                            <td>{{ room.name }}</td>
+                            <td><i class="bi bi-{{ room.icon }}"></i></td>
                             <td>
                                 <a 
-                                    href="{{ path('admin_boardType_edit', {id: boardType.id}) }}" 
+                                    href="{{ path('admin_room_edit', {id: room.id}) }}" 
                                     class="btn btn-warning btn-sm"
-                                >Modifier</a>
+                                ><i class="bi bi-pencil-square"></i></a>
                                 <a                                 
                                     id="project_{{ key }}" 
-                                    data-role="delete"
-                                    data-boardType-index="{{ key }}"
-                                    href="{{ path('admin_boardType_delete', {id: boardType.id}) }}" 
-                                    class="btn btn-danger btn-sm boardType-delete"
-                                >Supprimer</a>
+                                    href="{{ path('admin_room_show', {id: room.id}) }}" 
+                                    class="btn btn-primary btn-sm"
+                                ><i class="bi bi-eye"></i></a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -55,33 +53,33 @@
 
     <script>
 
-        const deleteButtons = document.querySelectorAll('.boardType-delete');
+        // const deleteButtons = document.querySelectorAll('.room-delete');
 
-        deleteButtons.forEach((button, index, value) => {
-            button.addEventListener('click', (event) => {
-                event.preventDefault();
+        // deleteButtons.forEach((button, index, value) => {
+        //     button.addEventListener('click', (event) => {
+        //         event.preventDefault();
                 
-                const url = button.href;
-                const row = button.closest(`tr[data-boardType-index="${button.dataset.boardtypeIndex}"]`);
-                const confirmation = confirm('Voulez-vous vraiment supprimer ce projet ? ');
+        //         const url = button.href;
+        //         const row = button.closest(`tr[data-room-index="${button.dataset.boardtypeIndex}"]`);
+        //         const confirmation = confirm('Voulez-vous vraiment supprimer ce projet ? ');
 
-                if (confirmation === true) {
-                    axios
-                        .delete(url)
-                        .then(({headers, status}) => {
-                                console.error({headers, status})
-                            if (status === 204) {
-                                row.remove();
-                                flash('Le boardType a bien été supprimé ! 🚀', 'info');
-                            }
-                        })
-                        .catch(({response}) => {
-                            console.error(response);
-                        })
-                }
+        //         if (confirmation === true) {
+        //             axios
+        //                 .delete(url)
+        //                 .then(({headers, status}) => {
+        //                         console.error({headers, status})
+        //                     if (status === 204) {
+        //                         row.remove();
+        //                         flash('Le room a bien été supprimé ! 🚀', 'info');
+        //                     }
+        //                 })
+        //                 .catch(({response}) => {
+        //                     console.error(response);
+        //                 })
+        //         }
 
-            });
-        });
+        //     });
+        // });
 
     </script>
 
