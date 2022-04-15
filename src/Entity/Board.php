@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BoardRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -35,11 +35,6 @@ class Board
      * @ORM\ManyToOne(targetEntity=BoardType::class, inversedBy="boards")
      */
     private $type;
-
-    /**
-     * @ORM\Column(type="string", length=30)
-     */
-    private $state;
 
     /**
      * @ORM\Column(type="datetime")
@@ -72,7 +67,17 @@ class Board
     private $isBookmarked;
 
     /**
-     * Board states 
+     * @ORM\OneToMany(targetEntity=BoardList::class, mappedBy="board", cascade={"persist", "remove"})
+     */
+    private $lists;
+
+    /**
+     * @ORM\Column(type="boolean", nullable="false", options={"dafault": "0"})
+     */
+    private $isOpen;
+
+    /**
+     * Board states
      */
     public const STATE_OPEN = 'open';
     public const STATE_CLOSED = 'closed';
@@ -81,6 +86,7 @@ class Board
     {
         $this->cards = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->lists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,7 +147,7 @@ class Board
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface$createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -153,7 +159,7 @@ class Board
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface$updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -165,7 +171,7 @@ class Board
         return $this->deadline;
     }
 
-    public function setDeadline(?\DateTimeInterface $deadline): self
+    public function setDeadline(?\DateTimeInterface$deadline): self
     {
         $this->deadline = $deadline;
 
@@ -244,4 +250,45 @@ class Board
         return $this;
     }
 
+    /**
+     * @return Collection|BoardList[]
+     */
+    public function getLists(): Collection
+    {
+        return $this->lists;
+    }
+
+    public function addList(BoardList $list): self
+    {
+        if (!$this->lists->contains($list)) {
+            $this->lists[] = $list;
+            $list->setBoard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeList(BoardList $list): self
+    {
+        if ($this->lists->removeElement($list)) {
+            // set the owning side to null (unless already changed)
+            if ($list->getBoard() === $this) {
+                $list->setBoard(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getIsOpen()
+    {
+        return $this->isOpen;
+    }
+
+    public function setIsOpen($isOpen)
+    {
+        $this->isOpen = $isOpen;
+
+        return $this;
+    }
 }

@@ -83,6 +83,10 @@ class BoardFixtures extends Fixture
                     $board->addTag($tag);
                 }
 
+                for ($bl = 0; $bl < random_int(3, 5); $bl++) {
+                    # Ajouter des cartes ...
+                }
+
                 $tags = $board->getTags()->toArray();
 
                 for ($c = 0; $c < random_int(40, 80); $c++) {
@@ -91,7 +95,6 @@ class BoardFixtures extends Fixture
                     $card
                         ->setName($faker->words(random_int(1, 3), true))
                         ->setDescription($faker->sentences(random_int(2, 6), true))
-                        ->setState($faker->randomElement(Card::getStates()))
                         ->setCreatedAt($this->setDateTimeAfter($board->getCreatedAt()))
                         ->setDeadline($this->setDateTimeAfter($card->getCreatedAt()))
                         ->setUpdatedAt($this->setDateTimeAfter($card->getCreatedAt()))

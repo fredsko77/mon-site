@@ -30,11 +30,6 @@ class Card
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=60)
-     */
-    private $state;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -75,6 +70,16 @@ class Card
     private $tasks;
 
     /**
+     * @ORM\ManyToOne(targetEntity=BoardList::class, inversedBy="cards")
+     */
+    private $list;
+
+    /**
+     * @ORM\Column(type="boolean", nullable="false", options={"default": "0"})
+     */
+    private $isOpen;
+
+    /**
      * Card states
      */
     public const STATE_NEW = 'new';
@@ -82,7 +87,6 @@ class Card
     public const STATE_INPROGRESS = 'in-progress';
     public const STATE_TOVALIDATE = 'to-validate';
     public const STATE_DONE = 'done';
-    public const STATE_CLOSED = 'closed';
 
     public function __construct()
     {
@@ -117,18 +121,6 @@ class Card
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getState(): ?string
-    {
-        return $this->state;
-    }
-
-    public function setState(string $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }
@@ -281,7 +273,6 @@ class Card
             self::STATE_INPROGRESS,
             self::STATE_TOVALIDATE,
             self::STATE_DONE,
-            self::STATE_CLOSED,
         ];
     }
 
@@ -311,6 +302,30 @@ class Card
                 $task->setCard(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getList(): ?BoardList
+    {
+        return $this->list;
+    }
+
+    public function setList(?BoardList $list): self
+    {
+        $this->list = $list;
+
+        return $this;
+    }
+
+    public function getIsOpen(): ?bool
+    {
+        return $this->isOpen;
+    }
+
+    public function setIsOpen(bool $isOpen): self
+    {
+        $this->isOpen = $isOpen;
 
         return $this;
     }
