@@ -2,6 +2,7 @@
 namespace App\Services\Admin;
 
 use App\Entity\Room;
+use Symfony\Component\HttpFoundation\Request;
 
 interface RoomServicesInterface
 {
@@ -24,5 +25,13 @@ interface RoomServicesInterface
      * @return object
      */
     public function delete(Room $room): object;
+
+    /**
+     * @param Room $room
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function show(Room $room, Request $request): array;
 
 }

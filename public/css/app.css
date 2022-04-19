@@ -131,7 +131,7 @@ body {
 }
 
 .link {
-    font-weight: 600;
+    font-weight: 500;
     display: block;
 }
 
@@ -358,6 +358,7 @@ body {
 
 .btn-white {
     border: var(--app-border);
+    background-color: transparent;
 }
 
 .btn.btn-link,

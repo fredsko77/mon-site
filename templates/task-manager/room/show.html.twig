@@ -1,0 +1,175 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block main %}
+
+    <div class="d-flex justify-content-between mb-2">
+        <div class="title ms-1">
+            <h1 class="h3"> <i class="bi bi-{{ room.icon }}"></i> {{ room.name }}</h1>
+        </div>
+        <div class="actions me-1">
+            <a
+                title="Ajouter un espace de travail" 
+                class="btn btn-white" 
+                href="{{ path('admin_room_new_board', {
+                    id: room.id
+                }) }}"
+            ><i class="bi bi-plus-lg"></i></a>
+            <a
+                title="Modifier l'espace de travail" 
+                class="btn btn-white" 
+                href="{{ path('admin_room_edit', {
+                    id: room.id
+                }) }}"
+            ><i class="bi bi-gear"></i></a>
+        </div>
+    </div>
+
+    <div class="room-container mt-3 mb-2">
+        <div class="list-group">
+            <div class="list-group-item py-3" style="background-color: #FAFAFA;">
+                <div class="d-flex justify-content-between">
+                    <div class="room-boards d-flex flex-row">
+                        <a 
+                            href="#"
+                            class="room-board link active me-2"
+                            id="boardOpen"
+                        > 
+                            <i class="bi bi-signpost"></i>
+                            {{ room.openBoards }} ouverts
+                        </a>
+                        <a 
+                            href="#"
+                            class="room-board link"
+                            id="boardClosed"
+                        > 
+                            <i class="bi bi-check2"></i>
+                            {{ room.closedBoards }} fermés
+                        </a>
+                    </div>
+                    <div class="room-filters">
+                        <a 
+                            class="link"
+                            href="#" 
+                            role="button" 
+                            id="dropdownFilters" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false"
+                        >Trier par <i class="bi bi-caret-down-fill me-1"></i></a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownFilters">
+                            <li>
+                                <a 
+                                    class="dropdown-item" 
+                                    href="#"
+                                >Action</a>
+                            </li>
+                            <li>
+                                <a 
+                                    class="dropdown-item" 
+                                    href="#"
+                                >Another action</a>
+                            </li>
+                            <li>
+                                <a 
+                                    class="dropdown-item" 
+                                    href="#"
+                                >Something else here</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="board-list">
+            {% for board in boards %}
+                <div class="list-group-item board">
+                    <div class="board-container">
+                        <div class="board-section">
+                            <p class="board-name">{{ board.name|capitalize }}</p>
+                            <div class="board-dates">
+                                <p>
+                                    {% if board.deadline != null %} 
+                                        <i class="bi bi-calendar"></i> Deadline le {{ board.deadline|format_datetime('short', 'none', locale='fr') }} 
+                                    {% else %} 
+                                        Pas de dealine 
+                                    {% endif %}
+                                </p>
+                                {% if board.updatedAt != null %} 
+                                    <p>
+                                        <i class="bi bi-clock"></i> Dernière modification{{ board.updatedAt|format_datetime('short', 'none', locale='fr') }} 
+                                    </p>
+                                {% endif %}
+                            </div>
+                            <small class="board-description">
+                                {{ board.description }}
+                            </small>                            
+                        </div>
+                        <div class="board-section">  
+                            <div class="board-progress">
+                                <div class="progress">
+                                    <div 
+                                        class="progress-bar bg-success"  
+                                        role="progressbar" 
+                                        style="width: {{ board.cardCoverage }}%;" 
+                                        aria-valuenow="{{ board.cardCoverage }}" 
+                                        aria-valuemin="0" 
+                                        aria-valuemax="100"
+                                    ></div>
+                                </div>
+                            </div>  
+                            <div class="board-stats">
+                                <span>{{ board.cardCoverage }} % terminées</span>
+                                <span>{{ board.nbCardsOpen }} ouvertes</span>
+                                <span>{{ board.nbCardsClosed }} fermées</span>
+                            </div>  
+                            <div class="board-actions">
+                                <a 
+                                    href="{{ path('admin_room_edit', {
+                                        id: room.id
+                                    }) }}"
+                                    class="link"
+                                    data-action="board-toggle"
+                                >Modifier</a>
+                                <a 
+                                    href=""
+                                    class="link"
+                                >Fermer</a>
+                                <a 
+                                    href="{{ path('admin_room_delete', {
+                                        id: room.id
+                                    }) }}"
+                                    class="link text-danger"
+                                >Supprimer</a>
+                            </div>                
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="board-filter-page row my-2">
+            <div class="col-auto">
+                <div class="row mb-3">
+                    <label for="nbItems" class="col-sm-8 col-form-label">Résultats par page</label>
+                    <div class="col-sm-4">
+                        <select name="nbItems" id="nbItems" class="form-select">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto navigation">
+                {{ knp_pagination_render(boards) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('css/task-manager/room-show.css') }}">
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/task-manager/room-show.js') }}"></script>
+{% endblock %}

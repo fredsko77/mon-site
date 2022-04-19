@@ -76,6 +76,21 @@ class Board
      */
     private $isOpen;
 
+    /**
+     * @var int $nbCardsOpen
+     */
+    private $nbCardsOpen;
+
+    /**
+     * @var int $nbCardsClosed
+     */
+    private $nbCardsClosed;
+
+    /**
+     * @var int $cardCoverage
+     */
+    private $cardCoverage;
+
     public function __construct()
     {
         $this->cards = new ArrayCollection();
@@ -284,5 +299,57 @@ class Board
         $this->isOpen = $isOpen;
 
         return $this;
+    }
+
+    /**
+     * Get $nbCardsOpen
+     *
+     * @return  int
+     */
+    public function getNbCardsOpen()
+    {
+        $sum = 0;
+        foreach ($this->cards as $key => $card) {
+            if ($card->getIsOpen()) {
+                $sum++;
+            }
+        }
+
+        $this->nbCardsOpen = $sum;
+
+        return $this->nbCardsOpen;
+    }
+
+    /**
+     * Get $nbCardsClosed
+     *
+     * @return  int
+     */
+    public function getNbCardsClosed()
+    {
+        $sum = 0;
+        foreach ($this->cards as $key => $card) {
+            if ($card->getIsOpen() === false) {
+                $sum++;
+            }
+        }
+
+        $this->nbCardsClosed = $sum;
+
+        return $this->nbCardsClosed;
+    }
+
+    /**
+     * Get $cardCoverage
+     *
+     * @return int
+     */
+    public function getCardCoverage(): int
+    {
+        // dd(($this->getNbCardsClosed() / count($this->cards)));
+        $cardCoverage = floor(($this->getNbCardsClosed() / count($this->cards)) * 100);
+        $this->cardCoverage = $cardCoverage;
+
+        return $this->cardCoverage;
     }
 }

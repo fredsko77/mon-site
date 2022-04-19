@@ -32,6 +32,16 @@ trait FakerTrait
     }
 
     /**
+     * @param DateTime $originalDateTime
+     *
+     * @return bool|DateTime
+     */
+    public function setRandomDatetimeDeadline(DateTime $originalDateTime): bool | DateTime
+    {
+        return $originalDateTime->modify('+' . random_int(0, 180) . ' days');
+    }
+
+    /**
      * @param array|null $array
      *
      * @return string

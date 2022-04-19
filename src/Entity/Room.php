@@ -54,7 +54,7 @@ class Room
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Board::class, mappedBy="type", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Board::class, mappedBy="room", cascade={"persist", "remove"})
      */
     private $boards;
 
@@ -156,5 +156,31 @@ class Room
         }
 
         return $this;
+    }
+
+    public function openBoards(): int
+    {
+        $length = 0;
+
+        foreach ($this->boards as $board) {
+            if ($board->getIsOpen() === true) {
+                $length = $length + 1;
+            }
+        }
+
+        return $length;
+    }
+
+    public function closedBoards(): int
+    {
+        $length = 0;
+
+        foreach ($this->boards as $board) {
+            if ($board->getIsOpen() === false) {
+                $length = $length + 1;
+            }
+        }
+
+        return $length;
     }
 }

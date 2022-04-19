@@ -85,7 +85,8 @@ class BoardFixtures extends Fixture
                     ->setCreatedAt($this->setDateTimeAfter($room->getCreatedAt()))
                     ->setUpdatedAt($this->setDateTimeAfter($board->getCreatedAt()))
                     ->setDeadline($this->setDateTimeAfter($board->getCreatedAt()))
-                    ->setIsOpen($b % 7 ? false : true)
+                    ->setIsOpen($b % 7 === 0 ? false : true)
+                    ->setIsBookmarked($b % random_int(5, 8) === 0 ? true : false)
                 ;
 
                 for ($bt = 0; $bt < random_int(9, 20); $bt++) {

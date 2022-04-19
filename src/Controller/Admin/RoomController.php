@@ -35,7 +35,7 @@ class RoomController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('admin/task-manager/index.html.twig', $this->service->index());
+        return $this->render('task-manager//index.html.twig', $this->service->index());
     }
 
     /**
@@ -60,7 +60,7 @@ class RoomController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('admin/task-manager/room/new.html.twig', compact('form'));
+        return $this->renderForm('task-manager//room/new.html.twig', compact('form'));
     }
 
     /**
@@ -71,9 +71,9 @@ class RoomController extends AbstractController
      *  requirements={"id": "\d+"}
      * )
      */
-    public function show(Room $room): Response
+    public function show(Room $room, Request $request): Response
     {
-        return $this->render('admin/task-manager/room/show.html.twig', compact('room'));
+        return $this->render('task-manager//room/show.html.twig', $this->service->show($room, $request));
     }
 
     /**
@@ -98,7 +98,7 @@ class RoomController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('admin/task-manager/room/edit.html.twig', compact('form'));
+        return $this->renderForm('task-manager//room/edit.html.twig', compact('form'));
     }
 
     /**
