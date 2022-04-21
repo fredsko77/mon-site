@@ -33,13 +33,13 @@ class BoardRepository extends ServiceEntityRepository
 
         if ($sort !== null) {
             if ($sort === 'recently-created') {
-                $qb->orderBy('b.created_at', 'desc');
+                $qb->orderBy('b.createdAt', 'desc');
             } elseif ($sort === 'recently-updated') {
-                $qb->orderBy('b.updated_at', 'desc');
+                $qb->orderBy('b.updatedAt', 'desc');
             } elseif ($sort === 'closest-deadline') {
                 $qb->orderBy('b.deadline', 'desc');
             } elseif ($sort === 'furthest-deadline') {
-                $qb->orderBy('b.deadline', 'desc');
+                $qb->orderBy('b.deadline', 'asc');
             } elseif ($sort === 'most-cards') {
                 $query = $this->createQueryBuilder('b');
                 $query

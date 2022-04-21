@@ -12,6 +12,33 @@ trait FakerTrait
      *
      * @return bool|DateTime
      */
+    public function setDateTimeBetween(string $startDate = '-30 years', string $endDate = 'now', string $timezone = null): bool | DateTime
+    {
+        $timezone = $timezone ?? date_default_timezone_get();
+        $start = new DateTime($startDate);
+        $end = new DateTime($endDate);
+
+        $interval = $end->diff($start);
+        $days = 0;
+
+        if ($interval->y > 0) {
+            $days += ($interval->y * 365);
+        }
+        if ($interval->m > 0) {
+            $days += ($interval->m * 30);
+        }
+        if ($interval->d > 0) {
+            $days += $interval->d;
+        }
+
+        return $start->modify('+' . random_int(0, $days) . ' days');
+    }
+
+    /**
+     * @param DateTime $originalDateTime
+     *
+     * @return bool|DateTime
+     */
     public function setDateTimeAfter(DateTime $originalDateTime): bool | DateTime
     {
         $now = new DateTime();
@@ -36,9 +63,10 @@ trait FakerTrait
      *
      * @return bool|DateTime
      */
-    public function setRandomDatetimeDeadline(DateTime $originalDateTime): bool | DateTime
+    public function setRandomDatetimeAfter(DateTime $originalDateTime): bool | DateTime
     {
-        return $originalDateTime->modify('+' . random_int(0, 180) . ' days');
+        $int = random_int(-60, 300);
+        return $originalDateTime->modify(($int < 0 ? '+' : '-') . (string) $int . ' days');
     }
 
     /**

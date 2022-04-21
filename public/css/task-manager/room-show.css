@@ -76,3 +76,7 @@
 .board-actions>*:last-child {
     margin-right: 0;
 }
+
+.link.active {
+    font-weight: 600;
+}

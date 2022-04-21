@@ -72,7 +72,7 @@ class BoardFixtures extends Fixture
                 ->setName($board_type['name'])
                 ->setIcon($board_type['icon'])
                 ->setDescription($board_type['description'])
-                ->setCreatedAt($faker->dateTimeBetween('-4 years', '-1 year'))
+                ->setCreatedAt($this->setDateTimeBetween())
                 ->setUpdatedAt($this->setDateTimeAfter($room->getCreatedAt()))
             ;
 
@@ -144,7 +144,7 @@ class BoardFixtures extends Fixture
                 ->setCreatedAt($this->setDateTimeAfter($board->getCreatedAt()))
                 ->setDeadline($this->setDateTimeAfter($card->getCreatedAt()))
                 ->setUpdatedAt($this->setDateTimeAfter($card->getCreatedAt()))
-                ->setIsOpen($c % 8 === 0 ? false : true)
+                ->setIsOpen($c % random_int(1, 5) === 0 ? false : true)
             ;
 
             for ($ct = 0; $ct < random_int(1, 3); $ct++) {

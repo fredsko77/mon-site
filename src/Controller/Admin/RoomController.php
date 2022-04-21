@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 use App\Entity\Room;
 use App\Form\Admin\RoomType;
 use App\Services\Admin\RoomServicesInterface;
+use App\Utils\FakerTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RoomController extends AbstractController
 {
+
+    use FakerTrait;
 
     /**
      * @var RoomServicesInterface $service
