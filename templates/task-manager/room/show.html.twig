@@ -50,149 +50,16 @@
                             {{ room.closedBoards }} fermés
                         </a>
                     </div>
-                    <div class="room-filters">
-                        <a 
-                            class="link"
-                            href="#" 
-                            role="button" 
-                            id="dropdownFilters" 
-                            data-bs-toggle="dropdown" 
-                            aria-expanded="false"
-                        >Trier par <i class="bi bi-caret-down-fill me-1"></i></a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownFilters">
-                            <li>
-                                <a 
-                                    class="dropdown-item" 
-                                    href="#"
-                                    data-filter-key="sort"
-                                    data-filter-value="recently-created"
-                                >Date de création</a>
-                            </li>
-                            <li>
-                                <a 
-                                    class="dropdown-item" 
-                                    href="#"
-                                    data-filter-key="sort"
-                                    data-filter-value="recently-updated"
-                                >Date de modification</a>
-                            </li>
-                            <li>
-                                <a 
-                                    class="dropdown-item" 
-                                    href="#"
-                                    data-filter-key="sort"
-                                    data-filter-value="most-cards"
-                                >Le plus de cartes</a>
-                            </li>
-                            <li>
-                                <a 
-                                    class="dropdown-item" 
-                                    href="#"
-                                    data-filter-key="sort"
-                                    data-filter-value="least-cards"
-                                >Le moins de cartes</a>
-                            </li>
-                            <li>
-                                <a 
-                                    class="dropdown-item" 
-                                    href="#"
-                                    data-filter-key="sort"
-                                    data-filter-value="closest-deadline"
-                                >Deadline la plus proche</a>
-                            </li>
-                            <li>
-                                <a 
-                                    class="dropdown-item" 
-                                    href="#"
-                                    data-filter-key="sort"
-                                    data-filter-value="furthest-deadline"
-                                >Deadline la plus éloignée</a>
-                            </li>
-                        </ul>
-                    </div>
+                    {% include "task-manager/room/board_filters.html.twig" %}
                 </div>
             </div>
             <div class="board-list">
-                {% for board in boards %}
-                    <div class="list-group-item board">
-                        <div class="board-container">
-                            <div class="board-section">
-                                <p class="board-name">
-                                    <a 
-                                        href="{{ path('admin_board_show', {
-                                            id: board.id
-                                        }) }}"
-                                        class="link"
-                                        id="board_show_{{ board.id }}"
-                                    >{{ board.name|capitalize }}</a>
-                                </p>
-                                <div class="board-dates">
-                                    <p>
-                                        {% if board.deadline != null %} 
-                                            <i class="bi bi-calendar"></i> Deadline le {{ board.deadline|format_datetime('short', 'none', locale='fr') }} 
-                                        {% else %} 
-                                            Pas de dealine 
-                                        {% endif %}
-                                    </p>
-                                    {% if board.updatedAt != null %} 
-                                        <p>
-                                            <i class="bi bi-clock"></i> Dernière modification{{ board.updatedAt|format_datetime('short', 'none', locale='fr') }} 
-                                        </p>
-                                    {% endif %}
-                                </div>
-                                <small class="board-description">
-                                    {{ board.description }}
-                                </small>                            
-                            </div>
-                            <div class="board-section">  
-                                <div class="board-progress">
-                                    <div class="progress">
-                                        <div 
-                                            class="progress-bar bg-success"  
-                                            role="progressbar" 
-                                            style="width: {{ board.cardCoverage }}%;" 
-                                            aria-valuenow="{{ board.cardCoverage }}" 
-                                            aria-valuemin="0" 
-                                            aria-valuemax="100"
-                                        ></div>
-                                    </div>
-                                </div>  
-                                <div class="board-stats">
-                                    <span>{{ board.cardCoverage }} % terminées</span>
-                                    <span>{{ board.nbCardsOpen }} ouvertes</span>
-                                    <span>{{ board.nbCardsClosed }} fermées</span>
-                                </div>  
-                                <div class="board-actions">
-                                    <a 
-                                        href="{{ path('admin_board_edit', {
-                                            id: board.id
-                                        }) }}"
-                                        class="link"
-                                    >Modifier</a>
-                                    <a 
-                                        href="{{ path('admin_api_board_toggle', {
-                                            id: board.id
-                                        }) }}"
-                                        class="link"
-                                        data-action="board-toggle"
-                                    >{% if board.isOpen %} Fermer {% else %} Rouvrir {% endif %} </a>
-                                    <a 
-                                        href="{{ path('admin_board_delete', {
-                                            id: board.id
-                                        }) }}"
-                                        class="link text-danger"
-                                        data-action="board-delete"
-                                    >Supprimer</a>
-                                </div>                
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+                {% include "task-manager/room/board_repeater.html.twig" with {boards: boards} %}
             </div>
         </div>
-        <div class="board-filter-page row my-2">
+        <div class="board-filter-page row mt-4 mb-5">
             <div class="col-5">
-                <div class="row mb-3">
+                <div class="row mb-5">
                     <label for="nbItems" class="col-sm-7 col-form-label">Résultats par page</label>
                     <div class="col-sm-5">
                         <select name="nbItems" id="nbItems" class="form-select">
