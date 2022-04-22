@@ -1,8 +1,11 @@
 <?php
 namespace App\Controller\Admin;
 
+use App\Entity\Board;
 use App\Entity\Room;
 use App\Form\Admin\RoomType;
+use App\Form\Board\BoardType;
+use App\Services\Admin\BoardServicesInterface;
 use App\Services\Admin\RoomServicesInterface;
 use App\Utils\FakerTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,9 +27,15 @@ class RoomController extends AbstractController
      */
     private $service;
 
-    public function __construct(RoomServicesInterface $service)
+    /**
+     * @var BoardServicesInterface $boardService
+     */
+    private $boardService;
+
+    public function __construct(RoomServicesInterface $service, BoardServicesInterface $boardService)
     {
         $this->service = $service;
+        $this->boardService = $boardService;
     }
 
     /**
@@ -38,7 +47,7 @@ class RoomController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('task-manager//index.html.twig', $this->service->index());
+        return $this->render('task-manager/index.html.twig', $this->service->index());
     }
 
     /**
@@ -63,7 +72,7 @@ class RoomController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('task-manager//room/new.html.twig', compact('form'));
+        return $this->renderForm('task-manager/room/new.html.twig', compact('form'));
     }
 
     /**
@@ -76,7 +85,7 @@ class RoomController extends AbstractController
      */
     public function show(Room $room, Request $request): Response
     {
-        return $this->render('task-manager//room/show.html.twig', $this->service->show($room, $request));
+        return $this->render('task-manager/room/show.html.twig', $this->service->show($room, $request));
     }
 
     /**
@@ -101,7 +110,7 @@ class RoomController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('task-manager//room/edit.html.twig', compact('form'));
+        return $this->renderForm('task-manager/room/edit.html.twig', compact('form'));
     }
 
     /**
@@ -130,9 +139,21 @@ class RoomController extends AbstractController
      *  methods={"GET", "POST"}
      * )
      */
-    public function newBoard(Room $room): Response
+    public function newBoard(Room $room, Request $request): Response
     {
-        return $this->render('', []);
+        $board = new Board;
+        $form = $this->createForm(BoardType::class, $board);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->boardService->create($form, $board, $room);
+
+            return $this->redirectToRoute('admin_board_show', [
+                'id' => $board->getId(),
+            ]);
+        }
+
+        return $this->renderForm('task-manager/board/new.html.twig', compact('form'));
     }
 
 }
