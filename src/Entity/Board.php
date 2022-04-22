@@ -6,6 +6,7 @@ use App\Repository\BoardRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,11 +24,13 @@ class Board
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Groups({"board:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"board:read"})
      */
     private $description;
 
@@ -38,16 +41,19 @@ class Board
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"board:read"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"board:read"})
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"board:read"})
      */
     private $deadline;
 
@@ -63,6 +69,7 @@ class Board
 
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default":"0"})
+     * @Groups({"board:read"})
      */
     private $isBookmarked;
 
@@ -73,16 +80,19 @@ class Board
 
     /**
      * @ORM\Column(type="boolean", nullable="false", options={"dafault": "0"})
+     * @Groups({"board:read"})
      */
     private $isOpen;
 
     /**
      * @var int $nbCardsOpen
+     * @Groups({"board:read"})
      */
     private $nbCardsOpen;
 
     /**
      * @var int $nbCardsClosed
+     * @Groups({"board:read"})
      */
     private $nbCardsClosed;
 

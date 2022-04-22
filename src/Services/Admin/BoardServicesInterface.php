@@ -31,4 +31,11 @@ interface BoardServicesInterface
      */
     public function delete(Board $board): object;
 
+    /**
+     * @param Board $board
+     *
+     * @return object
+     */
+    public function toggle(Board $board): object;
+
 }

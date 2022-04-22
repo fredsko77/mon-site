@@ -170,10 +170,12 @@
                                         class="link"
                                     >Modifier</a>
                                     <a 
-                                        href=""
+                                        href="{{ path('admin_api_board_toggle', {
+                                            id: board.id
+                                        }) }}"
                                         class="link"
                                         data-action="board-toggle"
-                                    >Fermer</a>
+                                    >{% if board.isOpen %} Fermer {% else %} Rouvrir {% endif %} </a>
                                     <a 
                                         href="{{ path('admin_board_delete', {
                                             id: board.id

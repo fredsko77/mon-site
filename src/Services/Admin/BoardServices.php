@@ -127,4 +127,21 @@ class BoardServices implements BoardServicesInterface
         return $this->sendNoContent();
     }
 
+    /**
+     * @param Board $board
+     *
+     * @return object
+     */
+    public function toggle(Board $board): object
+    {
+        $board->setIsOpen(!$board->getIsOpen())
+            ->setUpdatedAt(new DateTime)
+        ;
+
+        $this->manager->persist($board);
+        $this->manager->flush();
+
+        return $this->sendJson($board);
+    }
+
 }

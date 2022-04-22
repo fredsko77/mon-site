@@ -31,19 +31,17 @@ toggleButtons.forEach((button, index, value) => {
 
         const url = button.href;
 
-        if (confirmation === true) {
-            axios
-                .put(url)
-                .then(({ headers, status }) => {
-                    if (status === 204) {
-                        flash('Le room a bien été modifié ! 🚀', 'info');
-                        setTimeout(() => window.location = window.location.href, 2000);
-                    }
-                })
-                .catch(({ response }) => {
-                    console.error(response);
-                })
-        }
+        axios
+            .put(url)
+            .then(({ headers, status }) => {
+                if (status === 200) {
+                    flash('Le room a bien été modifié ! 🚀', 'info');
+                    setTimeout(() => window.location = window.location.href, 2000);
+                }
+            })
+            .catch(({ response }) => {
+                console.error(response);
+            })
 
     });
 });
