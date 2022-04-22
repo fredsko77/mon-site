@@ -117,7 +117,15 @@
                     <div class="list-group-item board">
                         <div class="board-container">
                             <div class="board-section">
-                                <p class="board-name">{{ board.name|capitalize }}</p>
+                                <p class="board-name">
+                                    <a 
+                                        href="{{ path('admin_board_show', {
+                                            id: board.id
+                                        }) }}"
+                                        class="link"
+                                        id="board_show_{{ board.id }}"
+                                    >{{ board.name|capitalize }}</a>
+                                </p>
                                 <div class="board-dates">
                                     <p>
                                         {% if board.deadline != null %} 
@@ -156,21 +164,22 @@
                                 </div>  
                                 <div class="board-actions">
                                     <a 
-                                        href="{{ path('admin_room_edit', {
-                                            id: room.id
+                                        href="{{ path('admin_board_edit', {
+                                            id: board.id
                                         }) }}"
                                         class="link"
-                                        data-action="board-toggle"
                                     >Modifier</a>
                                     <a 
                                         href=""
                                         class="link"
+                                        data-action="board-toggle"
                                     >Fermer</a>
                                     <a 
-                                        href="{{ path('admin_room_delete', {
-                                            id: room.id
+                                        href="{{ path('admin_board_delete', {
+                                            id: board.id
                                         }) }}"
                                         class="link text-danger"
+                                        data-action="board-delete"
                                     >Supprimer</a>
                                 </div>                
                             </div>

@@ -18,7 +18,7 @@
     justify-content: flex-start;
 }
 
-.board-name {
+.board-name a {
     font-weight: 600;
     font-size: 1.12rem;
 }

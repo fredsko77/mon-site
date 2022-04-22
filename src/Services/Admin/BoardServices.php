@@ -29,10 +29,19 @@ class BoardServices implements BoardServicesInterface
      */
     private $manager;
 
-    public function __construct(BoardRepository $repository, EntityManagerInterface $manager)
-    {
+    /**
+     * @var CardFileServicesInterface $cardFileService
+     */
+    private $cardFileService;
+
+    public function __construct(
+        BoardRepository $repository,
+        EntityManagerInterface $manager,
+        CardFileServicesInterface $cardFileService
+    ) {
         $this->repository = $repository;
         $this->manager = $manager;
+        $this->cardFileService = $cardFileService;
     }
 
     /**
@@ -102,6 +111,16 @@ class BoardServices implements BoardServicesInterface
      */
     public function delete(Board $board): object
     {
+        if (count($board->getCards()) > 0) {
+            foreach ($board->getCards() as $key => $card) {
+                if ($card->getFiles()) {
+                    foreach ($card->getFiles() as $key => $file) {
+                        $this->cardFileService->deleteFile($file);
+                    }
+                }
+            }
+        }
+
         $this->manager->remove($board);
         $this->manager->flush();
 

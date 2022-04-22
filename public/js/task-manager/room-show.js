@@ -30,7 +30,6 @@ toggleButtons.forEach((button, index, value) => {
         event.preventDefault();
 
         const url = button.href;
-        const confirmation = confirm('Voulez-vous vraiment modifier ce tableau ? ');
 
         if (confirmation === true) {
             axios

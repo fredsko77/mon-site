@@ -2,10 +2,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Board;
-use App\Form\Board\BoardType;
+use App\Form\Board\BoardEditType;
 use App\Services\Admin\BoardServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -46,10 +47,10 @@ class BoardController extends AbstractController
      *  requirements={"id": "\d+"}
      * )
      */
-    public function edit(Board $board): Response
+    public function edit(Board $board, Request $request): Response
     {
-        $form = $this->createForm(BoardType::class, $board);
-        $form->handleRequest($form);
+        $form = $this->createForm(BoardEditType::class, $board);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->service->store($board);
@@ -59,7 +60,7 @@ class BoardController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('', compact('form', 'board'));
+        return $this->renderForm('task-manager/board/edit.html.twig', compact('form', 'board'));
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Controller\Admin;
 use App\Entity\Board;
 use App\Entity\Room;
 use App\Form\Admin\RoomType;
-use App\Form\Board\BoardType;
+use App\Form\Board\BoardCreateType;
 use App\Services\Admin\BoardServicesInterface;
 use App\Services\Admin\RoomServicesInterface;
 use App\Utils\FakerTrait;
@@ -142,7 +142,7 @@ class RoomController extends AbstractController
     public function newBoard(Room $room, Request $request): Response
     {
         $board = new Board;
-        $form = $this->createForm(BoardType::class, $board);
+        $form = $this->createForm(BoardCreateType::class, $board);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
