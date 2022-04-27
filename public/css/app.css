@@ -342,6 +342,18 @@ body {
     background-color: var(--app-red-100);
 }
 
+.badge.badge-light {
+    border-color: var(--bs-gray);
+    color: var(--bs-dark);
+    background-color: var(--bs-light);
+}
+
+.badge.badge-secondary {
+    border-color: var(--bs-secondary);
+    color: var(--bs-secondary);
+    background-color: var(--app-grey);
+}
+
 .badge.badge-crm {
     border-color: var(--app-purple-600);
     color: var(--app-purple-600);

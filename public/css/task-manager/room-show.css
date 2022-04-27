@@ -80,3 +80,7 @@
 .link.active {
     font-weight: 600;
 }
+
+.list-group-header {
+    background-color: #FAFAFA;
+}

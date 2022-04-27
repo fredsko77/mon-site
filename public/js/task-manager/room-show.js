@@ -5,7 +5,7 @@ deleteButtons.forEach((button, index, value) => {
         event.preventDefault();
 
         const url = button.href;
-        const confirmation = confirm('Voulez-vous vraiment supprimer ce tableau ? ');
+        const confirmation = confirm('Si vous supprimer le tableau, toutes les données liées au tableau seront perdues ?');
 
         if (confirmation === true) {
             axios

@@ -5,6 +5,7 @@ use App\Entity\Board;
 use App\Services\Admin\BoardServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -44,4 +45,42 @@ class ApiBoardController extends AbstractController
         );
     }
 
+    /**
+     * @Route(
+     *  "/{id}",
+     *  name="edit",
+     *  methods={"PUT"},
+     *  requirements={"id": "\d+"}
+     * )
+     */
+    public function edit(Board $board, Request $request): JsonResponse
+    {
+        $response = $this->service->apiEdit($board, $request);
+
+        return $this->json(
+            $response->data,
+            $response->status,
+            $response->headers,
+            ['groups' => 'board:read']
+        );
+    }
+
+    /**
+     * @Route(
+     *  "/{id}",
+     *  name="delete",
+     *  methods={"DELETE"},
+     *  requirements={"id": "\d+"}
+     * )
+     */
+    public function delete(Board $board): JsonResponse
+    {
+        $response = $this->service->apiDelete($board);
+
+        return $this->json(
+            $response->data,
+            $response->status,
+            $response->headers
+        );
+    }
 }

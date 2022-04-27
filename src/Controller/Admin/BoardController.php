@@ -2,6 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Board;
+use App\Entity\BoardTag;
 use App\Form\Board\BoardEditType;
 use App\Services\Admin\BoardServicesInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,6 +52,7 @@ class BoardController extends AbstractController
     {
         $form = $this->createForm(BoardEditType::class, $board);
         $form->handleRequest($request);
+        $tagColors = BoardTag::colors();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->service->store($board);
@@ -60,7 +62,7 @@ class BoardController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('task-manager/board/edit.html.twig', compact('form', 'board'));
+        return $this->renderForm('task-manager/board/edit.html.twig', compact('form', 'board', 'tagColors'));
     }
 
     /**

@@ -93,9 +93,9 @@ class BoardFixtures extends Fixture
                     $tag = new BoardTag;
 
                     $tag
-                        ->setName($faker->words(random_int(1, 3), true))
-                        ->setColor($faker->hexColor())
-                        ->setDescription($faker->sentences(random_int(1, 2), true))
+                        ->setName($faker->words(random_int(1, 2), true))
+                        ->setColor($faker->randomElement(BoardTag::colors()))
+                        ->setDescription($faker->words(random_int(2, 5), true))
                     ;
 
                     $board->addTag($tag);

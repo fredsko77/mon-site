@@ -1,0 +1,29 @@
+.board-tags-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.list-group-header {
+    background-color: #FAFAFA;
+}
+
+.board-description-actions {
+    display: flex;
+    flex-direction: row;
+}
+
+#description:not(:focus) {
+    border: none;
+    background-color: #F9F9F9;
+}
+
+#description:focus {
+    background-color: transparent;
+}
+
+.tag-actions {
+    display: flex;
+    justify-content: flex-end;
+}

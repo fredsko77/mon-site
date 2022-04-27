@@ -1,0 +1,33 @@
+<template id="tagTemplate">
+    <div class="list-group-item">
+        <div class="board-tag">
+            <div class="row justify-content-between">
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-3 tag-name">
+                            <span class="badge"></span> 
+                        </div>
+                        <div class="col-9 tag-description"></div>                    
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="tag-actions">
+                        <a 
+                            id="tag_update_" 
+                            href="#" 
+                            class="link me-2"
+                            onclick="editTag(event);"
+                        >Modifier</a>
+                        <a 
+                            id="tag_delete_" 
+                            href="#" 
+                            class="link text-danger"
+                            onclick="deleteTag(event);"
+                        >Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="edit_tag_form_"></div>
+    </div>
+</template>

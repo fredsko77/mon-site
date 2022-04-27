@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Room;
 use App\Repository\BoardRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -63,7 +64,7 @@ class Board
     private $cards;
 
     /**
-     * @ORM\OneToMany(targetEntity=BoardTag::class, mappedBy="board", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=BoardTag::class, mappedBy="board", cascade={"persist"})
      */
     private $tags;
 
@@ -356,10 +357,32 @@ class Board
      */
     public function getCardCoverage(): int
     {
-        // dd(($this->getNbCardsClosed() / count($this->cards)));
-        $cardCoverage = floor(($this->getNbCardsClosed() / count($this->cards)) * 100);
+        $cardCoverage = 0;
+
+        if (count($this->cards) > 0) {
+            $cardCoverage = floor(($this->getNbCardsClosed() / count($this->cards)) * 100);
+        }
+
         $this->cardCoverage = $cardCoverage;
 
         return $this->cardCoverage;
+    }
+
+    /**
+     * @return Room|null
+     */
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setRoom(?Room $room): self
+    {
+        $this->room = $room;
+
+        return $this;
     }
 }

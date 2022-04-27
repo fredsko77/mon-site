@@ -1,9 +1,116 @@
 {% extends "admin/layout.html.twig" %}
 
 {% block main %}
-
-    <h1>Modifier le tableau</h1>
+    <h1>{{ board.name|capitalize }}</h1>
     
-    {% include "task-manager/board/_form.html.twig" with {form: form} %}
+    <div class="row">
+        <div class="col-9">
+            <div class="board-description-container mt-2 mb-4">
+                <form 
+                    action="{{ path('admin_api_board_edit', {
+                        id: board.id
+                    }) }}" 
+                    method="post" 
+                    onsubmit="handleEditBoard(event);"
+                >
+                    <label for="description" class="mb-3">
+                        <i class="bi bi-justify-left"></i>
+                        Description
+                    </label>
+                    <textarea 
+                        name="description" 
+                        id="description" 
+                        class="form-control"
+                        rows="3"
+                        aria-focus="false"
+                    >{{ board.description }}</textarea>
+                    <div class="mt-2 board-description-actions hidden">
+                        <button type="button" class="btn btn-sm btn-white me-2">Annuler</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+            <div class="board-tags-container my-3">
+                <div class="board-tags">
+                    <div class="list-group">
+                        <div class="list-group-item list-group-header">
+                            <div class="board-tags-title">
+                                <span>
+                                    <i class="bi bi-tags"></i> 
+                                    Etiquettes
+                                </span>
+                                <button 
+                                    id="tagCreateCollapse"
+                                    type="button" 
+                                    class="btn btn-sm btn-white"
+                                    title="Ajouter un tag"
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="tag-new"
+                                    data-bs-toggle="collapse"
+                                    href="#tag-new"
+                                ><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                            <div id="tag-new" class="collapse py-3">
+                                {% include "task-manager/board/forms/create_tag.html.twig" %}
+                            </div>
+                        </div>
+                        {% include "task-manager/board/repeaters/tags.html.twig" with {tags: board.tags} %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <form 
+                    action="{{ path('admin_api_board_edit', {
+                        id: board.id
+                    }) }}" 
+                    method="post" 
+                >
+                    <label for="boardDeadline">Deadline</label>
+                    <input 
+                        type="date"     
+                        name="deadline" 
+                        id="boardDeadline" 
+                        class="form-control"
+                        value="{{ board.deadline|date('Y-m-d') }}"
+                    >
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a 
+                        class="btn btn-sm btn-white col-12"
+                        id="boardIsOpen"
+                        href="{{ path('admin_api_board_toggle', {
+                            id: board.id
+                        }) }}"
+                    >{{ board.isOpen ? 'Fermer' : 'Ouvrir' }} le board</a>
+                </div>
+            </div>
+            <div class="alert alert-danger my-3">
+                Si vous supprimer le tableau, toutes les données liées au tableau seront perdues ?
+            </div>
+            <a 
+                href="{{ path('admin_api_board_delete', {
+                    id: board.id
+                }) }}" 
+                class="btn btn-sm btn-danger col-12" 
+                id="boardDelete"
+                onclick="handleBoardDelete(event);"
+            >Supprimer le board</a>
+        </div>
+    </div>
 
+    {% include "task-manager/board/templates/tag.html.twig" %}
+    {% include "task-manager/board/templates/tag_form.html.twig" %}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('css/task-manager/edit-board.css') }}">
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/task-manager/edit-board.js') }}"></script>
 {% endblock %}

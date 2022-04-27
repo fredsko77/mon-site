@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BoardTagRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,23 +18,27 @@ class BoardTag
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"tag:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Groups({"tag:read"})
      */
     private $name;
-    
+
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"tag:read"})
      */
     private $color;
-    
+
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Ce champ doit être renseigné", allowNull=true)
+     * @Groups({"tag:read"})
      */
     private $description;
 
@@ -43,7 +48,7 @@ class BoardTag
     private $board;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Card::class, inversedBy="tags", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity=Card::class, inversedBy="tags", cascade={"persist"})
      */
     private $cards;
 
@@ -127,6 +132,20 @@ class BoardTag
         $this->cards->removeElement($card);
 
         return $this;
+    }
+
+    public static function colors(): array
+    {
+        return [
+            'primary',
+            'secondary',
+            'success',
+            'danger',
+            'warning',
+            'info',
+            'light',
+            'dark',
+        ];
     }
 
 }

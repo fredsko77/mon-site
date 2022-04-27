@@ -60,7 +60,7 @@ class Card
     private $notes;
 
     /**
-     * @ORM\ManyToMany(targetEntity=BoardTag::class, mappedBy="cards", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity=BoardTag::class, mappedBy="cards", cascade={"persist"})
      */
     private $tags;
 

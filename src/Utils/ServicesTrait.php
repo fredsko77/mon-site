@@ -128,18 +128,18 @@ trait ServicesTrait
     }
 
     /**
-     * @param object $errors
+     * @param ConstraintViolationList $violations
      * @param array $headers
      *
      * @return object|null
      */
-    public function sendViolations(array $violations, array $headers = []): ?object
+    public function sendViolations(ConstraintViolationList $violations, array $headers = []): ?object
     {
 
         return $this->sendJson(
             [
                 'title' => 'Validation failed !',
-                'violations' => $violations,
+                'violations' => $this->filterViolations($violations),
             ],
             Response::HTTP_BAD_REQUEST,
             $headers
