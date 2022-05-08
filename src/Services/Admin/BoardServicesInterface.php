@@ -54,4 +54,12 @@ interface BoardServicesInterface
      */
     public function apiDelete(Board $board): object;
 
+    /**
+     * @param Board $board
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function filter(Board $board, Request $request): array;
+
 }

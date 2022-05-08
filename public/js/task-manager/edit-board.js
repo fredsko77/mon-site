@@ -7,12 +7,14 @@ const cancelCreateTag = document.querySelector('#cancelCreateTag');
 cancelCreateTag.addEventListener('click', (event) => {
     const form = event.target.closest('form');
     form.reset();
+    return console.log(event);
     const tagCreateCollapse = document.querySelector('#tagCreateCollapse');
-    console.warn(tagCreateCollapse.classList.contains('hidden'), tagCreateCollapse.classList);
-    return tagCreateCollapse.classList.remove('hidden');
+    classList = tagCreateCollapse.classList.value.replace('hidden', '');
+    console.log(tagCreateCollapse.classList.value);
+    return tagCreateCollapse.classList.value = classList;
 });
 
-tagCreateCollapse.addEventListener('click', (event) => document.querySelector('#tagCreateCollapse').classList.add('hidden'));
+tagCreateCollapse.addEventListener('click', (event) => event.target.classList.add('hidden'));
 
 boardDescription.addEventListener('focus', ({ target }) => {
     const form = target.closest('form');

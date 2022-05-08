@@ -7,11 +7,13 @@ use App\Entity\BoardTag;
 use App\Entity\Card;
 use App\Entity\Room;
 use App\Repository\BoardRepository;
+use App\Repository\CardRepository;
 use App\Services\Admin\BoardServicesInterface;
 use App\Utils\ServicesTrait;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -28,6 +30,11 @@ class BoardServices implements BoardServicesInterface
      * @var BoardRepository $repository
      */
     private $repository;
+
+    /**
+     * @var CardRepository $cardRepository
+     */
+    private $cardRepository;
 
     /**
      * @var EntityManagerInterface $manager
@@ -54,20 +61,29 @@ class BoardServices implements BoardServicesInterface
      */
     private $validator;
 
+    /**
+     * @var PaginatorInterface $paginator
+     */
+    private $paginator;
+
     public function __construct(
         BoardRepository $repository,
+        CardRepository $cardRepository,
         EntityManagerInterface $manager,
         CardFileServicesInterface $cardFileService,
         SerializerInterface $serializer,
         UrlGeneratorInterface $router,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        PaginatorInterface $paginator
     ) {
         $this->repository = $repository;
+        $this->cardRepository = $cardRepository;
         $this->manager = $manager;
         $this->cardFileService = $cardFileService;
         $this->serializer = $serializer;
         $this->router = $router;
         $this->validator = $validator;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -223,4 +239,51 @@ class BoardServices implements BoardServicesInterface
         ]);
     }
 
+    public function filter(Board $board, Request $request): array
+    {
+        // Get data from $_GET
+        $state = $request->query->getBoolean('isOpen', true);
+        $sort = $request->query->get('sort', null);
+        $page = $request->query->getInt('page', 1);
+        $nbItems = $request->query->getInt('nbItems', 10);
+        $tag = $request->query->get('tag', null);
+        $search = $request->query->get('search', null);
+
+        // Get data from Database|Repository
+        $data = $this->getData($this->cardRepository->findBoardFilteredCards(
+            $board,
+            $state,
+            $sort,
+            $tag,
+            $search
+        ));
+
+        // Get boards for pagination
+        $cards = $this->paginator->paginate(
+            $data,
+            $page,
+            $nbItems
+        );
+
+        return compact('cards', 'board');
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return array
+     */
+    private function getData(array $array): array
+    {
+        $data = [];
+        foreach ($array as $key => $item) {
+            if (is_array($item)) {
+                $data[$key] = $item[0];
+            } else {
+                return $array;
+            }
+        }
+
+        return $data;
+    }
 }

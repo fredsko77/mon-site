@@ -30,14 +30,27 @@ class BoardController extends AbstractController
     /**
      * @Route(
      *  "/{id}",
-     *  name="show",
+     *  name="list",
      *  methods={"GET"},
      *  requirements={"id": "\d+"}
      * )
      */
-    public function show(Board $board): Response
+    public function show(Board $board, Request $request): Response
     {
-        return $this->render('', compact('board'));
+        return $this->render('task-manager/board/list/index.html.twig', $this->service->filter($board, $request));
+    }
+
+    /**
+     * @Route(
+     *  "/{id}/kanban",
+     *  name="kanban",
+     *  methods={"GET"},
+     *  requirements={"id": "\d+"}
+     * )
+     */
+    public function kanban(Board $board): Response
+    {
+        return $this->render('task-manager/board/kanban/index.html.twig', compact('board'));
     }
 
     /**

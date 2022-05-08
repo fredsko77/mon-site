@@ -1,0 +1,91 @@
+<div class="card-filters">
+    <a 
+        class="link me-5"
+        href="#" 
+        role="button" 
+        id="tagFilters" 
+        data-bs-toggle="dropdown" 
+        aria-expanded="false"
+    ><i class="bi bi-tags"></i> Etiquettes</a>
+    <ul class="dropdown-menu" aria-labelledby="tagFilters">
+        {% for tag in tags %}
+            <li>
+                <a 
+                    class="dropdown-item" 
+                    href="#"
+                    data-filter-key="tag"
+                    data-filter-value="{{ tag.name }}"
+                >
+                    <span class="tag-circle bg-{{ tag.color }}"></span>
+                    {{ tag.name|capitalize }}
+                </a>
+            </li>            
+        {% endfor %}
+    </ul>
+    <a 
+        class="link ms-4 me-2"
+        href="#" 
+        role="button" 
+        id="dropdownFilters" 
+        data-bs-toggle="dropdown" 
+        aria-expanded="false"
+    ><i class="bi bi-filter"></i> Trier par</a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownFilters">
+        <li>
+            <a 
+                class="dropdown-item" 
+                href="#"
+                data-filter-key="sort"
+                data-filter-value="recently-created"
+            >Les plus récents</a>
+        </li>
+        <li>
+            <a 
+                class="dropdown-item" 
+                href="#"
+                data-filter-key="sort"
+                data-filter-value="oldest"
+            >Les plus anciens</a>
+        </li>
+        <li>
+            <a 
+                class="dropdown-item" 
+                href="#"
+                data-filter-key="sort"
+                data-filter-value="recently-updated"
+            >Date de modification</a>
+        </li>
+        <li>
+            <a 
+                class="dropdown-item" 
+                href="#"
+                data-filter-key="sort"
+                data-filter-value="most-notes"
+            >Le plus de commentaires</a>
+        </li>
+        <li>
+            <a 
+                class="dropdown-item" 
+                href="#"
+                data-filter-key="sort"
+                data-filter-value="least-cards"
+            >Le moins de commentaires</a>
+        </li>
+        <li>
+            <a 
+                class="dropdown-item" 
+                href="#"
+                data-filter-key="sort"
+                data-filter-value="closest-deadline"
+            >Deadline la plus proche</a>
+        </li>
+        <li>
+            <a 
+                class="dropdown-item" 
+                href="#"
+                data-filter-key="sort"
+                data-filter-value="furthest-deadline"
+            >Deadline la plus éloignée</a>
+        </li>
+    </ul>
+</div>

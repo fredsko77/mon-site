@@ -1,0 +1,67 @@
+{% for card in cards %}
+    <div class="list-group-item board-card">
+        <div class="board-card-header">
+            <a 
+                href="{{ path('admin_card_show', {
+                    id: card.id
+                }) }}"
+                class="link"
+            >
+                {% if card.isOpen %} 
+                    <i class="bi bi-door-open"></i> 
+                {% else %}                        
+                    <i class="bi bi-door-closed"></i> 
+                {% endif %}
+                {{ card.name }}     
+            </a>
+            <div class="board-card-tags">
+                {% for tag in card.tags %}
+                    <span class="badge badge-{{ tag.color }}">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="board-card-footer">
+            <div class="footer-left">
+                <a 
+                    href="{{ path('admin_card_show', {
+                        id: card.id
+                    }) }}"
+                    class="link"
+                >
+                    #{{ card.id }}     
+                </a>
+                <span class="board-card-date">
+                    {% if card.deadline != null %}
+                        Echéance le {{ card.deadline|format_date(locale='fr') }}
+                    {% elseif card.updatedAt != null %}
+                        Mis à jour le {{ card.updatedAt|format_date(locale='fr') }}
+                    {% else %}
+                        Ouvert le {{ card.createdAt|format_date(locale='fr') }}      
+                    {% endif %}
+                </span>
+            </div>
+            <div class="footer-right">
+                {% if card.tasks|length > 0 %}
+                    <span class="board-card-tasks">
+                        <i class="bi bi-check2-square"></i>&nbsp;{{ card.tasks|length }}
+                    </span>
+                {% endif %}
+                {% if card.notes|length > 0 %}
+                    <span class="board-card-notes">
+                        <i class="bi bi-chat-left"></i>&nbsp;{{ card.notes|length }}
+                    </span>
+                {% endif %}
+                {% if card.files|length > 0 %}            
+                    <span class="board-card-files">
+                        <i class="bi bi-paperclip"></i>&nbsp;{{ card.files|length }}
+                    </span>
+                {% endif %}
+                {% if card.list %}
+                    <span class="board-card-list">
+                        <i class="bi bi-signpost"></i>&nbsp;{{ card.list.name }}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>                     
+{% endfor %}

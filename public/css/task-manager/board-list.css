@@ -1,0 +1,70 @@
+.list-group-header {
+    background-color: #FAFAFA;
+}
+
+.card-filters {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.tag-circle {
+    border-radius: 2rem;
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    border: var(--app-border);
+}
+
+.board-card-header {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.board-card-header .link {
+    margin-right: .67rem;
+}
+
+.board-card-tags .badge {
+    margin-right: .3rem;
+}
+
+.board-card-tags .badge::last-child {
+    margin-right: 0;
+}
+
+.board-card-footer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.footer-left {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.footer-left .link {
+    margin-right: .67rem;
+}
+
+.footer-right span {
+    margin-right: .3rem;
+}
+
+.footer-right span:last-child {
+    margin-right: 0;
+}
+
+.link.active {
+    font-weight: 600;
+}

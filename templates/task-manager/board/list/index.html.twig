@@ -1,0 +1,128 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block main %}
+    
+    <div class="d-flex justify-content-between">
+        <h1 class="h3">
+            {{ board.name|capitalize }}
+            <i 
+                class="bi bi-bookmark"
+                onclick="bookmarkBoard(event);"
+            ></i>
+        </h1>
+        <div class="board-actions">
+            <a 
+                href="{{ path('admin_board_kanban', {
+                    id: board.id
+                }) }}" 
+                class="btn btn-sm btn-white me-2"
+                id="#"
+                title="Affichage en mode kanban"
+            ><i class="bi bi-kanban"></i></a>           
+            <a 
+                href="{{ path('admin_card_new', {
+                    id: board.id
+                }) }}" 
+                class="btn btn-sm btn-white me-2"
+                id="#"
+                title="Ajouter une carte"
+            ><i class="bi bi-plus-lg"></i></a>           
+            <a 
+                href="{{ path('admin_board_edit', {
+                    id: board.id
+                }) }}" 
+                class="btn btn-sm btn-white"
+                id="#"
+                title="Modifier le tableau"
+            ><i class="bi bi-pencil-square"></i></a>
+        </div>
+    </div>
+
+    <div class="row my-3 align-items-baseline">
+        <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
+            <form method="post" action="" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input 
+                            type="text" 
+                            name="search" 
+                            id="search"
+                            placeholder="Rechercher une carte"
+                            class="form-control"
+                        >
+                        <button 
+                            type="submit" 
+                            class="input-group-text"
+                        ><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
+            <div class="clear-filters">
+                <a href="{{ app.request.pathInfo }}">Réinitialiser les filtres</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-list-container mb-5">
+        <div class="list-group">
+            <div class="list-group-item list-group-header py-3">
+                <div class="d-flex justify-content-between">
+                    <div class="board-cards d-flex flex-row">
+                        <a 
+                            href="#"
+                            class="board-card link me-2"
+                            id="boardOpen"
+                            data-filter-key="isOpen"
+                            data-filter-value="1"
+                        > 
+                            <i class="bi bi-signpost"></i>
+                            {{ board.nbCardsOpen }} ouverts
+                        </a>
+                        <a 
+                            href="#"
+                            class="board-card link"
+                            id="boardClosed"
+                            data-filter-key="isOpen"
+                            data-filter-value="0"
+                        > 
+                            <i class="bi bi-check2"></i>
+                            {{ board.nbCardsClosed }} fermés
+                        </a>
+                    </div>
+                    {% include "task-manager/board/list/card_filters.html.twig" with {tags: board.tags} %}
+                </div>
+            </div>
+            <div class="card-list">
+                {% include "task-manager/board/list/card_repeater.html.twig" with {cards: cards} %}
+            </div>
+        </div>
+        <div class="board-filter-page row mt-4 mb-5">
+            <div class="col-lg-5 col-xl-4">
+                <div class="row mb-5">
+                    <label for="nbItems" class="col-lg-7 col-xl-auto col-form-label">Résultats par page</label>
+                    <div class="col-lg-5 col-xl-4">
+                        <select name="nbItems" id="nbItems" class="form-select">
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto navigation">
+                {{ knp_pagination_render(cards) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block css %}    
+    <link rel="stylesheet" href="{{ asset('css/task-manager/board-list.css') }}">
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/task-manager/board-list.js') }}"></script>
+{% endblock %}
