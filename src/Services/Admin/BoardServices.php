@@ -188,6 +188,23 @@ class BoardServices implements BoardServicesInterface
 
     /**
      * @param Board $board
+     *
+     * @return object
+     */
+    public function bookmark(Board $board): object
+    {
+        $board->setIsBookmarked(!$board->getIsBookmarked())
+            ->setUpdatedAt(new DateTime)
+        ;
+
+        $this->manager->persist($board);
+        $this->manager->flush();
+
+        return $this->sendJson($board);
+    }
+
+    /**
+     * @param Board $board
      * @param Request $request
      *
      * @return object

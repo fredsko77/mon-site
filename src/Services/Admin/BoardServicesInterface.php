@@ -62,4 +62,11 @@ interface BoardServicesInterface
      */
     public function filter(Board $board, Request $request): array;
 
+    /**
+     * @param Board $board
+     *
+     * @return object
+     */
+    public function bookmark(Board $board): object;
+
 }

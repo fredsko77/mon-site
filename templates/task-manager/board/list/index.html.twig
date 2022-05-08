@@ -5,10 +5,15 @@
     <div class="d-flex justify-content-between">
         <h1 class="h3">
             {{ board.name|capitalize }}
-            <i 
-                class="bi bi-bookmark"
+            <a 
+                href="{{ path('admin_api_board_bookmark', {
+                    id: board.id
+                }) }}"
+                style="color: inherit;"
                 onclick="bookmarkBoard(event);"
-            ></i>
+            >
+                <i class="bi bi-bookmark{% if board.isBookmarked %}-fill{% endif %} "></i>
+            </a>
         </h1>
         <div class="board-actions">
             <a 

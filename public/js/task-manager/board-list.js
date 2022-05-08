@@ -1,50 +1,23 @@
-const deleteButtons = document.querySelectorAll('[data-action="board-delete"]');
+const bookmarkBoard = (event) => {
+    event.preventDefault();
+    const el = event.target.tagName === 'I' ? event.target.closest('a') : event.target;
+    const bookmark = event.target.tagName === 'I' ? event.target : event.target.querySelector('i');
+    const url = el.href;
 
-deleteButtons.forEach((button, index, value) => {
-    button.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        const url = button.href;
-        const confirmation = confirm('Si vous supprimer le tableau, toutes les données liées au tableau seront perdues ?');
-
-        if (confirmation === true) {
-            axios
-                .delete(url)
-                .then(({ headers, status }) => {
-                    if (status === 204) {
-                        flash('Le tableau a bien été supprimé ! 🚀', 'info');
-                        setTimeout(() => window.location = window.location.href, 2000);
-                    }
-                })
-                .catch(({ response }) => {
-                    console.error(response);
-                })
-        }
-
-    });
-});
-const toggleButtons = document.querySelectorAll('[data-action="board-toggle"]');
-
-toggleButtons.forEach((button, index, value) => {
-    button.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        const url = button.href;
-
-        axios
-            .put(url)
-            .then(({ headers, status }) => {
-                if (status === 200) {
-                    flash('Le room a bien été modifié ! 🚀', 'info');
-                    setTimeout(() => window.location = window.location.href, 2000);
+    axios
+        .put(url)
+        .then(({ data, status }) => {
+            if (status === 200) {
+                flash('Le tableau a bien été modifié ! 🚀', 'info');
+                if (data.hasOwnProperty('isBookmarked')) {
+                    bookmark.classList = 'bi bi-bookmark' + (data.isBookmarked === true ? '-fill' : '');
                 }
-            })
-            .catch(({ response }) => {
-                console.error(response);
-            })
-
-    });
-});
+            }
+        })
+        .catch(({ response }) => {
+            console.error(response);
+        });
+}
 
 const nbItems = document.querySelector('#nbItems');
 
@@ -65,7 +38,7 @@ const getUrlParams = () => (new URL(window.location.href)).searchParams;
 const filters = document.querySelectorAll('[data-filter-key]');
 
 window.onload = () => {
-    let urlNbItems = getUrlParams().has('nbItems') === true ? getUrlParams().get('nbItems') : '5';
+    let urlNbItems = getUrlParams().has('nbItems') === true ? getUrlParams().get('nbItems') : '10';
     nbItems.querySelector(`option[value="${urlNbItems}"]`).setAttribute('selected', true);
 
 

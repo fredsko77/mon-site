@@ -47,6 +47,26 @@ class ApiBoardController extends AbstractController
 
     /**
      * @Route(
+     *  "/{id}/bookmark",
+     *  name="bookmark",
+     *  methods={"PUT"},
+     *  requirements={"id": "\d+"}
+     * )
+     */
+    public function bookmark(Board $board): JsonResponse
+    {
+        $response = $this->service->bookmark($board);
+
+        return $this->json(
+            $response->data,
+            $response->status,
+            $response->headers,
+            ['groups' => 'board:read']
+        );
+    }
+
+    /**
+     * @Route(
      *  "/{id}",
      *  name="edit",
      *  methods={"PUT"},
