@@ -29,6 +29,8 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getClass', [$this, 'getClass']),
             new TwigFunction('setClass', [$this, 'setClass']),
             new TwigFunction('getType', [$this, 'getType']),
+            new TwigFunction('isinstanceof', [$this, 'isinstanceof']),
+            new TwigFunction('strlen', [$this, 'strLength']),
         ];
     }
 
@@ -75,6 +77,31 @@ class AppExtension extends AbstractExtension
     public function getType(mixed $var): string
     {
         return gettype($var);
+    }
+
+    /**
+     * @param mixed|null $subject
+     * @param string $class
+     *
+     * @return bool
+     */
+    public function isinstanceof($subject = null, string $class = ''): bool
+    {
+        if (is_object($subject)) {
+            return $subject instanceof $class;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string|null $subject
+     *
+     * @return int
+     */
+    public function strLength(?string $subject): int
+    {
+        return strlen($subject);
     }
 
 }

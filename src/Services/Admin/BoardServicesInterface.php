@@ -69,4 +69,11 @@ interface BoardServicesInterface
      */
     public function bookmark(Board $board): object;
 
+    /**
+     * @param mixed $board
+     *
+     * @return array
+     */
+    public function kanban($board): array;
+
 }

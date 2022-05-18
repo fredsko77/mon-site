@@ -1,0 +1,67 @@
+<div class="board-list" data-listPosition="{{ position }}">
+    <div class="board-list-header">
+        <div class="list-name">{{ name|capitalize }}</div> 
+        <i class="bi bi-three-dots"></i>
+    </div>
+    <div class="board-list-body">            
+        <div class="card-list">
+            {% for card in cards %}
+                <div class="card">
+                    <div class="card-body">    
+                        <div class="card-tags">
+                            {% for tag in card.tags %}
+                                <span class="badge bg-{{ tag.color }}"></span>
+                            {% endfor %}     
+                        </div>        
+                        <h5 class="card-title">
+                            <a 
+                                href="{{ path('admin_card_show', {
+                                    id: card.id
+                                }) }}" 
+                                class="link"
+                            >{{ card.name }}</a>
+                            </h5>
+                        <div class="card-details">
+                            {% if strlen(card.description) > 0 %}
+                                <span class="card-notes">
+                                    <i class="bi bi-justify-left"></i>
+                                </span>
+                            {% endif %}
+                            {% if card.tasks %}
+                                <span class="card-notes">
+                                    <i class="bi bi-check2-square"></i>
+                                    {{ card.tasksDone }}/{{ card.tasks|length }}
+                                </span>
+                            {% endif %}
+                            {% if card.notes %}
+                                <span class="card-notes">
+                                    <i class="bi bi-chat-left"></i>
+                                    {{ card.notes|length }}
+                                </span>
+                            {% endif %}
+                            {% if card.files %}
+                                <span class="card-files">
+                                    <i class="bi bi-paperclip"></i>
+                                    {{ card.files|length }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if canCreate %}
+        <div class="board-list-footer">
+            <form action="{{ formAction }}" method="post" onsubmit="handleCreateCard(event);">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    name="name" 
+                    id="name"
+                    placeholder="Ajouter une card"
+                >
+            </form>
+        </div>
+    {% endif %}
+</div>

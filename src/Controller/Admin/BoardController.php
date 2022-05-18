@@ -50,7 +50,7 @@ class BoardController extends AbstractController
      */
     public function kanban(Board $board): Response
     {
-        return $this->render('task-manager/board/kanban/index.html.twig', compact('board'));
+        return $this->render('task-manager/board/kanban/index.html.twig', $this->service->kanban($board));
     }
 
     /**

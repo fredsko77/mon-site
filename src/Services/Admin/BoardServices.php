@@ -6,6 +6,7 @@ use App\Entity\BoardList;
 use App\Entity\BoardTag;
 use App\Entity\Card;
 use App\Entity\Room;
+use App\Repository\BoardListRepository;
 use App\Repository\BoardRepository;
 use App\Repository\CardRepository;
 use App\Services\Admin\BoardServicesInterface;
@@ -35,6 +36,11 @@ class BoardServices implements BoardServicesInterface
      * @var CardRepository $cardRepository
      */
     private $cardRepository;
+
+    /**
+     * @var BoardListRepository $boardListRepository
+     */
+    private $boardListRepository;
 
     /**
      * @var EntityManagerInterface $manager
@@ -69,6 +75,7 @@ class BoardServices implements BoardServicesInterface
     public function __construct(
         BoardRepository $repository,
         CardRepository $cardRepository,
+        BoardListRepository $boardListRepository,
         EntityManagerInterface $manager,
         CardFileServicesInterface $cardFileService,
         SerializerInterface $serializer,
@@ -78,6 +85,7 @@ class BoardServices implements BoardServicesInterface
     ) {
         $this->repository = $repository;
         $this->cardRepository = $cardRepository;
+        $this->boardListRepository = $boardListRepository;
         $this->manager = $manager;
         $this->cardFileService = $cardFileService;
         $this->serializer = $serializer;
@@ -283,6 +291,25 @@ class BoardServices implements BoardServicesInterface
         );
 
         return compact('cards', 'board');
+    }
+
+    public function kanban($board): array
+    {
+
+        return [
+            'listOpen' => [
+                'list' => false,
+                'name' => 'Ouverts',
+                'cards' => $this->cardRepository->findBy(['board' => $board, 'list' => null, 'isOpen' => true]),
+            ],
+            'listClosed' => [
+                'list' => false,
+                'name' => 'Fermés',
+                'cards' => $this->cardRepository->findBy(['board' => $board, 'isOpen' => false]),
+            ],
+            'lists' => $this->boardListRepository->findBy(['board' => $board, 'isOpen' => true], ['position' => 'asc']),
+            'board' => $board,
+        ];
     }
 
     /**

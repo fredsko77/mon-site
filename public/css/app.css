@@ -79,31 +79,6 @@ body {
 }
 
 
-/* Scroll Bar layout */
-
-::-webkit-scrollbar {
-    /* width */
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    /* Track */
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    /* Handle */
-    background: #777995;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    /* Handle on hover */
-    background: #71777d;
-}
-
-
 /* Utils */
 
 .hidden {

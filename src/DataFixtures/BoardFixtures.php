@@ -89,7 +89,7 @@ class BoardFixtures extends Fixture
                     ->setIsBookmarked($b % random_int(5, 8) === 0 ? true : false)
                 ;
 
-                for ($bt = 0; $bt < random_int(9, 20); $bt++) {
+                for ($bt = 0; $bt < random_int(9, 15); $bt++) {
                     $tag = new BoardTag;
 
                     $tag
@@ -116,13 +116,14 @@ class BoardFixtures extends Fixture
                         ->setIsOpen(true)
                     ;
 
-                    $this->generateCards($board, $faker, $list);
+                    $this->generateCards($board, $faker, $list, 15);
 
                     $board->addList($list);
                     $position++;
                 }
 
-                $this->generateCards($board, $faker);
+                $this->generateCards($board, $faker, null, 18, false);
+                $this->generateCards($board, $faker, null, 20);
 
                 $room->addBoard($board);
             }
@@ -133,9 +134,9 @@ class BoardFixtures extends Fixture
         $manager->flush();
     }
 
-    private function generateCards(Board $board, $faker, ?BoardList $list = null): Board
+    private function generateCards(Board $board, $faker, ?BoardList $list = null, ?int $limit = null, bool $open = true): Board
     {
-        for ($c = 0; $c < random_int(5, 18); $c++) {
+        for ($c = 0; $c < random_int(4, ($limit ?? 20)); $c++) {
             $card = new Card;
 
             $card
@@ -144,7 +145,7 @@ class BoardFixtures extends Fixture
                 ->setCreatedAt($this->setDateTimeAfter($board->getCreatedAt()))
                 ->setDeadline($this->setDateTimeAfter($card->getCreatedAt()))
                 ->setUpdatedAt($this->setDateTimeAfter($card->getCreatedAt()))
-                ->setIsOpen($c % random_int(1, 5) === 0 ? false : true)
+                ->setIsOpen($open)
             ;
 
             for ($ct = 0; $ct < random_int(1, 3); $ct++) {

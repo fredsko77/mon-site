@@ -80,12 +80,19 @@ class Card
     private $isOpen;
 
     /**
+     * @var int $tasksDone
+     */
+    private $tasksDone;
+
+    /**
      * Card states
      */
     public const STATE_TODO = 'A faire';
     public const STATE_INPROGRESS = 'En cours';
     public const STATE_TOVALIDATE = 'A valider';
     public const STATE_DONE = 'Terminé';
+    public const STATE_PENDING = 'En-attente';
+    public const STATE_TO_DEPLOY = 'A deployer';
 
     public function __construct()
     {
@@ -271,6 +278,8 @@ class Card
             self::STATE_INPROGRESS,
             self::STATE_TOVALIDATE,
             self::STATE_DONE,
+            self::STATE_PENDING,
+            self::STATE_TO_DEPLOY,
         ];
     }
 
@@ -290,6 +299,21 @@ class Card
         }
 
         return $this;
+    }
+
+    public function getTasksDone(): int
+    {
+        $count = 0;
+
+        foreach ($this->tasks as $key => $task) {
+            if ($task->getIsDone()) {
+                $count++;
+            }
+        }
+
+        $this->tasksDone = $count;
+
+        return $this->tasksDone;
     }
 
     public function removeTask(CardTask $task): self
