@@ -1,7 +1,7 @@
 <div class="board-list" data-listPosition="{{ position }}">
     <div class="board-list-header">
         <div class="list-name">{{ name|capitalize }}</div> 
-        <i class="bi bi-three-dots"></i>
+        {% include "task-manager/board/kanban/_card-dropdown.html.twig" %}
     </div>
     <div class="board-list-body">            
         <div class="card-list">
