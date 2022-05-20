@@ -1,3 +1,27 @@
+.board-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.board-actions>* {
+    margin-right: .3rem;
+}
+
+.board-actions> ::last-child {
+    margin-right: 0;
+}
+
+.board-actions .dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-item:hover {
+    cursor: pointer;
+}
+
+
 /* BoardList container */
 
 .board-list-container {
@@ -26,7 +50,6 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: flex-start;
-    overflow: hidden;
     height: auto;
     width: 250px;
     max-height: calc(100vh - 155px);
@@ -154,4 +177,14 @@
 
 .card-list .card-title {
     font-size: 1.15rem;
+}
+
+.modal-header {
+    padding: .5rem 1rem 0;
+    border-bottom: none;
+}
+
+.modal-footer {
+    padding: 0 .75rem .5rem;
+    border-top: none;
 }

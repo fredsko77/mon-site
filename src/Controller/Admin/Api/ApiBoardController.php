@@ -103,4 +103,25 @@ class ApiBoardController extends AbstractController
             $response->headers
         );
     }
+
+    /**
+     * @Route(
+     *  "/{id}/list/create",
+     *  name="list_create",
+     *  methods={"POST"},
+     *  rquirements={"id": "\d+"}
+     * )
+     */
+    public function createList(Board $board, Request $request): JsonResponse
+    {
+        $response = $this->service->apiCreateList($board, $request);
+
+        return $this->json(
+            $response->data,
+            $response->status,
+            $response->headers,
+            ['groups' => 'board_list:']
+        );
+    }
+
 }

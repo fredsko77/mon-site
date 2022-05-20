@@ -40,7 +40,7 @@ class CardController extends AbstractController
     /**
      * @Route(
      *  "/{id}",
-     *  name="new",
+     *  name="create",
      *  methods={"GET", "POST"},
      *  requirements={"id": "\d+"}
      * )

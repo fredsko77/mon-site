@@ -23,15 +23,32 @@
                 class="btn btn-sm btn-white me-2"
                 id="#"
                 title="Affichage en mode kanban"
-            ><i class="bi bi-list-ul"></i></a>           
-            <a 
-                href="{{ path('admin_card_new', {
-                    id: board.id
-                }) }}" 
-                class="btn btn-sm btn-white me-2"
-                id="#"
-                title="Ajouter une carte"
-            ><i class="bi bi-plus-lg"></i></a>           
+            ><i class="bi bi-list-ul"></i></a>
+            <div class="dropdown">
+                <a 
+                    href="#" 
+                    class="btn btn-sm btn-white me-2 dropdown-toggle"
+                    title="Ajouter une carte"
+                    id="dropdownCreateMenu" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false"
+                ><i class="bi bi-plus-lg"></i></a>           
+                <ul class="dropdown-menu" aria-labelledby="dropdownCreateMenu">
+                    <li>
+                        <a 
+                            class="dropdown-item" 
+                            href="{{ path('admin_card_create', {
+                                id: board.id
+                            }) }}"
+                        >Ajouter une carte</a></li>
+                    <li>
+                        <span 
+                            class="dropdown-item" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modalCreateList" 
+                        >Ajouter une liste</span></li>
+                </ul>
+            </div>           
             <a 
                 href="{{ path('admin_board_edit', {
                     id: board.id
@@ -71,7 +88,10 @@
             formAction: null,
             cards: listClosed.cards
         } %}            
-    </div> 
+    </div>
+    {% include "task-manager/board/kanban/_modals/_list_form.html.twig" { path('admin_api_board_list_create', {
+        id: board.id
+    }) } %} 
 
 {% endblock %}
 

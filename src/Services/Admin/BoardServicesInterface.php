@@ -76,4 +76,12 @@ interface BoardServicesInterface
      */
     public function kanban($board): array;
 
+    /**
+     * @param Board $board
+     * @param Request $request
+     *
+     * @return object
+     */
+    public function apiCreateList(Board $board, Request $request): object;
+
 }

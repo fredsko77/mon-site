@@ -17,6 +17,7 @@ use Faker\Factory;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -264,6 +265,12 @@ class BoardServices implements BoardServicesInterface
         ]);
     }
 
+    /**
+     * @param Board $board
+     * @param Request $request
+     *
+     * @return array
+     */
     public function filter(Board $board, Request $request): array
     {
         // Get data from $_GET
@@ -329,5 +336,44 @@ class BoardServices implements BoardServicesInterface
         }
 
         return $data;
+    }
+
+    /**
+     * @param Board $board
+     * @param Request $request
+     *
+     * @return object
+     */
+    public function apiCreateList(Board $board, Request $request): object
+    {
+        $data = $request->getContent();
+        $list = $this->serializer->deserialize($data, BoardList::class, 'json');
+        $lastPosition = $this->boardListRepository->findOneBy(['board' => $board], ['position' => 'desc']);
+
+        $violations = $this->validator->validate($list);
+
+        if (count($violations) > 0) {
+            $this->sendViolations($violations);
+        }
+
+        $list
+            ->setCreatedAt(new DateTime)
+            ->setPosition($lastPosition !== null ? ($lastPosition->getPosition() + 1) : 1)
+        ;
+
+        $board->addList($list);
+
+        $this->manager->persist($$board);
+        $this->manager->flush();
+
+        return $this->sendJson(
+            $list,
+            Response::HTTP_CREATED,
+            [
+                'link' => $this->router->generate('admin_api_board_list_delete', [
+                    'id' => $list->getId(),
+                ]),
+            ]
+        );
     }
 }

@@ -96,5 +96,4 @@ class BoardController extends AbstractController
             $response->headers
         );
     }
-
 }
