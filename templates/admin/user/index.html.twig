@@ -1,0 +1,108 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block main %}
+    <div class="container-fluid" id="users-list">
+        <h1 class="mt-2 mb-3">
+            Liste des utilisateurs
+        </h1>
+        <div class="row">
+            <div class="col-12 col-xl-9">
+                <div class="row justify-content-between align-items-start">
+                    <div class="col-8">
+                        <form action="">
+                            <div class="input-group">
+                                <input 
+                                    type="search" 
+                                    name="query"
+                                    class="form-control" 
+                                    placeholder="Rechercher un utilisateur" 
+                                    aria-label="Rechercher" 
+                                    aria-describedby="search"
+                                >
+                                <button 
+                                    type="submit" 
+                                    class="input-group-text" 
+                                    id="search"
+                                >Rechercher</span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-auto">
+                        <a 
+                            href="{{ path('admin_user_create') }}" 
+                            class="btn btn-crm btn-sm" 
+                        >Ajouter un utilisateur</a>
+                    </div>
+                </div>
+                <div class="mt-2" id="user-table">
+                    <table class="table table-hover table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="row">#</th>
+                                <th scope="row">Nom</th>
+                                <th scope="row">Nom d'utilisateur</th>
+                                <th scope="row">E-mail</th>
+                                <th scope="row">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr data-user-index="{{ user.id }}">
+                                    <th scope="col">{{ user.id }}</th>
+                                    <td>
+                                        <a 
+                                            href="{{ path('admin_user_edit', {id: user.id}) }}"
+                                            class="link"
+                                            title="Modifier l'utilisateur"
+                                        >{{ [user.firstname, user.lastname]|join(' ') }}</a>
+                                    </td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <a 
+                                            href="{{ path('admin_user_edit', {id: user.id}) }}" 
+                                            class="btn btn-warning btn-sm"
+                                            title="Modifier l'utilisateur"
+                                        >Modifier</a>
+                                        <a 
+                                            href="{{ path('admin_user_delete', {id: user.id}) }}" 
+                                            class="btn btn-danger btn-sm user-delete"
+                                            title="Supprimer l'utilisateur"
+                                            onclick="deleteUser(event);"
+                                        >Supprimer</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="board-filter-page row mt-4 mb-5">
+            <div class="col-lg-5 col-xl-4">
+                <div class="row mb-5">
+                    <label for="nbItems" class="col-lg-7 col-xl-auto col-form-label">Résultats par page</label>
+                    <div class="col-lg-5 col-xl-4">
+                        <select name="nbItems" id="nbItems" class="form-select">
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto navigation">
+                {{ knp_pagination_render(users) }}
+            </div>
+        </div>
+        
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/admin/user.js') }}"></script>
+{% endblock %}
+
+{% block css %}{% endblock %}

@@ -24,31 +24,31 @@ class BoardList
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le nom est obligatoire !")
-     * @Groups={"board_list:read"}
+     * @Groups({"board_list:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups={"board_list:read"}
+     * @Groups({"board_list:read"})
      */
     private $isOpen;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups={"board_list:read"}
+     * @Groups({"board_list:read"})
      */
     private $position;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups={"board_list:read"}
+     * @Groups({"board_list:read"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups={"board_list:read"}
+     * @Groups({"board_list:read"})
      */
     private $updatedAt;
 

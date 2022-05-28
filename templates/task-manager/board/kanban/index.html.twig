@@ -89,9 +89,11 @@
             cards: listClosed.cards
         } %}            
     </div>
-    {% include "task-manager/board/kanban/_modals/_list_form.html.twig" { path('admin_api_board_list_create', {
-        id: board.id
-    }) } %} 
+    {% include "task-manager/board/kanban/_modals/_list_form.html.twig" with { 
+        url: path('admin_api_board_list_create', {
+                id: board.id
+            }) 
+    } %} 
 
 {% endblock %}
 

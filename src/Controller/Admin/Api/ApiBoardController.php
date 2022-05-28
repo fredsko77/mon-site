@@ -109,7 +109,7 @@ class ApiBoardController extends AbstractController
      *  "/{id}/list/create",
      *  name="list_create",
      *  methods={"POST"},
-     *  rquirements={"id": "\d+"}
+     *  requirements={"id": "\d+"}
      * )
      */
     public function createList(Board $board, Request $request): JsonResponse
@@ -120,7 +120,7 @@ class ApiBoardController extends AbstractController
             $response->data,
             $response->status,
             $response->headers,
-            ['groups' => 'board_list:']
+            ['groups' => 'board_list:read']
         );
     }
 

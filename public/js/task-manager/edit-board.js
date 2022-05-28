@@ -2,7 +2,9 @@ const boardDescription = document.querySelector('#description');
 const cancelDescription = document.querySelector('.board-description-actions button[type="button"]');
 const boardIsOpen = document.querySelector('#boardIsOpen');
 const boardDeadline = document.querySelector('#boardDeadline');
-const cancelCreateTag = document.querySelector('#cancelCreateTag');
+const cancelCreateTag = document.getElementById('cancelCreateTag');
+// const tagCreateCollapse = document.querySelector('#tagCreateCollapse');
+
 
 cancelCreateTag.addEventListener('click', (event) => {
     const form = event.target.closest('form');
@@ -14,7 +16,7 @@ cancelCreateTag.addEventListener('click', (event) => {
     return tagCreateCollapse.classList.value = classList;
 });
 
-tagCreateCollapse.addEventListener('click', (event) => event.target.classList.add('hidden'));
+// tagCreateCollapse.addEventListener('click', () => /** tagCreateCollapse.classList.add('hidden')*/ );
 
 boardDescription.addEventListener('focus', ({ target }) => {
     const form = target.closest('form');
@@ -61,7 +63,7 @@ boardDeadline.addEventListener('change', ({ target }) => {
         });
 });
 
-cancelCreateTag.addEventListener('click', ({ target }) => document.querySelector(`#${target.getAttribute('aria-target')}`).click());
+.addEventListener('click', ({ target }) => document.querySelector(`#${target.getAttribute('aria-target')}`).click());
 
 const handleEditBoard = (event) => {
     event.preventDefault();
