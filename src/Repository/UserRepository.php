@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
@@ -17,9 +18,15 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @param Security $security
+     */
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, User::class);
+        $this->security = $security;
     }
 
     /**
@@ -45,6 +52,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function search(?string $search = null)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query->where('u <> :user')
+            ->setParameter(':user', $this->security->getUser());
+
+        if ($search !== null && $search !== "") {
+            $query
+                ->andWhere('MATCH_AGAINST(u.firstname, u.lastname, u.username, u.slug, u.email) AGAINST(:query boolean)>0')
+                ->setParameter(':query', $search);
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     // /**

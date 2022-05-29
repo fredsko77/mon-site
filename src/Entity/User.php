@@ -19,9 +19,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="Cette adresse email est déjà utilisée !"
  * )
  * @UniqueEntity(
- *     fields={"username"},
- *     errorPath="username",
- *     message="Ce nom d'utilisateur est déjà pris !"
+ *  fields={"username"},
+ *  errorPath="username",
+ *  message="Ce nom d'utilisateur est déjà pris !"
+ * )
+ * @ORM\Table(
+ *  name="`user`",
+ *  indexes={
+ *      @ORM\Index(
+ *          columns={"firstname", "lastname", "username", "email", "slug"},
+ *          flags={"fulltext"}
+ *      )
+ *  }
  * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface

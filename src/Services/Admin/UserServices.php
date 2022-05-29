@@ -59,9 +59,10 @@ class UserServices implements UserServicesInterface
         // Get data from $_GET
         $page = $request->query->getInt('page', 1);
         $nbItems = $request->query->getInt('nbItems', 15);
+        $query = $request->query->get('query', null);
 
         // Get data from Database|Repository
-        $data = $this->repository->findAll();
+        $data = $this->repository->search($query);
 
         // Get boards for pagination
         $users = $this->paginator->paginate(
@@ -70,7 +71,7 @@ class UserServices implements UserServicesInterface
             $nbItems
         );
 
-        return compact('users');
+        return compact('users', 'query');
     }
 
     public function create(User $user): void

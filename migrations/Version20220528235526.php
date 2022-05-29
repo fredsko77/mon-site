@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220415212542 extends AbstractMigration
+final class Version20220528235526 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,11 +20,10 @@ final class Version20220415212542 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE board (id INT AUTO_INCREMENT NOT NULL, type_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, deadline DATETIME DEFAULT NULL, is_bookmarked TINYINT(1) DEFAULT 0, is_open TINYINT(1) DEFAULT NULL, INDEX IDX_58562B47C54C8C93 (type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE board (id INT AUTO_INCREMENT NOT NULL, room_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, deadline DATETIME DEFAULT NULL, is_bookmarked TINYINT(1) DEFAULT 0, is_open TINYINT(1) DEFAULT NULL, INDEX IDX_58562B4754177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE board_list (id INT AUTO_INCREMENT NOT NULL, board_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, is_open TINYINT(1) NOT NULL, position INT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, INDEX IDX_9E5EA13BE7EC5785 (board_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE board_tag (id INT AUTO_INCREMENT NOT NULL, board_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, color VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, INDEX IDX_F56844E8E7EC5785 (board_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE board_tag_card (board_tag_id INT NOT NULL, card_id INT NOT NULL, INDEX IDX_68EC24DC16CC27B6 (board_tag_id), INDEX IDX_68EC24DC4ACC9A20 (card_id), PRIMARY KEY(board_tag_id, card_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE board_type (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(60) NOT NULL, icon VARCHAR(60) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, description LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE book (id INT AUTO_INCREMENT NOT NULL, shelf_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, slug VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, visibility VARCHAR(20) NOT NULL, INDEX IDX_CBE5A3317C12FBC0 (shelf_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE card (id INT AUTO_INCREMENT NOT NULL, board_id INT DEFAULT NULL, list_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, deadline DATETIME DEFAULT NULL, is_open TINYINT(1) DEFAULT 1, INDEX IDX_161498D3E7EC5785 (board_id), INDEX IDX_161498D33DAE168B (list_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE card_file (id INT AUTO_INCREMENT NOT NULL, card_id INT DEFAULT NULL, file_type_id INT DEFAULT NULL, original_name VARCHAR(255) NOT NULL, path VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, INDEX IDX_60AC34B24ACC9A20 (card_id), INDEX IDX_60AC34B29E2A35A8 (file_type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -38,12 +37,13 @@ final class Version20220415212542 extends AbstractMigration
         $this->addSql('CREATE TABLE page (id INT AUTO_INCREMENT NOT NULL, book_id INT DEFAULT NULL, chapter_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, content LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, sources LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:json)\', visibility VARCHAR(20) NOT NULL, state VARCHAR(20) DEFAULT NULL, INDEX IDX_140AB62016A2B381 (book_id), INDEX IDX_140AB620579F4768 (chapter_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE project (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(150) NOT NULL, link VARCHAR(255) DEFAULT NULL, description LONGTEXT DEFAULT NULL, state VARCHAR(20) DEFAULT NULL, slug VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, visibility VARCHAR(15) DEFAULT NULL, tasks LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:json)\', image VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE project_stack (project_id INT NOT NULL, stack_id INT NOT NULL, INDEX IDX_52FD72F4166D1F9C (project_id), INDEX IDX_52FD72F437C70060 (stack_id), PRIMARY KEY(project_id, stack_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE room (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(60) NOT NULL, icon VARCHAR(60) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, description LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE shelf (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, image VARCHAR(255) DEFAULT NULL, slug VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, visibility VARCHAR(20) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE skill (id INT AUTO_INCREMENT NOT NULL, group_skill_id INT DEFAULT NULL, name VARCHAR(30) NOT NULL, INDEX IDX_5E3DE4775CB58D3D (group_skill_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE social (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(30) NOT NULL, link VARCHAR(255) NOT NULL, icon VARCHAR(50) DEFAULT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE stack (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\', password VARCHAR(255) NOT NULL, username VARCHAR(100) DEFAULT NULL, firstname VARCHAR(100) DEFAULT NULL, lastname VARCHAR(100) DEFAULT NULL, token VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, image VARCHAR(255) DEFAULT NULL, confirm TINYINT(1) DEFAULT NULL, slug VARCHAR(255) DEFAULT NULL, biography LONGTEXT DEFAULT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE board ADD CONSTRAINT FK_58562B47C54C8C93 FOREIGN KEY (type_id) REFERENCES board_type (id)');
+        $this->addSql('CREATE TABLE `user` (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\', password VARCHAR(255) NOT NULL, username VARCHAR(100) DEFAULT NULL, firstname VARCHAR(100) DEFAULT NULL, lastname VARCHAR(100) DEFAULT NULL, token VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, image VARCHAR(255) DEFAULT NULL, confirm TINYINT(1) DEFAULT NULL, slug VARCHAR(255) DEFAULT NULL, biography LONGTEXT DEFAULT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), FULLTEXT INDEX IDX_8D93D64983A00E683124B5B6F85E0677E7927C74989D9B62 (firstname, lastname, username, email, slug), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE board ADD CONSTRAINT FK_58562B4754177093 FOREIGN KEY (room_id) REFERENCES room (id)');
         $this->addSql('ALTER TABLE board_list ADD CONSTRAINT FK_9E5EA13BE7EC5785 FOREIGN KEY (board_id) REFERENCES board (id)');
         $this->addSql('ALTER TABLE board_tag ADD CONSTRAINT FK_F56844E8E7EC5785 FOREIGN KEY (board_id) REFERENCES board (id)');
         $this->addSql('ALTER TABLE board_tag_card ADD CONSTRAINT FK_68EC24DC16CC27B6 FOREIGN KEY (board_tag_id) REFERENCES board_tag (id) ON DELETE CASCADE');
@@ -73,7 +73,6 @@ final class Version20220415212542 extends AbstractMigration
         $this->addSql('ALTER TABLE card DROP FOREIGN KEY FK_161498D3E7EC5785');
         $this->addSql('ALTER TABLE card DROP FOREIGN KEY FK_161498D33DAE168B');
         $this->addSql('ALTER TABLE board_tag_card DROP FOREIGN KEY FK_68EC24DC16CC27B6');
-        $this->addSql('ALTER TABLE board DROP FOREIGN KEY FK_58562B47C54C8C93');
         $this->addSql('ALTER TABLE chapter DROP FOREIGN KEY FK_F981B52E16A2B381');
         $this->addSql('ALTER TABLE page DROP FOREIGN KEY FK_140AB62016A2B381');
         $this->addSql('ALTER TABLE board_tag_card DROP FOREIGN KEY FK_68EC24DC4ACC9A20');
@@ -86,13 +85,13 @@ final class Version20220415212542 extends AbstractMigration
         $this->addSql('ALTER TABLE file_extension DROP FOREIGN KEY FK_11B882019E2A35A8');
         $this->addSql('ALTER TABLE skill DROP FOREIGN KEY FK_5E3DE4775CB58D3D');
         $this->addSql('ALTER TABLE project_stack DROP FOREIGN KEY FK_52FD72F4166D1F9C');
+        $this->addSql('ALTER TABLE board DROP FOREIGN KEY FK_58562B4754177093');
         $this->addSql('ALTER TABLE book DROP FOREIGN KEY FK_CBE5A3317C12FBC0');
         $this->addSql('ALTER TABLE project_stack DROP FOREIGN KEY FK_52FD72F437C70060');
         $this->addSql('DROP TABLE board');
         $this->addSql('DROP TABLE board_list');
         $this->addSql('DROP TABLE board_tag');
         $this->addSql('DROP TABLE board_tag_card');
-        $this->addSql('DROP TABLE board_type');
         $this->addSql('DROP TABLE book');
         $this->addSql('DROP TABLE card');
         $this->addSql('DROP TABLE card_file');
@@ -106,10 +105,11 @@ final class Version20220415212542 extends AbstractMigration
         $this->addSql('DROP TABLE page');
         $this->addSql('DROP TABLE project');
         $this->addSql('DROP TABLE project_stack');
+        $this->addSql('DROP TABLE room');
         $this->addSql('DROP TABLE shelf');
         $this->addSql('DROP TABLE skill');
         $this->addSql('DROP TABLE social');
         $this->addSql('DROP TABLE stack');
-        $this->addSql('DROP TABLE user');
+        $this->addSql('DROP TABLE `user`');
     }
 }
